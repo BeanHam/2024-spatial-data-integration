@@ -7,7 +7,6 @@ import transformers
 
 from utils import *
 from tqdm import tqdm
-from general_functions import *
 from datasets import load_dataset
 from os import path, makedirs, getenv
 from huggingface_hub import login as hf_login
