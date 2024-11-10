@@ -159,5 +159,5 @@ if __name__ == '__main__':
     trainer.model.save_pretrained(args.save_dir)
     tokenizer.save_pretrained(args.save_dir)
     print('Saving model to hub...')
-    trainer.model.push_to_hub('spatial_join'+args.use_model_prompt_defaults, use_auth_token=True)
+    trainer.model.push_to_hub('spatial_join_'+args.use_model_prompt_defaults, use_auth_token=True)
     wandb.finish()
