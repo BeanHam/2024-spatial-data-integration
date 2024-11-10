@@ -19,7 +19,7 @@ if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Fine-tune a spatial-join model.')
 
     # Model ID
-    parser.add_argument('--model_id', type=str, default='meta-llama/Meta-Llama-3-8B-Instruct', help='The model ID to fine-tune.')
+    parser.add_argument('--model_id', type=str, default='meta-llama/Llama-3.1-8B-Instruct', help='The model ID to fine-tune.')
     parser.add_argument('--device', type=str, default='auto', help='The device to mount the model on.')
 
     # Model arguments
