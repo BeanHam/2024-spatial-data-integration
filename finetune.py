@@ -10,7 +10,7 @@ import numpy as np
 import transformers
 import bitsandbytes as bnb
 
-from general_functions import *
+from utils import *
 from os import path, makedirs, getenv
 from transformers import TrainingArguments
 from huggingface_hub import login as hf_login
