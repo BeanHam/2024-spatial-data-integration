@@ -17,9 +17,6 @@ from os import path, makedirs, getenv
 from transformers import TrainingArguments
 from huggingface_hub import login as hf_login
 
-## disable wandb
-os.environ["WANDB_DISABLED"] = "true"
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser(description='Fine-tune a summarization model.')
 
