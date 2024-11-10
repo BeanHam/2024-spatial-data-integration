@@ -15,6 +15,14 @@ from os import path, makedirs, getenv
 from peft import LoraConfig, get_peft_model, prepare_model_for_kbit_training, PeftModel
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig, TrainingArguments, DataCollatorForLanguageModeling, AutoModel
 
+MODEL_SUFFIXES = {
+    'openai': '',
+    'mistral': '</s>',
+    'llama3': '</s>',
+    'falcon': '<|endoftext|>',
+    'opt-finetune': '</s>',
+}
+
 QUANZATION_MAP = {
     '4bit': BitsAndBytesConfig(
         load_in_4bit=True,
@@ -52,10 +60,16 @@ def get_dataset_slices(dataset: str) -> dict:
     """
 
     # Download the dataset splits, including the dataset version if specified
-    train_data = load_dataset(dataset, split='train')
+    train = load_dataset(dataset, split='train')
+    val = load_dataset(dataset, split='val')
+    test = load_dataset(dataset, split='test')
 
     # Return the dictionary of dataset splits
-    return {'train': train_data}
+    return {
+      'train': train,
+      'val': val,
+      'test': test
+      }
 
 def get_model_and_tokenizer(model_id: str, 
                             quantization_type: str='', 
@@ -143,13 +157,18 @@ def format_data_as_instructions(data: Mapping,
     Formats text data as instructions for the model. Can be used as a formatting function for the trainer class.
     """
 
+    system_message = """
+    You are a helpful geospatial analysis assistant! I will provide you with a pair of (sidewalk, road) information in GeoJson format. Please help me identify whether the sidewalk is alongside the paired road, such that the sidewalk is adjacent and parellele to the road. If it is, please return 1; otherwise, return 0.
+    """
     output_texts = []
 
     # Iterate over the data and format the text
-    for i in tqdm(range(len(data['input'])), desc='Formatting data'):        
+    for i in tqdm(range(len(data['sidewalk'])), desc='Formatting data'):
+        sidewalk = "\nSidewalk:\n"+str(data['sidewalk'][i])
+        road = "\n\nRoad:\n"+str(data['road'][i])
         chat = [
-          {"role": "user", "content": data['input'][i]},
-          {"role": "assistant", "content": data['output'][i]},
+          {"role": "user", "content": system_message+sidewalk+road},
+          {"role": "assistant", "content": "\nLable: "+str(data['label'][i])},      
         ]
         text = tokenizer.apply_chat_template(chat, tokenize=False, add_generation_prompt=False)
         output_texts.append(text)
