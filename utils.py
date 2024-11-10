@@ -18,9 +18,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 MODEL_SUFFIXES = {
     'openai': '',
     'mistral': '</s>',
-    'llama3': '</s>',
-    'falcon': '<|endoftext|>',
-    'opt-finetune': '</s>',
+    'llama3': '</s>'
 }
 
 QUANZATION_MAP = {
