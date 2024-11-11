@@ -114,6 +114,10 @@ if __name__ == '__main__':
     print('Instantiating trainer...')
     training_args = TrainingArguments(
             per_device_train_batch_size=args.batch_size, ## 1
+
+            per_device_eval_batch_size=1,
+            eval_accumulation_steps = 1, 
+
             gradient_accumulation_steps=args.gradient_accumulation_steps, ## 4
             warmup_ratio=args.warmup_ratio,
             learning_rate=args.learning_rate,
