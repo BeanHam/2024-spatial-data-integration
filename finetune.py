@@ -33,7 +33,7 @@ if __name__ == '__main__':
 
     # Dataset arguments
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join', help='The dataset to use for fine-tuning.')
-    parser.add_argument('--max_seq_length', type=int, default=512, help='The maximum sequence length to use for fine-tuning.')
+    parser.add_argument('--max_seq_length', type=int, default=1024, help='The maximum sequence length to use for fine-tuning.')
     parser.add_argument('--use_model_prompt_defaults', type=str, default='llama3', help='Whether to use the default prompts for a model')
 
     # Training arguments
