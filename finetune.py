@@ -53,7 +53,7 @@ if __name__ == '__main__':
     parser.add_argument('--save_steps', type=int, default=0.1, help='The number of steps between saving the model to the hub.')
     parser.add_argument('--logging_strategy', type=str, default='steps', help='The number of steps between logging.')
     parser.add_argument('--logging_steps', type=int, default=0.1, help='The number of steps between logging.')
-    parser.add_argument('--epoch', type=int, default=1, help='The length split of the dataset.')
+    parser.add_argument('--epoch', type=int, default=3, help='The length split of the dataset.')
 
     # Parse arguments
     args = parser.parse_args()
@@ -114,7 +114,7 @@ if __name__ == '__main__':
     print('Instantiating trainer...')
     training_args = TrainingArguments(
             per_device_train_batch_size=args.batch_size, ## 1
-            per_device_eval_batch_size=4,
+            per_device_eval_batch_size=2,
             #eval_accumulation_steps = 1, 
             gradient_accumulation_steps=args.gradient_accumulation_steps, ## 4
             warmup_ratio=args.warmup_ratio,
