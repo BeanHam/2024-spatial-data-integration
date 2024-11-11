@@ -78,8 +78,7 @@ if __name__ == '__main__':
     # ----------------------
     print('Downloading and preparing data...')
     data = get_dataset_slices(args.dataset)
-    train = data['train']
-    train = train.select(range(100))
+    train = data['train']    
     val = data['val']
     test = data['test']
     
@@ -115,7 +114,7 @@ if __name__ == '__main__':
     print('Instantiating trainer...')
     training_args = TrainingArguments(
             per_device_train_batch_size=args.batch_size, ## 1
-            per_device_eval_batch_size=1,
+            per_device_eval_batch_size=4,
             #eval_accumulation_steps = 1, 
             gradient_accumulation_steps=args.gradient_accumulation_steps, ## 4
             warmup_ratio=args.warmup_ratio,
