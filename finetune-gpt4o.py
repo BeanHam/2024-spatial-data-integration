@@ -45,7 +45,7 @@ if __name__ == '__main__':
     parser.add_argument('--formatted_data_dir', type=str, help='The directory to save the formatted data to', default='formatted_data')
     args = parser.parse_args()
     os.environ["OPENAI_API_KEY"] = args.OPENAI_API_KEY
-    
+    hf_login()
     
     if not path.exists(args.formatted_data_dir):
         mkdir(args.formatted_data_dir)
