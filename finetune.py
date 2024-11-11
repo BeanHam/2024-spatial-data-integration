@@ -147,8 +147,8 @@ if __name__ == '__main__':
 
     trainer = get_default_trainer(model, 
                                   tokenizer, 
-                                  data['train'], 
-                                  eval_dataset=data['val'],
+                                  train, 
+                                  eval_dataset=val,
                                   formatting_func=data_formatter,
                                   max_seq_length=args.max_seq_length,
                                   training_args=training_args)
