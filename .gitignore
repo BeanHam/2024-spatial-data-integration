@@ -6,3 +6,4 @@ peft_model/
 __pycache__/
 results/
 wandb/
+outputs_llama3/
