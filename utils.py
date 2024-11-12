@@ -21,6 +21,11 @@ MODEL_SUFFIXES = {
     'llama3': '</s>'
 }
 
+MODEL_PATHS = {
+    'mistral': 'beanham/spatial_join_mistral',
+    'llama3': 'beanham/spatial_join_llama3'
+}
+
 QUANZATION_MAP = {
     '4bit': BitsAndBytesConfig(
         load_in_4bit=True,
