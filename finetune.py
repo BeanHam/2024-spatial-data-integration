@@ -132,6 +132,7 @@ if __name__ == '__main__':
             resume_from_checkpoint=args.resume_from_checkpoint == 'True',
             max_steps=args.max_steps,
             num_train_epochs=args.epoch,
+            load_best_model_at_end=True,
         )
             
     # -----------------------
