@@ -30,7 +30,7 @@ def main():
     
     args.suffix = MODEL_SUFFIXES[args.use_model_prompt_defaults]
     args.model_path = MODEL_PATHS[args.use_model_prompt_defaults]
-    args.save_path=f'inference_results/finetuned_{args.finetuned}'
+    args.save_path=f'inference_results/'    
     if not path.exists(args.save_path):
         makedirs(args.save_path)
     
@@ -58,15 +58,12 @@ def main():
     # inference
     #------------
     model.eval()
-    model_outputs, metrics  = evaluate_model(model=model,
-                                             tokenizer=tokenizer,
-                                             data=train_data,
-                                             max_new_tokens=16,
-                                             remove_suffix=args.suffix)
-            
-    for k, v in metrics.items(): print(f'   {k}: {v}')
-    with open(args.save_path+f"gibberish_{args.epoch}.json", 'w') as f: json.dump(metrics, f)
-    np.save(args.save_path+f"gibberish_{args.epoch}.npy", model_outputs)
+    model_outputs  = evaluate_model(model=model,
+                                    tokenizer=tokenizer,
+                                    data=test,
+                                    max_new_tokens=5,
+                                    remove_suffix=args.suffix)
+    np.save(args.save_path+f"{args.use_model_prompt_defaults}_finetuned_{args.finetuned}.npy", model_outputs)
 
 if __name__ == "__main__":
     main()
