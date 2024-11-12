@@ -225,7 +225,7 @@ def evaluate_model(model: AutoModelForCausalLM,
         """
         sidewalk = "\nSidewalk:\n"+str(data['sidewalk'][i])
         road = "\n\nRoad:\n"+str(data['road'][i])
-        chat = [{"role": "user", "content": system_message+sidewalk+road'}]
+        chat = [{"role": "user", "content": system_message+sidewalk+road}]
         input_data = tokenizer.apply_chat_template(chat, tokenize=False, add_generation_prompt=True)    
         
         ## decoding
