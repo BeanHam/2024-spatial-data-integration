@@ -23,7 +23,6 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_id', type=str, default='meta-llama/Llama-3.1-8B-Instruct')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join')
-    parser.add_argument('--device', type=str, default='cuda', help='The device to mount the model on.')
     parser.add_argument('--finetuned', type=str, default='True')
     parser.add_argument('--use_model_prompt_defaults', type=str, default='llama3')
     args = parser.parse_args(args=[])
