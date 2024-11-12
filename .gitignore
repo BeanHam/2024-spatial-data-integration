@@ -7,3 +7,4 @@ __pycache__/
 results/
 wandb/
 outputs_llama3/
+outputs_mistral/
