@@ -266,3 +266,34 @@ def generate_from_prompt(model: AutoModelForCausalLM,
     decoded = tokenizer.decode(output[0][start_decode:])
 
     return decoded
+
+def evaluate_gpt(test, client, model):
+    
+    #--------------
+    # inference
+    #--------------
+    model_outputs = []
+    system_message = """
+    You are a helpful geospatial analysis assistant! I will provide you with a pair of (sidewalk, road) information in GeoJson format. Please help me identify whether the sidewalk is alongside the paired road, such that the sidewalk is adjacent and parellele to the road. If it is, please return 1; otherwise, return 0.
+    
+    Please just return {0} or {1}. No explaination is needed.
+    """
+    
+    for idx in tqdm(range(len(test))):
+        
+        sidewalk = "Sidewalk: "+str(test['sidewalk'][idx])
+        road = "Road: "+str(test['road'][idx]) 
+        response = client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": sidewalk+road},
+            ],
+            temperature=0,
+            max_tokens=10,
+            top_p=1
+        )    
+        model_outputs.append(response.choices[0].message.content)
+
+    return model_outputs
+    
