@@ -1,10 +1,5 @@
 .DS_Store
-finetuned_model/
-logs/
-outputs/
-peft_model/
-__pycache__/
-results/
 wandb/
+formatted_data/
 outputs_llama3/
 outputs_mistral/
