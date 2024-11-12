@@ -223,8 +223,8 @@ def evaluate_model(model: AutoModelForCausalLM,
         system_message = """
         You are a helpful geospatial analysis assistant! I will provide you with a pair of (sidewalk, road) information in GeoJson format. Please help me identify whether the sidewalk is alongside the paired road, such that the sidewalk is adjacent and parellele to the road. If it is, please return 1; otherwise, return 0.
         """
-        sidewalk = "\nSidewalk:\n"+str(data['sidewalk'][i])
-        road = "\n\nRoad:\n"+str(data['road'][i])
+        sidewalk = "\nSidewalk:\n"+str(data['sidewalk'][id])
+        road = "\n\nRoad:\n"+str(data['road'][id])
         chat = [{"role": "user", "content": system_message+sidewalk+road}]
         input_data = tokenizer.apply_chat_template(chat, tokenize=False, add_generation_prompt=True)    
         
