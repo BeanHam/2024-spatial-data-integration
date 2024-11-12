@@ -1,23 +1,19 @@
 import os
 import sys
+import time
 import json
 import torch
 import string
-import logging
 import datasets
 import argparse
 import numpy as np
-import transformers
-import bitsandbytes as bnb
-
 from utils import *
-from os import path, makedirs, getenv
-from transformers import TrainingArguments
+from tqdm import tqdm
+from os import path, makedirs, getenv, mkdir
 from huggingface_hub import login as hf_login
 
 import openai
 from openai import OpenAI
-from openai_chat_api import DialogueBot
 
 def format_for_finetuning(user_input: str,
                           assistant_output: str,
@@ -38,14 +34,13 @@ def format_for_finetuning(user_input: str,
 
 if __name__ == '__main__':
     
-    parser = argparse.ArgumentParser(description='Fine-tune a spatial-join model.')    
+    parser = argparse.ArgumentParser(description='Fine-tune a spatial-join model.')
     parser.add_argument('--model_id', type=str, default='gpt-4o-2024-08-06', help='The model ID to fine-tune.')
     parser.add_argument('--OPENAI_API_KEY', type=str, help='API key to finetune GPT-4o')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join', help='The dataset to use for fine-tuning.')
     parser.add_argument('--formatted_data_dir', type=str, help='The directory to save the formatted data to', default='formatted_data')
-    args = parser.parse_args()
-    os.environ["OPENAI_API_KEY"] = args.OPENAI_API_KEY
-    
+    args = parser.parse_args()    
+    hf_login()
     
     if not path.exists(args.formatted_data_dir):
         mkdir(args.formatted_data_dir)
@@ -67,17 +62,17 @@ if __name__ == '__main__':
     print('Formatting data for fine-tuning...')        
     train_formatted = '\n'.join(
         [format_for_finetuning(
-            "\nSidewalk:\n"+str(train['sidewalk'][i])+"\n\nRoad:\n"+str(train['road'][i]),
-            "\nLable: "+str(train['label'][i]),
+            "Sidewalk: "+str(train['sidewalk'][i])+"Road: "+str(train['road'][i]),
+            "Lable: "+str(train['label'][i]),
             system_message
-        ) for i in range(len(train))]
+        ) for i in tqdm(range(len(train)))]
     )
     val_formatted = '\n'.join(
         [format_for_finetuning(
-            "\nSidewalk:\n"+str(val['sidewalk'][i])+"\n\nRoad:\n"+str(val['road'][i]),
-            "\nLable: "+str(val['label'][i]),
+            "Sidewalk: "+str(val['sidewalk'][i])+"Road: "+str(val['road'][i]),
+            "Lable: "+str(val['label'][i]),
             system_message
-        ) for i in range(len(val))]
+        ) for i in tqdm(range(len(val)))]
     )
     
     # ----------------------------------
@@ -92,7 +87,7 @@ if __name__ == '__main__':
     # ----------------------------------
     # Set the OpenAI API key and create a client
     # ----------------------------------        
-    openai.api_key = os.environ.get("OPENAI_API_KEY")
+    openai.api_key = args.OPENAI_API_KEY
     client = OpenAI()
 
     # Create the training dataset
@@ -111,7 +106,7 @@ if __name__ == '__main__':
         validation_file=val_response.id,
         model=args.model_id,
         hyperparameters={
-            "n_epochs": 1,
+            "n_epochs": 5,
         }
     )
     
