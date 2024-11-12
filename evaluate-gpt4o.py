@@ -23,7 +23,7 @@ def main():
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join')
     parser.add_argument('--finetuned', type=str, default='True')
     parser.add_argument('--key', type=str, default='llama3')
-    args = parser.parse_args(args=[])
+    args = parser.parse_args()
     args.save_path=f'inference_results/'
     if not path.exists(args.save_path):
         makedirs(args.save_path)  
