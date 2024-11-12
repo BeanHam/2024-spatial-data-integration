@@ -110,13 +110,5 @@ if __name__ == '__main__':
         }
     )
     
-    # Wait for the fine-tuning job to complete
-    job_status = client.fine_tuning.jobs.retrieve(job_response.id)
-    while job_status.status != 'succeeded' and job_status.status != 'failed':
-        job_status = client.fine_tuning.jobs.retrieve(job_response.id)
-        print('Fine-tuning job status: ', job_status.status)
-        print(job_status)
-        time.sleep(60)
-
-    if job_status.status == 'failed':
-        raise Exception('Fine-tuning job failed')
+    print('Wait for the fine-tuning job to complete...')
+    print('You may close the terminal now...')
