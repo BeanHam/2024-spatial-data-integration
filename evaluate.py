@@ -25,7 +25,7 @@ def main():
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join')
     parser.add_argument('--finetuned', type=str, default='True')
     parser.add_argument('--use_model_prompt_defaults', type=str, default='llama3')
-    args = parser.parse_args(args=[])
+    args = parser.parse_args()
     
     args.suffix = MODEL_SUFFIXES[args.use_model_prompt_defaults]
     args.model_path = MODEL_PATHS[args.use_model_prompt_defaults]
@@ -50,7 +50,6 @@ def main():
                                                gradient_checkpointing=False,
                                                quantization_type='4bit',
                                                device='auto')
-    print(args.finetuned)
     if args.finetuned=='True':
         model = PeftModel.from_pretrained(model, args.model_path)
 
