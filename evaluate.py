@@ -30,7 +30,7 @@ def main():
     
     args.suffix = MODEL_SUFFIXES[args.use_model_prompt_defaults]
     args.model_path = MODEL_PATHS[args.use_model_prompt_defaults]
-    args.save_path=f'inference_results/'    
+    args.save_path=f'inference_results/'
     if not path.exists(args.save_path):
         makedirs(args.save_path)
     
@@ -51,6 +51,7 @@ def main():
                                                gradient_checkpointing=False,
                                                quantization_type='4bit',
                                                device='auto')
+    print(args.finetuned)
     if args.finetuned=='True':
         model = PeftModel.from_pretrained(model, args.model_path)
 
