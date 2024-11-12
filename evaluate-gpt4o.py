@@ -43,7 +43,7 @@ def main():
     if args.finetuned=='True':
         model_outputs = evaluate_gpt(test, client, 'ft:gpt-4o-2024-08-06:uw-howe-lab::ASVjfaKB')
     else:
-        model_outputs = evaluate_gpt(test, client, 'gpt-4o)
+        model_outputs = evaluate_gpt(test, client, 'gpt-4o')
     np.save(args.save_path+f"gpt4o_finetuned_{args.finetuned}.npy", model_outputs)
 
 if __name__ == "__main__":
