@@ -209,19 +209,23 @@ def evaluate_model(model: AutoModelForCausalLM,
                    data: Iterable,
                    max_tokens: int=2048,
                    min_new_tokens: int=1,
-                   max_new_tokens: int=256,
+                   max_new_tokens: int=5,
                    remove_suffix: str=None) -> dict:
     """
     Evaluate a Hugging Face model on a dataset using three text summarization metrics.
     """
     
     model_outputs = []
-    accuracy = []
     
     # Iterate over the test set
     for idx in tqdm(range(len(data))):
         
-        chat = [{"role": "user", "content": data['input'][idx]}]
+        system_message = """
+        You are a helpful geospatial analysis assistant! I will provide you with a pair of (sidewalk, road) information in GeoJson format. Please help me identify whether the sidewalk is alongside the paired road, such that the sidewalk is adjacent and parellele to the road. If it is, please return 1; otherwise, return 0.
+        """
+        sidewalk = "\nSidewalk:\n"+str(data['sidewalk'][i])
+        road = "\n\nRoad:\n"+str(data['road'][i])
+        chat = [{"role": "user", "content": system_message+sidewalk+road'}]
         input_data = tokenizer.apply_chat_template(chat, tokenize=False, add_generation_prompt=True)    
         
         ## decoding
@@ -233,25 +237,17 @@ def evaluate_model(model: AutoModelForCausalLM,
                                        max_new_tokens=max_new_tokens)
 
         # Remove the suffix if specified - note that Mistral-Instruct models add a </s> suffix to specify the end of the output
-        decoded = decoded.replace(remove_suffix, '').split()[0]
-        gt=data['output'][idx]
-        
-        # metric calculation
+        decoded = decoded.replace(remove_suffix, '')
         model_outputs.append(decoded)
-        accuracy.append(gt == decoded)
-        
-    metrics = {
-        'accuracy':np.mean(accuracy),
-    }
-    
-    return model_outputs, metrics
+               
+    return model_outputs
 
 def generate_from_prompt(model: AutoModelForCausalLM, 
                          tokenizer: AutoTokenizer, 
                          input_data: str,
                          max_tokens: int=2048,
                          min_new_tokens: int=1,
-                         max_new_tokens: int=256) -> str:
+                         max_new_tokens: int=5) -> str:
     """
     Generate and decode output from a Transformers model using a prompt.
     """
