@@ -23,7 +23,8 @@ MODEL_SUFFIXES = {
 
 MODEL_PATHS = {
     'mistral': 'beanham/spatial_join_mistral',
-    'llama3': 'beanham/spatial_join_llama3'
+    'llama3': 'beanham/spatial_join_llama3',
+    'gpt-4o': 'beanham/spatial_join_llama3'    
 }
 
 QUANZATION_MAP = {
