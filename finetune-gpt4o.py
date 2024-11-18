@@ -35,7 +35,7 @@ def format_for_finetuning(user_input: str,
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser(description='Fine-tune a spatial-join model.')
-    parser.add_argument('--model_id', type=str, default='gpt-4o-2024-08-06', help='The model ID to fine-tune.')
+    parser.add_argument('--model_id', type=str, default='gpt-4o-mini-2024-07-18', help='The model ID to fine-tune.')
     parser.add_argument('--OPENAI_API_KEY', type=str, help='API key to finetune GPT-4o')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join', help='The dataset to use for fine-tuning.')
     parser.add_argument('--formatted_data_dir', type=str, help='The directory to save the formatted data to', default='formatted_data')
@@ -56,8 +56,8 @@ if __name__ == '__main__':
     test = data['test']
     
     system_message = """
-    You are a helpful geospatial analysis assistant! I will provide you with a pair of (sidewalk, road) information in GeoJson format. Please help me identify whether the sidewalk is alongside the paired road, such that the sidewalk is adjacent and parellele to the road. If it is, please return 1; otherwise, return 0.
-    """    
+    You are a helpful geospatial analysis assistant! I will provide you with a pair of (sidewalk, road) information in GeoJsonformat. Please help me identify whether the sidewalk is alongside the paired road, such that the sidewalk is adjacent and parellele to the road. If it is, please return 1; otherwise, return 0.
+    """
     
     print('Formatting data for fine-tuning...')        
     train_formatted = '\n'.join(
@@ -87,8 +87,7 @@ if __name__ == '__main__':
     # ----------------------------------
     # Set the OpenAI API key and create a client
     # ----------------------------------        
-    openai.api_key = args.OPENAI_API_KEY
-    client = OpenAI()
+    client = OpenAI(api_key=args.key)
 
     # Create the training dataset
     train_response = client.files.create(
