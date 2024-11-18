@@ -8,7 +8,7 @@ from utils import *
 from tqdm import tqdm
 from openai import OpenAI
 from typing import Iterable
-from datasets import load_datasets
+from datasets import load_dataset
 from os import path, makedirs, getenv
 
 #-----------------------
