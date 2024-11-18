@@ -58,13 +58,18 @@ def main():
     # inference
     #------------
     model.eval()
-    model_outputs  = evaluate_model(model=model,
-                                    tokenizer=tokenizer,
-                                    data=test,
-                                    max_new_tokens=5,
-                                    remove_suffix=args.suffix,
-                                    args.fewshot)
-    np.save(args.save_path+f"{args.use_model_prompt_defaults}_finetuned_{args.finetuned}.npy", model_outputs)
+    if args.finetuned=='True':
+        test_outputs  = evaluate_model(model=model,tokenizer=tokenizer,data=test,max_new_tokens=10,remove_suffix=args.suffix,'False')
+        fp_outputs  = evaluate_model(model=model,tokenizer=tokenizer,data=fp,max_new_tokens=10,remove_suffix=args.suffix,'False')
+        fn_outputs  = evaluate_model(model=model,tokenizer=tokenizer,data=fn,max_new_tokens=10,remove_suffix=args.suffix,'False')
+    else:
+        test_outputs  = evaluate_model(model=model,tokenizer=tokenizer,data=test,max_new_tokens=5,remove_suffix=args.suffix,args.fewshot)
+        fp_outputs  = evaluate_model(model=model,tokenizer=tokenizer,data=fp,max_new_tokens=10,remove_suffix=args.suffix,args.fewshot)
+        fn_outputs  = evaluate_model(model=model,tokenizer=tokenizer,data=fn,max_new_tokens=10,remove_suffix=args.suffix,args.fewshot)
+        
+    np.save(args.save_path+f"{args.model_id}_finetuned_{args.finetuned}_fewshot_{args.fewshot}_test.npy", test_outputs)
+    np.save(args.save_path+f"{args.model_id}_finetuned_{args.finetuned}_fewshot_{args.fewshot}_fp.npy", fp_outputs)
+    np.save(args.save_path+f"{args.model_id}_finetuned_{args.finetuned}_fewsho
 
 if __name__ == "__main__":
     main()
