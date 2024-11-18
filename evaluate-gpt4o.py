@@ -49,7 +49,7 @@ def main():
         fp_outputs = evaluate_gpt(fp, client, args.model_path, 'False')
         fn_outputs = evaluate_gpt(fn, client, args.model_path, 'False')
     else:
-        model_outputs = evaluate_gpt(test, client, args.model_id, args.fewshot)
+        test_outputs = evaluate_gpt(test, client, args.model_id, args.fewshot)
         fp_outputs = evaluate_gpt(fp, client, args.model_id, args.fewshot)
         fn_outputs = evaluate_gpt(fn, client, args.model_id, args.fewshot)
     
