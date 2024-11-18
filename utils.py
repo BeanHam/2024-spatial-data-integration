@@ -18,12 +18,14 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 MODEL_SUFFIXES = {
     'openai': '',
     'mistral': '</s>',
-    'llama3': '</s>'
+    'llama3': '</s>',
+    'qwen': '<|im_end|>'
 }
 
 MODEL_PATHS = {
     'mistral': 'beanham/spatial_join_mistral',
     'llama3': 'beanham/spatial_join_llama3',
+    'qwen':,
     'gpt-4o-mini-2024-07-18': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AUloL5Yu'
 }
 
