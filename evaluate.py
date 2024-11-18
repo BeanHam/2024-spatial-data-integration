@@ -40,8 +40,9 @@ def main():
     # Load Data
     # ----------------------
     print('Downloading and preparing data...')
-    data = get_dataset_slices(args.dataset)
-    test = data['test']
+    test = load_dataset(args.dataset, split='test')
+    fp = load_dataset(args.dataset, split='fp')
+    fn = load_dataset(args.dataset, split='fn')
     
     #-----------------------
     # load model & tokenizer
