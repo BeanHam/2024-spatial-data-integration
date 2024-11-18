@@ -24,7 +24,7 @@ MODEL_SUFFIXES = {
 MODEL_PATHS = {
     'mistral': 'beanham/spatial_join_mistral',
     'llama3': 'beanham/spatial_join_llama3',
-    'gpt-4o': 'ft:gpt-4o-2024-08-06:uw-howe-lab::ASVjfaKB'
+    'gpt-4o-mini-2024-07-18': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AUloL5Yu'
 }
 
 QUANZATION_MAP = {
@@ -57,6 +57,41 @@ DEFAULT_TRAINING_ARGS = TrainingArguments(
         evaluation_strategy='steps',
         eval_steps=25
     )
+
+system_message = """
+You are a helpful geospatial analysis assistant! I will provide you with a pair of (sidewalk, road) information in GeoJson format. Please help me identify whether the sidewalk is alongside the paired road, such that the sidewalk is adjacent and parellele to the road. If it is, please return 1; otherwise, return 0.
+"""
+
+system_message_eval = """
+You are a helpful geospatial analysis assistant! I will provide you with a pair of (sidewalk, road) information in GeoJson format. Please help me identify whether the sidewalk is alongside the paired road, such that the sidewalk is adjacent and parellele to the road. If it is, please return 1; otherwise, return 0.
+    
+Please just return 0 or 1. No explaination needed.
+"""
+
+oneshot_example = """
+Here are two examples:
+
+#### EXAMPLE 1:
+
+Sidewalk:
+{'coordinates': [[-122.1212457, 47.6053648], [-122.1212721, 47.6053883]], 'type': 'LineString'}
+Road:
+{'coordinates': [[-122.1212277, 47.6053289], [-122.1211996, 47.60534], [-122.1210113, 47.6054163]], 'type': 'LineString'}
+Label: 0
+
+#### EXAMPLE 2:
+
+Sidewalk:
+{'coordinates': [[-122.11042249999998, 47.565170399999985], [-122.1102543, 47.5650583]], 'type': 'LineString'}
+Road:
+{'coordinates': [[-122.1110782, 47.564866], [-122.1109176, 47.5648958], [-122.11079, 47.5649255], [-122.1104464, 47.5650841], [-122.1103691, 47.5651116]], 'type': 'LineString'}
+Label: 1
+
+#### 
+Please help me analyze the follow pair: 
+
+"""
+
 
 def get_dataset_slices(dataset: str) -> dict:
     """
@@ -161,9 +196,6 @@ def format_data_as_instructions(data: Mapping,
     Formats text data as instructions for the model. Can be used as a formatting function for the trainer class.
     """
 
-    system_message = """
-    You are a helpful geospatial analysis assistant! I will provide you with a pair of (sidewalk, road) information in GeoJson format. Please help me identify whether the sidewalk is alongside the paired road, such that the sidewalk is adjacent and parellele to the road. If it is, please return 1; otherwise, return 0.
-    """
     output_texts = []
 
     # Iterate over the data and format the text
@@ -210,7 +242,7 @@ def evaluate_model(model: AutoModelForCausalLM,
                    data: Iterable,
                    max_tokens: int=2048,
                    min_new_tokens: int=1,
-                   max_new_tokens: int=5,
+                   max_new_tokens: int=10,
                    remove_suffix: str=None) -> dict:
     """
     Evaluate a Hugging Face model on a dataset using three text summarization metrics.
@@ -220,13 +252,10 @@ def evaluate_model(model: AutoModelForCausalLM,
     
     # Iterate over the test set
     for idx in tqdm(range(len(data))):
-        
-        system_message = """
-        You are a helpful geospatial analysis assistant! I will provide you with a pair of (sidewalk, road) information in GeoJson format. Please help me identify whether the sidewalk is alongside the paired road, such that the sidewalk is adjacent and parellele to the road. If it is, please return 1; otherwise, return 0.
-        """
+                
         sidewalk = "\nSidewalk:\n"+str(data['sidewalk'][idx])
         road = "\n\nRoad:\n"+str(data['road'][idx])
-        chat = [{"role": "user", "content": system_message+sidewalk+road}]
+        chat = [{"role": "user", "content": system_message_eval+sidewalk+road}]
         input_data = tokenizer.apply_chat_template(chat, tokenize=False, add_generation_prompt=True)    
         
         ## decoding
@@ -268,32 +297,30 @@ def generate_from_prompt(model: AutoModelForCausalLM,
 
     return decoded
 
-def evaluate_gpt(test, client, model):
+def evaluate_gpt(test, client, model, fewshot):
     
     #--------------
     # inference
     #--------------
     model_outputs = []
-    system_message = """
-    You are a helpful geospatial analysis assistant! I will provide you with a pair of (sidewalk, road) information in GeoJson format. Please help me identify whether the sidewalk is alongside the paired road, such that the sidewalk is adjacent and parellele to the road. If it is, please return 1; otherwise, return 0.
-    
-    Please just return {0} or {1}. No explaination is needed.
-    """
-    
+
     for idx in tqdm(range(len(test))):
         
         sidewalk = "Sidewalk: "+str(test['sidewalk'][idx])
-        road = "Road: "+str(test['road'][idx]) 
+        road = "Road: "+str(test['road'][idx])
+        if fewshot=='True': message=system_message_eval+oneshot_example
+        else: message=system_message_eval
+            
         response = client.chat.completions.create(
             model=model,
             messages=[
-                {"role": "system", "content": system_message},
+                {"role": "system", "content": message},
                 {"role": "user", "content": sidewalk+road},
             ],
             temperature=0,
             max_tokens=10,
             top_p=1
-        )    
+        )
         model_outputs.append(response.choices[0].message.content)
 
     return model_outputs
