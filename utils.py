@@ -172,7 +172,7 @@ def format_data_as_instructions(data: Mapping,
         road = "\n\nRoad:\n"+str(data['road'][i])
         chat = [
           {"role": "user", "content": system_message+sidewalk+road},
-          {"role": "assistant", "content": "\nLable: "+str(data['label'][i])},      
+          {"role": "assistant", "content": "\nLabel: "+str(data['label'][i])},      
         ]
         text = tokenizer.apply_chat_template(chat, tokenize=False, add_generation_prompt=False)
         output_texts.append(text)
