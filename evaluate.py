@@ -24,6 +24,7 @@ def main():
     parser.add_argument('--model_id', type=str, default='meta-llama/Llama-3.1-8B-Instruct')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join')
     parser.add_argument('--finetuned', type=str, default='True')
+    parser.add_argument('--fewshot', type=str, default='True')
     parser.add_argument('--use_model_prompt_defaults', type=str, default='llama3')
     args = parser.parse_args()
     
@@ -61,7 +62,8 @@ def main():
                                     tokenizer=tokenizer,
                                     data=test,
                                     max_new_tokens=5,
-                                    remove_suffix=args.suffix)
+                                    remove_suffix=args.suffix,
+                                    args.fewshot)
     np.save(args.save_path+f"{args.use_model_prompt_defaults}_finetuned_{args.finetuned}.npy", model_outputs)
 
 if __name__ == "__main__":
