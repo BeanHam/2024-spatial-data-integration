@@ -1,6 +1,7 @@
 .DS_Store
 wandb/
 __pycache__/
+.ipynb_checkpoints/
 formatted_data/
 outputs_llama3/
 outputs_mistral/
