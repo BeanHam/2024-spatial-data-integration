@@ -243,19 +243,24 @@ def evaluate_model(model: AutoModelForCausalLM,
                    max_tokens: int=2048,
                    min_new_tokens: int=1,
                    max_new_tokens: int=10,
-                   remove_suffix: str=None) -> dict:
+                   remove_suffix: str=None,
+                   fewshot): -> dict:
     """
     Evaluate a Hugging Face model on a dataset using three text summarization metrics.
     """
     
     model_outputs = []
-    
+    if fewshot=='True': 
+        message=system_message_eval+oneshot_example
+    else: 
+        message=system_message_eval
+
     # Iterate over the test set
     for idx in tqdm(range(len(data))):
                 
         sidewalk = "\nSidewalk:\n"+str(data['sidewalk'][idx])
         road = "\n\nRoad:\n"+str(data['road'][idx])
-        chat = [{"role": "user", "content": system_message_eval+sidewalk+road}]
+        chat = [{"role": "user", "content": message+sidewalk+road}]
         input_data = tokenizer.apply_chat_template(chat, tokenize=False, add_generation_prompt=True)    
         
         ## decoding
@@ -303,14 +308,15 @@ def evaluate_gpt(test, client, model, fewshot):
     # inference
     #--------------
     model_outputs = []
-
+    if fewshot=='True': 
+        message=system_message_eval+oneshot_example
+    else: 
+        message=system_message_eval
+            
     for idx in tqdm(range(len(test))):
         
         sidewalk = "Sidewalk: "+str(test['sidewalk'][idx])
-        road = "Road: "+str(test['road'][idx])
-        if fewshot=='True': message=system_message_eval+oneshot_example
-        else: message=system_message_eval
-            
+        road = "Road: "+str(test['road'][idx])            
         response = client.chat.completions.create(
             model=model,
             messages=[
