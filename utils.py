@@ -284,7 +284,7 @@ def generate_from_prompt(model: AutoModelForCausalLM,
                          input_data: str,
                          max_tokens: int=2048,
                          min_new_tokens: int=1,
-                         max_new_tokens: int=10) -> str:
+                         max_new_tokens: int=5) -> str:
     """
     Generate and decode output from a Transformers model using a prompt.
     """
@@ -297,7 +297,12 @@ def generate_from_prompt(model: AutoModelForCausalLM,
 
     # Generate text from prompt
     with torch.no_grad():
-        output = model.generate(**input_ids, max_new_tokens=max_new_tokens, min_new_tokens=min_new_tokens, pad_token_id=tokenizer.eos_token_id)
+        output = model.generate(**input_ids, 
+                                max_new_tokens=max_new_tokens, 
+                                min_new_tokens=min_new_tokens, 
+                                pad_token_id=tokenizer.eos_token_id,
+                                temperature=0.0,
+                                do_sample=False)
         
     # Decode the output string, removing the special tokens and any suffixes
     decoded = tokenizer.decode(output[0][start_decode:])
