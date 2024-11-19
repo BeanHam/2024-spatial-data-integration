@@ -62,7 +62,7 @@ def main():
         fp_outputs  = evaluate_model(model=model,tokenizer=tokenizer,data=fp,max_new_tokens=10,remove_suffix=args.suffix,'False')
         fn_outputs  = evaluate_model(model=model,tokenizer=tokenizer,data=fn,max_new_tokens=10,remove_suffix=args.suffix,'False')
     else:
-        test_outputs  = evaluate_model(model=model,tokenizer=tokenizer,data=test,max_new_tokens=5,remove_suffix=args.suffix,args.fewshot)
+        test_outputs  = evaluate_model(model=model,tokenizer=tokenizer,data=test,max_new_tokens=10,remove_suffix=args.suffix,args.fewshot)
         fp_outputs  = evaluate_model(model=model,tokenizer=tokenizer,data=fp,max_new_tokens=10,remove_suffix=args.suffix,args.fewshot)
         fn_outputs  = evaluate_model(model=model,tokenizer=tokenizer,data=fn,max_new_tokens=10,remove_suffix=args.suffix,args.fewshot)
         
