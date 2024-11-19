@@ -70,7 +70,7 @@ def main():
         
     np.save(args.save_path+f"{args.model_id}_finetuned_{args.finetuned}_fewshot_{args.fewshot}_test.npy", test_outputs)
     np.save(args.save_path+f"{args.model_id}_finetuned_{args.finetuned}_fewshot_{args.fewshot}_fp.npy", fp_outputs)
-    np.save(args.save_path+f"{args.model_id}_finetuned_{args.finetuned}_fewsho
+    np.save(args.save_path+f"{args.model_id}_finetuned_{args.finetuned}_fewshot_{args.fewshot}_fn.npy", fn_outputs)
 
 if __name__ == "__main__":
     main()
