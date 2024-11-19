@@ -5,3 +5,4 @@ __pycache__/
 formatted_data/
 outputs_llama3/
 outputs_mistral/
+outputs_qwen/
