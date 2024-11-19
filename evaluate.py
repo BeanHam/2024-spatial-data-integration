@@ -66,9 +66,9 @@ def main():
         fp_outputs  = evaluate_model(model=model,tokenizer=tokenizer,data=fp,max_new_tokens=10,remove_suffix=args.suffix,fewshot=args.fewshot)
         fn_outputs  = evaluate_model(model=model,tokenizer=tokenizer,data=fn,max_new_tokens=10,remove_suffix=args.suffix,fewshot=args.fewshot)
         
-    np.save(args.save_path+f"{args.model_id}_finetuned_{args.finetuned}_fewshot_{args.fewshot}_test.npy", test_outputs)
-    np.save(args.save_path+f"{args.model_id}_finetuned_{args.finetuned}_fewshot_{args.fewshot}_fp.npy", fp_outputs)
-    np.save(args.save_path+f"{args.model_id}_finetuned_{args.finetuned}_fewshot_{args.fewshot}_fn.npy", fn_outputs)
+    np.save(args.save_path+f"{args.use_model_prompt_defaults}_finetuned_{args.finetuned}_fewshot_{args.fewshot}_test.npy", test_outputs)
+    np.save(args.save_path+f"{args.use_model_prompt_defaults}_finetuned_{args.finetuned}_fewshot_{args.fewshot}_fp.npy", fp_outputs)
+    np.save(args.save_path+f"{args.use_model_prompt_defaults}_finetuned_{args.finetuned}_fewshot_{args.fewshot}_fn.npy", fn_outputs)
 
 if __name__ == "__main__":
     main()
