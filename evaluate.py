@@ -23,17 +23,15 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_id', type=str, default='meta-llama/Llama-3.1-8B-Instruct')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join')
-    parser.add_argument('--finetuned', type=str, default='True')
-    parser.add_argument('--fewshot', type=str, default='True')
+    parser.add_argument('--finetuned', type=str, default='False')
+    parser.add_argument('--fewshot', type=str, default='False')
     parser.add_argument('--use_model_prompt_defaults', type=str, default='llama3')
-    args = parser.parse_args()
-    
+    args = parser.parse_args()    
     args.suffix = MODEL_SUFFIXES[args.use_model_prompt_defaults]
     args.model_path = MODEL_PATHS[args.use_model_prompt_defaults]
     args.save_path=f'inference_results/'
     if not path.exists(args.save_path):
-        makedirs(args.save_path)
-    
+        makedirs(args.save_path)    
     hf_login()    
         
     # ----------------------
