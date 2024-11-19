@@ -18,7 +18,7 @@ from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 MODEL_SUFFIXES = {
     'openai': '',
     'mistral': '</s>',
-    'llama3': '</s>',
+    'llama3': '<|eot_id|>',
     'qwen': '<|im_end|>'
 }
 
