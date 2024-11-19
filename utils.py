@@ -246,7 +246,7 @@ def evaluate_model(model: AutoModelForCausalLM,
                    min_new_tokens: int=1,
                    max_new_tokens: int=10,
                    remove_suffix: str=None,
-                   fewshot): -> dict:
+                   fewshot: str=None): -> dict:
     """
     Evaluate a Hugging Face model on a dataset using three text summarization metrics.
     """
