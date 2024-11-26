@@ -1,3 +1,4 @@
+bitsandbytes==0.44.1
 datasets==3.1.0
 huggingface-hub==0.26.2
 torch @ https://download.pytorch.org/whl/cu121_full/torch-2.5.1%2Bcu121-cp310-cp310-linux_x86_64.whl
