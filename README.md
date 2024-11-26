@@ -1,8 +1,11 @@
 # 2024-spatial-join
 
+To setup the environment:
+```
+bash install.sh
+```
 
 To finetune an open model, run:
-
 ```
 python finetune_open_model.py --model_id {model_id}
 ```
