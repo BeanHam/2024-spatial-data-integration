@@ -7,12 +7,8 @@ To finetune/evalute a model, run:
 python finetune_open_model.py --model_id {model_id}
 ```
 
-```
-python evaluate.py --model_id {model_id} --use_model_prompt_defaults {model_prefix} --finetuned {True/False}
-```
-
 ### Model ID {Model Prefix}:
-- llama3
-- mistral
-- qwen
-- phi
+- llama3 (meta-llama/Llama-3.1-8B-Instruct)
+- mistral (mistralai/Mistral-7B-Instruct-v0.3)
+- qwen (Qwen/Qwen2.5-7B-Instruct)
+- phi (microsoft/Phi-3.5-mini-instruct)
