@@ -13,9 +13,6 @@ from datasets import load_dataset
 from transformers import TrainingArguments
 from huggingface_hub import login as hf_login
 from unsloth import FastLanguageModel, is_bfloat16_supported
-
-#!pip install unsloth
-#!pip uninstall unsloth -y && pip install --upgrade --no-cache-dir --no-deps git+https://github.com/unslothai/unsloth.git
        
 if __name__ == '__main__':
             
