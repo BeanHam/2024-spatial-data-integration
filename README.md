@@ -1,7 +1,7 @@
 # 2024-spatial-join
 
 
-To finetune/evalute a model, run:
+To finetune an open model, run:
 
 ```
 python finetune_open_model.py --model_id {model_id}
