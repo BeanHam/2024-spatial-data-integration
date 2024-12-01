@@ -14,7 +14,17 @@ from os import path, makedirs, getenv
 from transformers import TrainingArguments
 from huggingface_hub import login as hf_login
 from unsloth import FastLanguageModel, is_bfloat16_supported
-       
+
+
+def process_train_data(train, metric_name, metric_value):
+    
+    if metric_name == 'degree':
+        positive = train.filter(lambda x: ((x['label']==1) & (x['min_angle']<=metric_value)) )
+        negative = train.filter(lambda x: ((x['label']==0) & (x['min_angle']>metric_value)) )
+        new_train=concatenate_datasets([positive,negative]).shuffle()
+        
+    return new_train
+
 if __name__ == '__main__':
             
     #-------------------
@@ -24,13 +34,20 @@ if __name__ == '__main__':
     parser.add_argument('--model_id', type=str, default='llama')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
     parser.add_argument('--max_seq_length', type=int, default=2048)
-    parser.add_argument('--device', type=str, default='auto')    
-    args = parser.parse_args()
+    parser.add_argument('--device', type=str, default='auto')
+    parser.add_argument('--metric_name', type=str, default='degree')
+    parser.add_argument('--metric_value', type=int, default=1)
+    
+    ## misc
+    args.model_repo = MODEL_REPOS[args.model_id]
+    args.output_dir = f"outputs_{args.model_id}/{args.metric_name}/{args.metric_value}/" 
+    args.save_dir = args.output_dir+'/final_model/'    
+    args.project_name = "spatial-join"
+    args.wandb_name = f"unsloth_{args.model_id}_{args.metric_name}_{args.metric_value}"
+    args.hf_name = f"spatial_join_{args.model_id}_{args.metric_name}_{args.metric_value}"        
+    args = parser.parse_args()    
     
     # create saving directory
-    args.model_repo = MODEL_REPOS[args.model_id]    
-    args.output_dir = 'outputs_'+args.model_id
-    args.save_dir = 'outputs_'+args.model_id+'/final_model/'
     if not path.exists(args.output_dir):
         makedirs(args.output_dir)
     if not path.exists(args.save_dir):
@@ -39,7 +56,7 @@ if __name__ == '__main__':
     # HF & wandb Login
     hf_login()
     wandb.login()
-    wandb.init(project='spatial-join', name='unsloth_'+args.model_id)
+    wandb.init(project=args.project_name, name=args.wandb_name)
         
     # ----------------------
     # Load Model & Tokenizer
@@ -80,9 +97,10 @@ if __name__ == '__main__':
     EOS_TOKEN = tokenizer.eos_token # Must add EOS_TOKEN
     data = load_dataset(args.dataset)
     data = data.map(formatting_prompts_func)
-    train = data['train']    
-    val = data['val']         
-    
+    train = data['train']
+    train = process_train_data(train, args.metric_name, args.metric_value)
+    val = data['val']
+            
     # -----------------------
     # Set Training Parameters
     # -----------------------
@@ -134,5 +152,5 @@ if __name__ == '__main__':
     print('Saving model and tokenizer...')
     trainer.model.save_pretrained(args.save_dir)
     tokenizer.save_pretrained(args.save_dir)
-    trainer.model.push_to_hub('spatial_join_'+args.model_id, use_auth_token=True)
+    trainer.model.push_to_hub(args.hf_name, use_auth_token=True)
     wandb.finish()
