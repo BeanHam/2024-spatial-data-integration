@@ -37,6 +37,7 @@ if __name__ == '__main__':
     parser.add_argument('--device', type=str, default='auto')
     parser.add_argument('--metric_name', type=str, default='degree')
     parser.add_argument('--metric_value', type=int, default=1)
+    args = parser.parse_args()
     
     ## misc
     args.model_repo = MODEL_REPOS[args.model_id]
@@ -44,8 +45,7 @@ if __name__ == '__main__':
     args.save_dir = args.output_dir+'/final_model/'    
     args.project_name = "spatial-join"
     args.wandb_name = f"unsloth_{args.model_id}_{args.metric_name}_{args.metric_value}"
-    args.hf_name = f"spatial_join_{args.model_id}_{args.metric_name}_{args.metric_value}"        
-    args = parser.parse_args()    
+    args.hf_name = f"spatial_join_{args.model_id}_{args.metric_name}_{args.metric_value}"
     
     # create saving directory
     if not path.exists(args.output_dir):
