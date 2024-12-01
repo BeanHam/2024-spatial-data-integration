@@ -9,7 +9,7 @@ import numpy as np
 
 from utils import *
 from trl import SFTTrainer
-from datasets import load_dataset
+from datasets import load_dataset,concatenate_datasets
 from os import path, makedirs, getenv
 from transformers import TrainingArguments
 from huggingface_hub import login as hf_login
