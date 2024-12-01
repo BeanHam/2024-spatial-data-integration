@@ -19,3 +19,13 @@ MODEL_REPOS = {
     'gpt-4o-mini-2024-07-18': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AUloL5Yu'
 }
 
+
+
+def process_train_data(train, metric_name, metric_value):
+    
+    if metric_name == 'degree':
+        positive = train.filter(lambda x: ((x['label']==1) & (x['min_angle']<=metric_value)) )
+        negative = train.filter(lambda x: ((x['label']==0) & (x['min_angle']>metric_value)) )
+        new_train=concatenate_datasets([positive,negative]).shuffle()
+        
+    return new_train
