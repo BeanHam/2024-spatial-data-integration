@@ -18,3 +18,12 @@ MODEL_REPOS = {
     'qwen': 'Qwen/Qwen2.5-7B-Instruct',
     'gpt-4o-mini-2024-07-18': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AUloL5Yu'
 }
+
+MODEL_PATHS = {
+    'llama3_degree_1': 'beanham/spatial_join_llama3_degree_1',
+    'llama3_degree_2': 'beanham/spatial_join_llama3_degree_2',
+    'llama3_degree_5': 'beanham/spatial_join_llama3_degree_5',
+    'llama3_degree_10': 'beanham/spatial_join_llama3_degree_10',
+    'llama3_degree_15': 'beanham/spatial_join_llama3_degree_15',
+    'llama3_degree_20': 'beanham/spatial_join_llama3_degree_20',    
+}
