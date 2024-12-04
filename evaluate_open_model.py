@@ -51,7 +51,8 @@ def main():
     if not path.exists(args.save_path):
         makedirs(args.save_path)            
     if args.metric_name == 'degree':
-        args.metric_values = [1,2,5,10,15,20]        
+        #args.metric_values = [1,2,5,10,15,20]
+        args.metric_values = [1,10]
     hf_login()    
         
     # ----------------------
@@ -65,7 +66,7 @@ def main():
     # loop through metric values
     #---------------------------
     for v in args.metric_values:
-        print('=========================')
+        print('=====================================================')
         print(f'{args.metric_name}: {v}...')        
         print('   -- Getting model and tokenizer...')
         args.model_path = MODEL_PATHS[f"{args.model_id}_{args.metric_name}_{v}"]
