@@ -51,8 +51,7 @@ def main():
     if not path.exists(args.save_path):
         makedirs(args.save_path)            
     if args.metric_name == 'degree':
-        #args.metric_values = [1,2,5,10,15,20]
-        args.metric_values = [1,10]
+        args.metric_values = [1,2,5,10,20]
     hf_login()    
         
     # ----------------------
