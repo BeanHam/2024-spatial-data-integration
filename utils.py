@@ -31,3 +31,18 @@ MODEL_PATHS = {
     'mistral_degree_10': 'beanham/spatial_join_mistral_degree_10',
     'mistral_degree_20': 'beanham/spatial_join_mistral_degree_20',    
 }
+
+
+
+MODEL_RESPONSIVENESS_PATHS = {
+    'llama3_degree_1': '',
+    'llama3_degree_2': '',
+    'llama3_degree_3': '',
+    'llama3_degree_4': '',
+    'llama3_degree_5': '',
+    'mistral_degree_1': '',
+    'mistral_degree_2': '',
+    'mistral_degree_3': '',
+    'mistral_degree_4': '',
+    'mistral_degree_5': '',
+}
