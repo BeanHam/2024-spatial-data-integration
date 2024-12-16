@@ -35,14 +35,14 @@ MODEL_PATHS = {
 
 
 MODEL_RESPONSIVENESS_PATHS = {
-    'llama3_degree_1': '',
-    'llama3_degree_2': '',
-    'llama3_degree_3': '',
-    'llama3_degree_4': '',
-    'llama3_degree_5': '',
-    'mistral_degree_1': '',
-    'mistral_degree_2': '',
-    'mistral_degree_3': '',
-    'mistral_degree_4': '',
-    'mistral_degree_5': '',
+    'llama3_degree_step_1': '',
+    'llama3_degree_step_2': '',
+    'llama3_degree_step_3': '',
+    'llama3_degree_step_4': '',
+    'llama3_degree_step_5': '',
+    'mistral_degree_step_1': '',
+    'mistral_degree_step_2': '',
+    'mistral_degree_step_3': '',
+    'mistral_degree_step_4': '',
+    'mistral_degree_step_5': '',
 }
