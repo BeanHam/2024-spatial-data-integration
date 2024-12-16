@@ -67,8 +67,8 @@ def main():
         print('=====================================================')
         print(f'Step: {v*20}%...')
         print('   -- Getting model and tokenizer...')
-        args.model_responsiveness_path = MODEL_RESPONSIVENESS_PATHS[f"{args.model_id}_{args.metric_name}_{v}"]
-        args.save_name = f"{args.model_id}_{args.metric_name}_responsiveness_{v}"
+        args.model_responsiveness_path = MODEL_RESPONSIVENESS_PATHS[f"{args.model_id}_{args.metric_name}_step_{v}"]
+        args.save_name = f"{args.model_id}_{args.metric_name}_step_{v}"
         model, tokenizer = FastLanguageModel.from_pretrained(
             model_name = args.model_path,
             max_seq_length = args.max_seq_length,
