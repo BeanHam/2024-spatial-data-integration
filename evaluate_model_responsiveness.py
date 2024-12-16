@@ -48,10 +48,9 @@ def main():
     args = parser.parse_args()
     
     args.save_path=f'inference_results/'
+    args.steps=[1,2,3,4,5]
     if not path.exists(args.save_path):
-        makedirs(args.save_path)            
-    if args.metric_name == 'degree':
-        args.metric_values = [1,2,5,10,20]
+        makedirs(args.save_path)
     hf_login()    
         
     # ----------------------
@@ -64,12 +63,12 @@ def main():
     #---------------------------
     # loop through metric values
     #---------------------------
-    for v in args.metric_values:
+    for v in args.steps:
         print('=====================================================')
-        print(f'{args.metric_name}: {v}...')        
+        print(f'Step: {v*20}%...')
         print('   -- Getting model and tokenizer...')
-        args.model_path = MODEL_PATHS[f"{args.model_id}_{args.metric_name}_{v}"]
-        args.save_name = f"{args.model_id}_{args.metric_name}_{v}"
+        args.model_responsiveness_path = MODEL_RESPONSIVENESS_PATHS[f"{args.model_id}_{args.metric_name}_{v}"]
+        args.save_name = f"{args.model_id}_{args.metric_name}_responsiveness_{v}"
         model, tokenizer = FastLanguageModel.from_pretrained(
             model_name = args.model_path,
             max_seq_length = args.max_seq_length,
