@@ -33,14 +33,12 @@ MODEL_PATHS = {
 }
 
 MODEL_STEPS_PATHS = {
-    'llama3_degree_step_1': '',
-    'llama3_degree_step_2': '',
-    'llama3_degree_step_3': '',
-    'llama3_degree_step_4': '',
-    'llama3_degree_step_5': '',
-    'mistral_degree_step_1': '',
-    'mistral_degree_step_2': '',
-    'mistral_degree_step_3': '',
-    'mistral_degree_step_4': '',
-    'mistral_degree_step_5': '',
+    'llama3_degree_step_1': 'outputs_llama3/degree/5/checkpoint-753',
+    'llama3_degree_step_2': 'outputs_llama3/degree/5/checkpoint-1506',
+    'llama3_degree_step_3': 'outputs_llama3/degree/5/checkpoint-2259',
+    'llama3_degree_step_4': 'outputs_llama3/degree/5/checkpoint-3012',
+    'mistral_degree_step_1': 'outputs_mistral/degree/5/checkpoint-754',
+    'mistral_degree_step_2': 'outputs_mistral/degree/5/checkpoint-1508',
+    'mistral_degree_step_3': 'outputs_mistral/degree/5/checkpoint-2262',
+    'mistral_degree_step_4': 'outputs_mistral/degree/5/checkpoint-3016',
 }
