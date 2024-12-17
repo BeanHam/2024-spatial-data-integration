@@ -67,7 +67,7 @@ def main():
         print('=====================================================')
         print(f'Step: {v*20}%...')
         print('   -- Getting model and tokenizer...')
-        args.model_steps_path = MODEL_STEPS_PATHS[f"{args.model_id}_{args.metric_name}_step_{v}"]
+        args.model_path = MODEL_STEPS_PATHS[f"{args.model_id}_{args.metric_name}_step_{v}"]
         args.save_name = f"{args.model_id}_{args.metric_name}_step_{v}"
         model, tokenizer = FastLanguageModel.from_pretrained(
             model_name = args.model_path,
