@@ -48,7 +48,7 @@ def main():
     args = parser.parse_args()
     
     args.save_path=f'inference_results/'
-    args.steps=[1,2,3,4,5]
+    args.steps=[1,2,3,4]
     if not path.exists(args.save_path):
         makedirs(args.save_path)
     hf_login()    
