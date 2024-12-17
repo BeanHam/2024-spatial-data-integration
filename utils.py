@@ -32,9 +32,7 @@ MODEL_PATHS = {
     'mistral_degree_20': 'beanham/spatial_join_mistral_degree_20',    
 }
 
-
-
-MODEL_RESPONSIVENESS_PATHS = {
+MODEL_STEPS_PATHS = {
     'llama3_degree_step_1': '',
     'llama3_degree_step_2': '',
     'llama3_degree_step_3': '',
