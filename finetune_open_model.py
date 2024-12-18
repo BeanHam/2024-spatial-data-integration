@@ -39,7 +39,7 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
     parser.add_argument('--max_seq_length', type=int, default=2048)
     parser.add_argument('--device', type=str, default='auto')
-    parser.add_argument('--metric_name', type=str, default='degree', option='degree/distance/area')
+    parser.add_argument('--metric_name', type=str, default='degree')
     parser.add_argument('--metric_value', type=int, default=1)
     args = parser.parse_args()
     
