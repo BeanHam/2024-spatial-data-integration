@@ -47,7 +47,7 @@ def main():
     parser.add_argument('--metric_name', type=str, default='degree')
     args = parser.parse_args()
     
-    args.save_path=f'inference_results/'
+    args.save_path=f'inference_results/{metric_name}/'
     if not path.exists(args.save_path):
         makedirs(args.save_path)            
     if args.metric_name == 'degree':

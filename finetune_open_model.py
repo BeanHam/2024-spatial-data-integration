@@ -22,6 +22,10 @@ def process_train_data(train, metric_name, metric_value):
         positive = train.filter(lambda x: ((x['label']==1) & (x['min_angle']<=metric_value)) )
         negative = train.filter(lambda x: ((x['label']==0) & (x['min_angle']>metric_value)) )
         new_train=concatenate_datasets([positive,negative]).shuffle()
+    elif metric_name == 'distance':
+        positive = train.filter(lambda x: ((x['label']==1) & (x['euc_dist']>=metric_value)) )
+        negative = train.filter(lambda x: ((x['label']==0) & (x['euc_dist']<metric_value)) )
+        new_train=concatenate_datasets([positive,negative]).shuffle()
         
     return new_train
 
@@ -35,7 +39,7 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
     parser.add_argument('--max_seq_length', type=int, default=2048)
     parser.add_argument('--device', type=str, default='auto')
-    parser.add_argument('--metric_name', type=str, default='degree')
+    parser.add_argument('--metric_name', type=str, default='degree', options='degree/distance/area')
     parser.add_argument('--metric_value', type=int, default=1)
     args = parser.parse_args()
     
