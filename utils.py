@@ -29,7 +29,17 @@ MODEL_PATHS = {
     'mistral_degree_2': 'beanham/spatial_join_mistral_degree_2',
     'mistral_degree_5': 'beanham/spatial_join_mistral_degree_5',
     'mistral_degree_10': 'beanham/spatial_join_mistral_degree_10',
-    'mistral_degree_20': 'beanham/spatial_join_mistral_degree_20',    
+    'mistral_degree_20': 'beanham/spatial_join_mistral_degree_20', 
+    'llama3_distance_1': 'beanham/spatial_join_llama3_distance_1',
+    'llama3_distance_2': 'beanham/spatial_join_llama3_distance_2',
+    'llama3_distance_3': 'beanham/spatial_join_llama3_distance_3',
+    'llama3_distance_4': 'beanham/spatial_join_llama3_distance_4',
+    'llama3_distance_5': 'beanham/spatial_join_llama3_distance_5',
+    'mistral_distance_1': 'beanham/spatial_join_mistral_distance_1',
+    'mistral_distance_2': 'beanham/spatial_join_mistral_distance_2',
+    'mistral_distance_3': 'beanham/spatial_join_mistral_distance_3',
+    'mistral_distance_4': 'beanham/spatial_join_mistral_distance_4',
+    'mistral_distance_5': 'beanham/spatial_join_mistral_distance_5',     
 }
 
 MODEL_STEPS_PATHS = {
