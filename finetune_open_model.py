@@ -87,8 +87,7 @@ if __name__ == '__main__':
     # ----------------------
     # Load & Prepare Data
     # ----------------------
-    print('Downloading and preparing data...')
-    
+    print('Downloading and preparing data...')    
     def formatting_prompts_func(example):
         input       = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
         output      = "Label: "+str(example['label'])
