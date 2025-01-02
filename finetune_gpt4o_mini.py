@@ -11,6 +11,7 @@ from utils import *
 from tqdm import tqdm
 from os import path, makedirs, getenv, mkdir
 from huggingface_hub import login as hf_login
+from datasets import load_dataset,concatenate_datasets
 
 import openai
 from openai import OpenAI
@@ -66,7 +67,7 @@ if __name__ == '__main__':
     data = load_dataset(args.dataset)
     train = data['train']
     train = process_train_data(train, args.metric_name, args.metric_value)
-    val = data['val']                         
+    val = data['val']
     train_formatted = '\n'.join(
         [format_for_finetuning(
             "Sidewalk: "+str(train['sidewalk'][i])+"\nRoad: "+str(train['road'][i])
