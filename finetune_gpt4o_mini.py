@@ -16,9 +16,9 @@ from datasets import load_dataset,concatenate_datasets
 import openai
 from openai import OpenAI
 
-def format_for_finetuning(user_input: str,
-                          assistant_output: str,
-                          system_prompt: str) -> str:
+def format_for_finetuning(system_prompt: str,
+                          user_input: str,
+                          assistant_output: str) -> str:
     """
     Format data in JSON for fine-tuning an OpenAI chatbot model.
     """    
@@ -26,7 +26,7 @@ def format_for_finetuning(user_input: str,
     return json.dumps(
         {
             "messages": [
-                {"role": "system", "content": instruction}, 
+                {"role": "system", "content": system_prompt}, 
                 {"role": "user", "content": user_input}, 
                 {"role": "assistant", "content": assistant_output}
             ]
@@ -70,16 +70,16 @@ if __name__ == '__main__':
     val = data['val']
     train_formatted = '\n'.join(
         [format_for_finetuning(
-            "Sidewalk: "+str(train['sidewalk'][i])+"\nRoad: "+str(train['road'][i])
-            "Label: "+str(train['label'][i]),
-            instruction
+            gpt_instruction,
+            "Sidewalk: "+str(train['sidewalk'][i])+"\nRoad: "+str(train['road'][i]),
+            "Label: "+str(train['label'][i])
         ) for i in tqdm(range(len(train)))]
     )
     val_formatted = '\n'.join(
         [format_for_finetuning(
-            "Sidewalk: "+str(val['sidewalk'][i])+"\nRoad: "+str(val['road'][i])
-            "Label: "+str(val['label'][i]),
-            instruction
+            gpt_instruction,
+            "Sidewalk: "+str(val['sidewalk'][i])+"\nRoad: "+str(val['road'][i]),
+            "Label: "+str(val['label'][i])
         ) for i in tqdm(range(len(val)))]
     )
     
@@ -113,7 +113,7 @@ if __name__ == '__main__':
         validation_file=val_response.id,
         model=args.model_id,
         hyperparameters={
-            "n_epochs": 5,
+            "n_epochs": 1,
         }
     )
     
