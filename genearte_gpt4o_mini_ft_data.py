@@ -13,9 +13,6 @@ from os import path, makedirs, getenv, mkdir
 from huggingface_hub import login as hf_login
 from datasets import load_dataset,concatenate_datasets
 
-import openai
-from openai import OpenAI
-
 def format_for_finetuning(system_prompt: str,
                           user_input: str,
                           assistant_output: str) -> str:
@@ -49,8 +46,6 @@ def process_train_data(train, metric_name, metric_value):
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model_id', type=str, default='gpt-4o-mini-2024-07-18', help='The model ID to fine-tune.')
-    parser.add_argument('--OPENAI_API_KEY', type=str, help='API key to finetune GPT-4o')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
     parser.add_argument('--formatted_data_dir', type=str, default='formatted_data')
     parser.add_argument('--metric_name', type=str, default='degree')
