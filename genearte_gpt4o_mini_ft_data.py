@@ -2,7 +2,7 @@ import json
 import argparse
 from utils import *
 from tqdm import tqdm
-from os import path, makedirs, getenv, mkdir
+from os import path, makedirs
 from huggingface_hub import login as hf_login
 from datasets import load_dataset,concatenate_datasets
 

@@ -3,7 +3,7 @@ import argparse
 
 from utils import *
 from trl import SFTTrainer
-from os import path, makedirs, getenv
+from os import path, makedirs
 from transformers import TrainingArguments
 from huggingface_hub import login as hf_login
 from datasets import load_dataset,concatenate_datasets

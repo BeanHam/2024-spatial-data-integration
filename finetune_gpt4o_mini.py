@@ -1,17 +1,14 @@
-import json
 import argparse
 from utils import *
-from tqdm import tqdm
+from os import path
 from openai import OpenAI
-from os import path, makedirs, getenv, mkdir
-from huggingface_hub import login as hf_login
-from datasets import load_dataset,concatenate_datasets
 
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_id', type=str, default='gpt-4o-mini-2024-07-18', help='The model ID to fine-tune.')
-    parser.add_argument('--OPENAI_API_KEY', type=str, help='API key to finetune GPT-4o')
+    parser.add_argument('--key', type=str, help='API key to finetune GPT-4o')
+    parser.add_argument('--formatted_data_dir', type=str, default='formatted_data')
     parser.add_argument('--n_epochs', type=int, default=1)
     parser.add_argument('--metric_name', type=str, default='degree')
     parser.add_argument('--metric_value', type=int, default=1)    
