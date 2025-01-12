@@ -45,7 +45,8 @@ def main():
     
     args.save_path=f'inference_results/{args.metric_name}/'
     if not path.exists(args.save_path):
-        makedirs(args.save_path)            
+        makedirs(args.save_path)
+    
     if args.metric_name == 'degree':
         args.metric_values = [1,2,5,10,20]
     elif args.metric_name == 'distance':
