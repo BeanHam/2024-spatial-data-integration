@@ -9,7 +9,7 @@ if __name__ == '__main__':
     parser.add_argument('--model_id', type=str, default='gpt-4o-mini-2024-07-18', help='The model ID to fine-tune.')
     parser.add_argument('--key', type=str, help='API key to finetune GPT-4o')
     parser.add_argument('--formatted_data_dir', type=str, default='formatted_data')
-    parser.add_argument('--n_epochs', type=int, default=1)
+    parser.add_argument('--n_epochs', type=int, default=2)
     parser.add_argument('--metric_name', type=str, default='degree')
     parser.add_argument('--metric_value', type=int, default=1)    
     args = parser.parse_args()
