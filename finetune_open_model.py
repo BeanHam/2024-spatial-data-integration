@@ -13,8 +13,8 @@ from unsloth import FastLanguageModel, is_bfloat16_supported
 def process_train_data(train, metric_name, metric_value):
     
     if metric_name == 'degree':
-        positive = train.filter(lambda x: ((x['label']==1) & (x['min_angle']<=metric_value)) )
-        negative = train.filter(lambda x: ((x['label']==0) & (x['min_angle']>metric_value)) )
+        positive = train.filter(lambda x: ((x['label']==1) & (x['min_angle']<=metric_value)))
+        negative = train.filter(lambda x: ((x['label']==0) & (x['min_angle']>metric_value)))
         new_train=concatenate_datasets([positive,negative]).shuffle()
     elif metric_name == 'distance':
         positive = train.filter(lambda x: ((x['label']==1) & (x['euc_dist']>=metric_value)) )
