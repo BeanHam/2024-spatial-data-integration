@@ -57,6 +57,8 @@ MODEL_PATHS = {
     '4o_mini_distance_1': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AsFocGzQ',
     '4o_mini_distance_2': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AsIZS7PJ',
     '4o_mini_distance_3': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AsHyOjiz',
+    '4o_mini_distance_4': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AsdH1Xrx',
+    '4o_mini_distance_5': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AsdOZb2b',    
 }
 
 MODEL_STEPS_PATHS = {
