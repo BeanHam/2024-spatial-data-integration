@@ -49,7 +49,7 @@ def main():
         args.metric_values = [1,2,5,10,20]
     elif args.metric_name == 'distance':
         #args.metric_values = [1,2,3,4,5]
-        args.metric_values = [2,3]
+        args.metric_values = [4,5]
         
     # ----------------------
     # Load Data
