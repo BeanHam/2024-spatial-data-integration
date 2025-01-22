@@ -55,6 +55,8 @@ MODEL_PATHS = {
     'mistral_distance_4': 'beanham/spatial_join_mistral_distance_4',
     'mistral_distance_5': 'beanham/spatial_join_mistral_distance_5',
     '4o_mini_distance_1': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AsFocGzQ',
+    '4o_mini_distance_2': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AsIZS7PJ',
+    '4o_mini_distance_3': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AsHyOjiz',
 }
 
 MODEL_STEPS_PATHS = {
