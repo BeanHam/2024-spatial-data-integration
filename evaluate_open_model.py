@@ -49,7 +49,7 @@ def main():
     
     if args.metric_name == 'degree':
         #args.metric_values = [1,2,5,10,20]
-        args.metric_values = [0.05]
+        args.metric_values = [0.1]
     elif args.metric_name == 'distance':
         args.metric_values = [1,2,3,4,5]
     hf_login()    
