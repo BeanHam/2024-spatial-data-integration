@@ -96,7 +96,7 @@ if __name__ == '__main__':
     ## e.g., 10% train & 90% test
     data=data.train_test_split(train_size=args.proportion, seed=100)
     ## e.g., 80% train & 20% validation
-    data=data['train'].train_test_split(test_size=0.2, seed=100)
+    data=data['train'].train_test_split(test_size=0.1, seed=100)
     train,val = data['train'],data['test']
     train = process_train_data(train, args.metric_name, args.metric_value)
             
