@@ -39,6 +39,10 @@ if __name__ == '__main__':
     parser.add_argument('--metric_name', type=str, default='degree')
     parser.add_argument('--metric_value', type=float, default=1)
     args = parser.parse_args()
+
+    if args.metric_name == 'degree':
+        args.metric_values =[2,3,4,5]
+
     
     args.model_repo = MODEL_REPOS[args.model_id]
     args.output_dir = f"outputs_{args.model_id}/{args.metric_name}/{args.metric_value}/" 
@@ -116,7 +120,7 @@ if __name__ == '__main__':
             per_device_eval_batch_size = 2,
             gradient_accumulation_steps = 4,        
             warmup_ratio =0.03,        
-            num_train_epochs = 5, # Set this for 1 full training run.
+            num_train_epochs = 4, # Set this for 1 full training run.
             max_steps = -1,
             learning_rate = 2e-4,
             fp16 = not is_bfloat16_supported(),
