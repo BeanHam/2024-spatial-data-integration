@@ -6,9 +6,9 @@ import numpy as np
 from utils import *
 from tqdm import tqdm
 from os import path, makedirs
-from datasets import load_dataset
 from unsloth import FastLanguageModel
 from huggingface_hub import login as hf_login
+from datasets import load_dataset,concatenate_datasets
 
 ## formating function
 def formatting_prompts_func(example):
