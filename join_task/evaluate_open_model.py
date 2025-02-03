@@ -64,12 +64,12 @@ def main():
     #---------------------------
     # loop through metric values
     #---------------------------
-    for v in args.metric_values:
+    for metric_value in args.metric_values:
         print('=====================================================')
         print(f'{args.metric_name}: {v}...')        
         print('   -- Getting model and tokenizer...')
-        args.model_path = MODEL_PATHS[f"{args.model_id}_{args.metric_name}_{v}"]
-        args.save_name = f"{args.model_id}_{args.metric_name}_{v}"
+        args.model_path = MODEL_PATHS[f"{args.model_id}_{args.metric_name}_{metric_value}"]
+        args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}"
         model, tokenizer = FastLanguageModel.from_pretrained(
             model_name = args.model_path,
             max_seq_length = args.max_seq_length,
