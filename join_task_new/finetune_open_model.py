@@ -42,8 +42,11 @@ if __name__ == '__main__':
 
     if args.metric_name == 'degree':
         args.metric_values =[2,3,4,5]
+    elif args.metric_name == 'distance':
+        args.metric_values =[1,2,3,4]
+    elif args.metric_name == 'area':
+        args.metric_values =[0.2,0.3,0.4,0.5]
 
-    
     args.model_repo = MODEL_REPOS[args.model_id]
     args.output_dir = f"outputs_{args.model_id}/{args.metric_name}/{args.metric_value}/" 
     args.save_dir = args.output_dir+'/final_model/'
