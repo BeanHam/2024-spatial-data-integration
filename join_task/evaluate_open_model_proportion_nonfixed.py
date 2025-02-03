@@ -70,7 +70,7 @@ def main():
     #---------------------------
     for metric_value in args.metric_values:
         print('=====================================================')
-        print(f'{args.metric_name}: {v}...')        
+        print(f'{args.metric_name}: {metric_value}...')        
         print('   -- Getting model and tokenizer...')
         args.model_path = MODEL_PATHS[f"{args.model_id}_{args.metric_name}_{metric_value}_{args.proportion}"]
         args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}_{args.proportion}"
