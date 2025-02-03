@@ -25,7 +25,6 @@ MODEL_REPOS = {
 }
 
 MODEL_PATHS = {
-    'llama3_degree_1': 'beanham/spatial_join_new_llama3_degree_1',
     'llama3_degree_2': 'beanham/spatial_join_new_llama3_degree_2',
     'llama3_degree_5': 'beanham/spatial_join_new_llama3_degree_5',
     'llama3_degree_10': 'beanham/spatial_join_new_llama3_degree_10',
