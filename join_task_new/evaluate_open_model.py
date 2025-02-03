@@ -48,8 +48,8 @@ def main():
         makedirs(args.save_path)
     
     if args.metric_name == 'degree':
-        #args.metric_values = [1,2,5,10,20]
-        args.metric_values = [0.1]
+        ##args.metric_values = [1,2,5,10,20]
+        args.metric_values = [2]
     elif args.metric_name == 'distance':
         args.metric_values = [1,2,3,4,5]
     hf_login()    
