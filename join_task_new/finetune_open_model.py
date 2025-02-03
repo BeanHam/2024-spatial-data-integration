@@ -42,7 +42,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     if args.metric_name == 'degree':
-        args.metric_values =[2,5,10,20]
+        args.metric_values =[2]#5,10,20]
     elif args.metric_name == 'distance':
         args.metric_values =[1,2,3,4]
     elif args.metric_name == 'area':
@@ -131,7 +131,7 @@ if __name__ == '__main__':
                 per_device_eval_batch_size = 2,
                 gradient_accumulation_steps = 4,        
                 warmup_ratio =0.03,        
-                num_train_epochs = 4, # Set this for 1 full training run.
+                num_train_epochs = 5, # Set this for 1 full training run.
                 max_steps = -1,
                 learning_rate = 2e-4,
                 fp16 = not is_bfloat16_supported(),
@@ -141,14 +141,14 @@ if __name__ == '__main__':
                 evaluation_strategy="steps",
                 logging_steps = 0.2,
                 eval_steps = 0.2,
-                save_steps = 0.2,        
+                save_steps = 0.2,
                 optim = "adamw_8bit",
                 weight_decay = 0.01,
                 lr_scheduler_type = "linear",
                 seed = 3407,
                 output_dir = args.output_dir,
                 report_to = "wandb", # Use this for WandB etc
-                load_best_model_at_end=True,
+                load_best_model_at_end=False#True,
             ),
         )
     
