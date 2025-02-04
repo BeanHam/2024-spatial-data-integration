@@ -76,6 +76,7 @@ def main():
                 return { "text" : text}
                 
             test = data['test'].map(formatting_prompts_func)
+            test = test.select(range(50))
             args.model_repo = MODEL_REPOS[args.model_id]
             args.save_name = f"{args.model_id}_{method}_{mode}"
             model, tokenizer = FastLanguageModel.from_pretrained(
