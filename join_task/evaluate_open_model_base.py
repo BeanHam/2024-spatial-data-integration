@@ -41,7 +41,19 @@ def main():
     methods = ['zero_shot', 'one_shot']
     modes = ['no_exp', 'with_exp']
     hf_login()
-    
+
+    #-----------------------------
+    # load model
+    #-----------------------------
+    args.model_repo = MODEL_REPOS[args.model_id]
+    model, tokenizer = FastLanguageModel.from_pretrained(
+        model_name = args.model_repo,
+        max_seq_length = args.max_seq_length,
+        dtype = None,
+        load_in_4bit = True
+    )
+    FastLanguageModel.for_inference(model)
+
     #-----------------------------
     # loop through methods & modes
     #-----------------------------
@@ -78,23 +90,9 @@ def main():
                 
             test = data['test'].map(formatting_prompts_func)
             test = test.select(range(50))
-            args.model_repo = MODEL_REPOS[args.model_id]
             args.save_name = f"{args.model_id}_{method}_{mode}"
-            model, tokenizer = FastLanguageModel.from_pretrained(
-                model_name = args.model_repo,
-                max_seq_length = args.max_seq_length,
-                dtype = None,
-                load_in_4bit = True
-            )
-            FastLanguageModel.for_inference(model)
             outputs=evaluate(model, tokenizer, test)
             np.save(args.save_path+args.save_name+".npy", outputs)
-        
-            ## clear memory for next metric value
-            model.cpu()
-            del model
-            gc.collect()
-            torch.cuda.empty_cache()
         
 if __name__ == "__main__":
     main()
