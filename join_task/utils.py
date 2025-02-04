@@ -19,9 +19,11 @@ You are a helpful geospatial analysis assistant! I will provide you with a pair 
 MODEL_REPOS = {
     'mistral': 'mistralai/Mistral-7B-Instruct-v0.3',
     'llama3': 'meta-llama/Llama-3.1-8B-Instruct',
-    'phi': 'microsoft/Phi-3.5-mini-instruct',
     'qwen': 'Qwen/Qwen2.5-7B-Instruct',
-    'gpt-4o-mini-2024-07-18': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AUloL5Yu'
+    '4o_mini': 'gpt-4o-mini-2024-07-18',
+    'o1_mini': 'o1-mini-2024-09-12',
+    'o3_mini': 'o3-mini-2025-01-31',
+    '4o': 'gpt-4o-2024-08-06',
 }
 
 MODEL_PATHS = {
