@@ -14,9 +14,10 @@ from huggingface_hub import login as hf_login
 def evaluate(model, tokenizer, data):
     outputs=[]
     for text in tqdm(data['text']):
+        start_decode = len(tokenizer.encode(text, truncation=True, max_length=2048))        
         inputs = tokenizer(text, return_tensors = "pt").to("cuda")
         response = model.generate(**inputs, max_new_tokens = 10)
-        response = tokenizer.decode(response[0])#.split('Response')[1]
+        response = tokenizer.decode(response[0][start_decode:])
         outputs.append(response)
     return outputs
 
@@ -90,18 +91,6 @@ def main():
             test = data['test'].map(formatting_prompts_func)
             args.save_name = f"{args.model_id}_{method}_{mode}"
             outputs=evaluate(model, tokenizer, test)
-
-            ## post processing
-            if method=='zero_shot':
-                if mode=='no_exp':
-                    outputs = np.array([int(float(i.split('Response')[1].split('\n')[1])) for i in outputs])
-                else:
-                    outputs = np.array([int(float(i.split('Response')[1].split('\n')[1])) for i in outputs])
-            else:
-                if mode=='no_exp':
-                    outputs = np.array([int(float(i.split('### Response')[1].split('}')[0].replace('{','').replace(':','').strip())) for i in outputs])
-                else:
-                    outputs = np.array([int(float(i.split('### Response')[1].split('}')[0].replace('{','').replace(':','').strip())) for i in outputs])
             np.save(args.save_path+args.save_name+".npy", outputs)
         
 if __name__ == "__main__":
