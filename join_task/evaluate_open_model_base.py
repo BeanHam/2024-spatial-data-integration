@@ -38,7 +38,7 @@ def main():
     if not path.exists(args.save_path):
         makedirs(args.save_path)    
     data = load_dataset(args.dataset)
-    methods = ['zero_shot', 'one_shot']
+    methods = ['zero_shot', 'few_shot']
     modes = ['no_exp', 'with_exp']
     hf_login()
 
