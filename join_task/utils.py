@@ -74,3 +74,76 @@ MODEL_STEPS_PATHS = {
     'mistral_degree_step_4': 'outputs_mistral/degree/10/checkpoint-3016',
     'mistral_degree_step_5': 'outputs_mistral/degree/10/checkpoint-3770',
 }
+
+## ============================
+## base evaluation -- zero shot
+## ============================
+zero_shot_alpaca_prompt = """### Instruction:
+{}
+
+### Input:
+{}
+
+### Response:
+{}"""
+
+## ============================
+## base evaluation -- few shot
+## ============================
+few_shot_alpaca_prompt = """### Instruction:
+{}
+
+### First Exmaple:
+{}
+
+### Second Exmaple:
+{}
+
+### Input:
+{}
+
+### Response:
+{}"""
+
+example_one_no_exp="""Sidewalk: {'coordinates': [[-122.15646960000001, 47.58741259999999], [-122.1562564, 47.58744089999999]], 'type': 'LineString'}
+Road: {'coordinates': [[-122.1563888, 47.5874271], [-122.1563897, 47.5874341], [-122.1564949, 47.5890663], [-122.1564975, 47.5890982]], 'type': 'LineString'}
+Response: {0}"""
+
+example_one_with_exp="""Sidewalk: {'coordinates': [[-122.15646960000001, 47.58741259999999], [-122.1562564, 47.58744089999999]], 'type': 'LineString'}
+Road: {'coordinates': [[-122.1563888, 47.5874271], [-122.1563897, 47.5874341], [-122.1564949, 47.5890663], [-122.1564975, 47.5890982]], 'type': 'LineString'}
+min_angle: 86.12658269425465
+min_distance: 0.6112785794641761
+Response: {0}"""
+
+example_two_no_exp="""Sidewalk: {'coordinates': [[-122.13341579999998, 47.54698270000001], [-122.1334011, 47.5468383]], 'type': 'LineString'}
+Road: {'coordinates': [[-122.1328993, 47.5458957], [-122.1329478, 47.5460104], [-122.1330183, 47.5461317], [-122.1330885, 47.5462402], [-122.1333795, 47.5466214], [-122.1334411, 47.5467369], [-122.1334757, 47.5468199], [-122.1335148, 47.5469582]], 'type': 'LineString'}
+Response: {1}"""
+
+example_two_with_exp="""Sidewalk: {'coordinates': [[-122.13341579999998, 47.54698270000001], [-122.1334011, 47.5468383]], 'type': 'LineString'}
+Road: {'coordinates': [[-122.1328993, 47.5458957], [-122.1329478, 47.5460104], [-122.1330183, 47.5461317], [-122.1330885, 47.5462402], [-122.1333795, 47.5466214], [-122.1334411, 47.5467369], [-122.1334757, 47.5468199], [-122.1335148, 47.5469582]], 'type': 'LineString'}
+min_angle: 9.973873687169487
+min_distance: 8.72605420848234
+Response: {1}"""
+
+## ===============================
+## base evaluation -- instructions
+## ===============================
+instruction_no_exp="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) GeoJSON. Your task is to determine whether the sidewalk runs alongside the road by evaluating the following conditions:
+
+1. Adjacency: The sidewalk and road should be in close proximity, meaning they are near each other but do not overlap or intersect.
+2. Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations.
+
+If both conditions are satisfied, return 1. Otherwise, return 0."""
+
+
+instruction_with_exp="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) GeoJSON, along with two key statistics:
+
+1. min_angle: The minimum angle (in degrees) between the sidewalk and the road.
+2. min_distance: The minimum distance between the sidewalk and the road.
+
+Your task is to determine whether the sidewalk runs alongside the road by evaluating the following conditions:
+
+1. Adjacency: The sidewalk and road should be in close proximity, meaning they are near each other but do not overlap or intersect. The min_distance value helps quantify this proximity.
+2. Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations. The min_angle value provides a measure of this alignment.
+
+If both conditions are satisfied, return 1. Otherwise, return 0."""
