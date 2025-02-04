@@ -31,7 +31,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_id', type=str, default='llama3')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
-    parser.add_argument('--max_seq_length', type=int, default=2048)
+    parser.add_argument('--max_seq_length', type=int, default=4096)
     parser.add_argument('--device', type=str, default='auto')
     args = parser.parse_args()
     args.save_path=f'inference_results/base/{args.model_id}/'
