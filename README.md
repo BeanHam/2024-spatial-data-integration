@@ -1,4 +1,4 @@
-# 2024-spatial-join
+# 2024-spatial-data-management
 
 To setup the environment:
 ```
