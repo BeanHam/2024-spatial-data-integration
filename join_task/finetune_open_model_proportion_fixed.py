@@ -1,5 +1,6 @@
 import wandb
 import argparse
+import numpy as np
 
 from utils import *
 from trl import SFTTrainer
@@ -39,11 +40,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     args.model_repo = MODEL_REPOS[args.model_id]
-    args.output_dir = f"outputs_{args.model_id}/{args.metric_name}/{args.metric_value}/nonfixed_{args.proportion}" 
-    args.save_dir = args.output_dir+'/final_model/'
+    args.output_dir = f"outputs_{args.model_id}/{args.metric_name}/{args.metric_value}/fixed_{args.proportion}" 
+    args.save_dir = args.output_dir+'/final_model/'    
     args.project_name = "spatial-join"
-    args.wandb_name = f"unsloth_{args.model_id}_{args.metric_name}_{args.metric_value}_nonfixed_{args.proportion}"
-    args.hf_name = f"spatial_join_{args.model_id}_{args.metric_name}_{args.metric_value}_nonfixed_{args.proportion}"
+    args.wandb_name = f"unsloth_{args.model_id}_{args.metric_name}_{args.metric_value}_fixed_{args.proportion}"
+    args.hf_name = f"spatial_join_{args.model_id}_{args.metric_name}_{args.metric_value}_fixed_{args.proportion}"        
     if not path.exists(args.output_dir):
         makedirs(args.output_dir)
     if not path.exists(args.save_dir):
@@ -87,18 +88,19 @@ if __name__ == '__main__':
         input       = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
         output      = "Label: "+str(example['label'])
         text = alpaca_prompt.format(instruction, input, output) + EOS_TOKEN
-        return { "text" : text, }
+        return { "text" : text, }    
     
     EOS_TOKEN = tokenizer.eos_token # Must add EOS_TOKEN
     data = load_dataset(args.dataset)
-    data = data.map(formatting_prompts_func)    
-    data = concatenate_datasets([data['train'], data['val'], data['test']])
-    ## e.g., 10% train & 90% test
-    data=data.train_test_split(train_size=args.proportion, seed=100)
-    ## e.g., 80% train & 20% validation
-    data=data['train'].train_test_split(test_size=0.1, seed=100)
-    train,val = data['train'],data['test']
+    data = data.map(formatting_prompts_func)
+    train = data['train']
+    
+    ## random sample; e.g., 10% as train
+    np.random.seed(100)
+    subindex=np.random.randint(0,len(train),int(args.proportion*len(train)))
+    train = train.select(subindex)
     train = process_train_data(train, args.metric_name, args.metric_value)
+    val = data['val']
             
     # -----------------------
     # Set Training Parameters

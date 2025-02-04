@@ -49,7 +49,6 @@ def main():
         makedirs(args.save_path)
     
     if args.metric_name == 'degree':
-        #args.metric_values = [1,2,5,10,20]
         args.metric_values = [5]
     elif args.metric_name == 'distance':
         args.metric_values = [1,2,3,4,5]
@@ -72,8 +71,8 @@ def main():
         print('=====================================================')
         print(f'{args.metric_name}: {metric_value}...')        
         print('   -- Getting model and tokenizer...')
-        args.model_path = MODEL_PATHS[f"{args.model_id}_{args.metric_name}_{metric_value}_{args.proportion}"]
-        args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}_{args.proportion}"
+        args.model_path = MODEL_PATHS[f"{args.model_id}_{args.metric_name}_{metric_value}_nonfixed_{args.proportion}"]
+        args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}_nonfixed_{args.proportion}"
         model, tokenizer = FastLanguageModel.from_pretrained(
             model_name = args.model_path,
             max_seq_length = args.max_seq_length,
