@@ -62,7 +62,6 @@ def main():
             print('=================================')
             print(f'Method: {method}...')
             print(f'Mode: {mode}...')
-            print('=================================')
             
             def formatting_prompts_func(example):
                 output = ""                
