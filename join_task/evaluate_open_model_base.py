@@ -88,7 +88,7 @@ def main():
                 return { "text" : text}
                 
             test = data['test'].map(formatting_prompts_func)
-            test = test.select(range(50))
+            test = test.select(range(20))
             args.save_name = f"{args.model_id}_{method}_{mode}"
             outputs=evaluate(model, tokenizer, test)
             np.save(args.save_path+args.save_name+".npy", outputs)
