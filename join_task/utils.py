@@ -133,7 +133,7 @@ instruction_no_exp="""You are a helpful geospatial analysis assistant. I will pr
 1. Adjacency: The sidewalk and road should be in close proximity, meaning they are near each other but do not overlap or intersect.
 2. Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations.
 
-If both conditions are satisfied, return 1. Otherwise, return 0."""
+If both conditions are satisfied, return 1. Otherwise, return 0. No reasoning or explaination is needed. """
 
 
 instruction_with_exp="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) GeoJSON, along with two key statistics:
@@ -146,4 +146,4 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 1. Adjacency: The sidewalk and road should be in close proximity, meaning they are near each other but do not overlap or intersect. The min_distance value helps quantify this proximity.
 2. Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations. The min_angle value provides a measure of this alignment.
 
-If both conditions are satisfied, return 1. Otherwise, return 0."""
+If both conditions are satisfied, return 1. Otherwise, return 0. No reasoning or explaination is needed."""
