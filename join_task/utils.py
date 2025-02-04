@@ -80,25 +80,7 @@ MODEL_STEPS_PATHS = {
 ## ============================
 ## base evaluation -- zero shot
 ## ============================
-zero_shot_alpaca_prompt = """### Instruction:
-{}
-
-### Input:
-{}
-
-### Response:
-{}"""
-
-## ============================
-## base evaluation -- few shot
-## ============================
-few_shot_alpaca_prompt = """### Instruction:
-{}
-
-### First Exmaple:
-{}
-
-### Second Exmaple:
+base_alpaca_prompt = """### Instruction:
 {}
 
 ### Input:
@@ -110,21 +92,33 @@ few_shot_alpaca_prompt = """### Instruction:
 ## ===============================
 ## base evaluation -- examples
 ## ===============================
-example_one_no_exp="""Sidewalk: {'coordinates': [[-122.15646960000001, 47.58741259999999], [-122.1562564, 47.58744089999999]], 'type': 'LineString'}
+example_one_no_exp="""
+
+### First Exmaple:
+Sidewalk: {'coordinates': [[-122.15646960000001, 47.58741259999999], [-122.1562564, 47.58744089999999]], 'type': 'LineString'}
 Road: {'coordinates': [[-122.1563888, 47.5874271], [-122.1563897, 47.5874341], [-122.1564949, 47.5890663], [-122.1564975, 47.5890982]], 'type': 'LineString'}
 Response: {0}"""
 
-example_one_with_exp="""Sidewalk: {'coordinates': [[-122.15646960000001, 47.58741259999999], [-122.1562564, 47.58744089999999]], 'type': 'LineString'}
+example_one_with_exp="""
+
+### First Exmaple:
+Sidewalk: {'coordinates': [[-122.15646960000001, 47.58741259999999], [-122.1562564, 47.58744089999999]], 'type': 'LineString'}
 Road: {'coordinates': [[-122.1563888, 47.5874271], [-122.1563897, 47.5874341], [-122.1564949, 47.5890663], [-122.1564975, 47.5890982]], 'type': 'LineString'}
 min_angle: 86.12658269425465
 min_distance: 0.6112785794641761
 Response: {0}"""
 
-example_two_no_exp="""Sidewalk: {'coordinates': [[-122.13341579999998, 47.54698270000001], [-122.1334011, 47.5468383]], 'type': 'LineString'}
+example_two_no_exp="""
+
+### Second Exmaple:
+Sidewalk: {'coordinates': [[-122.13341579999998, 47.54698270000001], [-122.1334011, 47.5468383]], 'type': 'LineString'}
 Road: {'coordinates': [[-122.1328993, 47.5458957], [-122.1329478, 47.5460104], [-122.1330183, 47.5461317], [-122.1330885, 47.5462402], [-122.1333795, 47.5466214], [-122.1334411, 47.5467369], [-122.1334757, 47.5468199], [-122.1335148, 47.5469582]], 'type': 'LineString'}
 Response: {1}"""
 
-example_two_with_exp="""Sidewalk: {'coordinates': [[-122.13341579999998, 47.54698270000001], [-122.1334011, 47.5468383]], 'type': 'LineString'}
+example_two_with_exp="""
+
+### Second Exmaple:
+Sidewalk: {'coordinates': [[-122.13341579999998, 47.54698270000001], [-122.1334011, 47.5468383]], 'type': 'LineString'}
 Road: {'coordinates': [[-122.1328993, 47.5458957], [-122.1329478, 47.5460104], [-122.1330183, 47.5461317], [-122.1330885, 47.5462402], [-122.1333795, 47.5466214], [-122.1334411, 47.5467369], [-122.1334757, 47.5468199], [-122.1335148, 47.5469582]], 'type': 'LineString'}
 min_angle: 9.973873687169487
 min_distance: 8.72605420848234
