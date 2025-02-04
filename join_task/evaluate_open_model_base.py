@@ -48,8 +48,8 @@ def main():
     for method in methods:
         for mode in modes:
             print('============================')
-            print(f'Method: {method}'...)
-            print(f'Mode: {no_exp}'...)
+            print(f'Method: {method}...')
+            print(f'Mode: {no_exp}...')
             
             def formatting_prompts_func(example):
                 output = ""                
