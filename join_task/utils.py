@@ -105,6 +105,9 @@ few_shot_alpaca_prompt = """### Instruction:
 ### Response:
 {}"""
 
+## ===============================
+## base evaluation -- examples
+## ===============================
 example_one_no_exp="""Sidewalk: {'coordinates': [[-122.15646960000001, 47.58741259999999], [-122.1562564, 47.58744089999999]], 'type': 'LineString'}
 Road: {'coordinates': [[-122.1563888, 47.5874271], [-122.1563897, 47.5874341], [-122.1564949, 47.5890663], [-122.1564975, 47.5890982]], 'type': 'LineString'}
 Response: {0}"""
