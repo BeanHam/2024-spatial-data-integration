@@ -6,9 +6,9 @@ import numpy as np
 from utils import *
 from tqdm import tqdm
 from os import path, makedirs
+from datasets import load_dataset
 from unsloth import FastLanguageModel
 from huggingface_hub import login as hf_login
-from datasets import load_dataset,concatenate_datasets
 
 ## formating function
 def formatting_prompts_func(example):
@@ -55,12 +55,9 @@ def main():
     # ----------------------
     # Load & Process Data
     # ----------------------
-    print('Downloading and preparing data...')    
+    print('Downloading and preparing data...')
     data = load_dataset(args.dataset)
-    data = data.map(formatting_prompts_func)
-    data = concatenate_datasets([data['train'], data['val'], data['test']])
-    data=data.train_test_split(train_size=args.proportion, seed=100)
-    test = data['test']    
+    test = data['test'].map(formatting_prompts_func)
     
     #---------------------------
     # loop through metric values
@@ -69,8 +66,8 @@ def main():
         print('=====================================================')
         print(f'{args.metric_name}: {metric_value}...')        
         print('   -- Getting model and tokenizer...')
-        args.model_path = MODEL_PATHS[f"{args.model_id}_{args.metric_name}_{metric_value}_nonfixed_{args.proportion}"]
-        args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}_nonfixed_{args.proportion}"
+        args.model_path = MODEL_PATHS[f"{args.model_id}_{args.metric_name}_{metric_value}_fixed_{args.proportion}"]
+        args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}_fixed_{args.proportion}"
         model, tokenizer = FastLanguageModel.from_pretrained(
             model_name = args.model_path,
             max_seq_length = args.max_seq_length,
