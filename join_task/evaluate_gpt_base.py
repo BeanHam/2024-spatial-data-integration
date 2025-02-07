@@ -7,10 +7,10 @@ from openai import OpenAI
 from os import path, makedirs
 from datasets import load_dataset
 
-def evaluate_gpt(data, client, model):
+def evaluate_gpt_4o_series(data, client, model):
     
     model_outputs = []            
-    for i in tqdm(range(len(data))):        
+    for i in tqdm(range(len(data))):
         response = client.chat.completions.create(
             model=model,
             messages=[
@@ -18,6 +18,20 @@ def evaluate_gpt(data, client, model):
             ],
             temperature=0,
             max_tokens=10,
+            top_p=1
+        )
+        model_outputs.append(response.choices[0].message.content)
+    return model_outputs
+
+def evaluate_gpt_o1_o3(data, client, model):
+    
+    model_outputs = []            
+    for i in tqdm(range(len(data))):
+        response = client.chat.completions.create(
+            model=model,
+            messages=[
+                {"role": "user", "content": data['text'][i]},
+            ],
             top_p=1
         )
         model_outputs.append(response.choices[0].message.content)
@@ -80,7 +94,10 @@ def main():
                 return { "text" : text}
             
             test = data['test'].map(formatting_prompts_func).select(range(10))
-            outputs = evaluate_gpt(test, client, args.model_repo)
+            if '4o' in args.model_repo:
+                outputs = evaluate_gpt_4o_series(test, client, args.model_repo)
+            else:
+                outputs = evaluate_gpt_o1_o3(test, client, args.model_repo)
             args.save_name = f"{args.model_id}_{method}_{mode}"
             np.save(args.save_path+args.save_name+".npy", outputs)
 
