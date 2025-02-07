@@ -79,7 +79,7 @@ def main():
                         text = base_alpaca_prompt.format(instruction_with_exp+example_one_with_exp+example_two_with_exp, input, output)
                 return { "text" : text}
             
-            test = data['test'].map(formatting_prompts_func)
+            test = data['test'].map(formatting_prompts_func).select(range(10))
             outputs = evaluate_gpt(test, client, args.model_repo)
             args.save_name = f"{args.model_id}_{method}_{mode}"
             np.save(args.save_path+args.save_name+".npy", outputs)
