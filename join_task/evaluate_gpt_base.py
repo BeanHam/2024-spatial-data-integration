@@ -93,7 +93,7 @@ def main():
                         text = base_alpaca_prompt.format(instruction_with_exp+example_one_with_exp+example_two_with_exp, input, output)
                 return { "text" : text}
             
-            test = data['test'].map(formatting_prompts_func).select(range(10))
+            test = data['test'].map(formatting_prompts_func)
             if '4o' in args.model_repo:
                 outputs = evaluate_gpt_4o_series(test, client, args.model_repo)
             else:
