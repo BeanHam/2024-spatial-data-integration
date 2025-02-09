@@ -1,4 +1,5 @@
 import wandb
+import evaluate
 import argparse
 
 from utils import *
