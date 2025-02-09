@@ -40,7 +40,7 @@ if __name__ == '__main__':
     args.save_dir = args.output_dir+'/final_model/'
     args.project_name = "spatial-join"
     args.wandb_name = f"{args.model_id}_{args.metric_name}_{args.metric_value}"
-    args.hf_name = f"spatial_join_{args.model_id}_{args.metric_name}_{args.metric_value}"        
+    args.hf_name = f"spatial_join_{args.model_id}_{args.metric_name}_{args.metric_value}"         
     if not path.exists(args.output_dir):
         makedirs(args.output_dir)
     if not path.exists(args.save_dir):
@@ -76,16 +76,13 @@ if __name__ == '__main__':
                                                                num_labels=2, 
                                                                torch_dtype="auto")
     training_args = TrainingArguments(
-            num_train_epochs = 5,
-            logging_strategy="epoch",
-            save_strategy="epoch",
-            evaluation_strategy="epoch",
-            seed = 3407,
-            output_dir = args.output_dir,
-            report_to = "wandb",
-            load_best_model_at_end=True,
-        ),
-    
+        num_train_epochs = 5,
+        logging_strategy="epoch",
+        save_strategy="epoch",
+        evaluation_strategy="epoch",
+        output_dir = args.output_dir,
+        load_best_model_at_end=True,
+    )    
     trainer = Trainer(
         model=model,
         args=training_args,
