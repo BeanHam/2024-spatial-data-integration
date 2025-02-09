@@ -80,6 +80,7 @@ if __name__ == '__main__':
         logging_strategy="epoch",
         save_strategy="epoch",
         evaluation_strategy="epoch",
+        seed = 3407,
         output_dir = args.output_dir,
         load_best_model_at_end=True,
     )    
