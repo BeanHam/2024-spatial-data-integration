@@ -65,8 +65,8 @@ if __name__ == '__main__':
     data = load_dataset(args.dataset)
     data = data.map(formatting_prompts_func)
     tokenized_data = data.map(tokenize_function, batched=True)
-    train = process_train_data(data['train'], args.metric_name, args.metric_value)
-    val = data['val']
+    train = process_train_data(tokenized_data['train'], args.metric_name, args.metric_value)
+    val = tokenized_data['val']
     
     # ----------------------
     # Load Model & Trainer
