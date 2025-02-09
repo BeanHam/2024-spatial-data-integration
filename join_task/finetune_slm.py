@@ -1,6 +1,7 @@
 import wandb
 import evaluate
 import argparse
+import numpy as np
 
 from utils import *
 from os import path, makedirs
