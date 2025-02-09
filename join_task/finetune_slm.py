@@ -37,7 +37,7 @@ if __name__ == '__main__':
     args.model_repo = MODEL_REPOS[args.model_id]
     args.output_dir = f"outputs_{args.model_id}/{args.metric_name}/{args.metric_value}/" 
     args.save_dir = args.output_dir+'/final_model/'
-    rgs.project_name = "spatial-join"
+    args.project_name = "spatial-join"
     args.wandb_name = f"{args.model_id}_{args.metric_name}_{args.metric_value}"
     args.hf_name = f"spatial_join_{args.model_id}_{args.metric_name}_{args.metric_value}"        
     if not path.exists(args.output_dir):
