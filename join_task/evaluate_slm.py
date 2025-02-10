@@ -61,7 +61,7 @@ def main():
         print('   -- Getting model and tokenizer...')
         args.model_path = MODEL_PATHS[f"{args.model_id}_{args.metric_name}_{metric_value}"]
         args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}"
-        classifier = pipeline("text-classification", model=args.model_path, tokenizer=args.model_repo)
+        classifier = pipeline("text-classification", model=args.model_path, tokenizer=args.model_repo, device=0)
         tokenizer_kwargs = {'padding':'max_length','truncation':True,'max_length':512}
         outputs=evaluate(classifier, tokenizer_kwargs, test)
         np.save(args.save_path+args.save_name+".npy", outputs)
