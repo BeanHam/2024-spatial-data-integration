@@ -58,8 +58,7 @@ def main():
     client = OpenAI(api_key=args.key)
     data = load_dataset(args.dataset)
     methods = ['zero_shot', 'few_shot']
-    #modes = ['no_exp', 'with_exp']
-    modes = ['with_exp']
+    modes = ['no_exp', 'with_exp']
 
     #-----------------------------
     # loop through methods & modes
