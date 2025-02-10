@@ -7,24 +7,18 @@ from utils import *
 from tqdm import tqdm
 from os import path, makedirs
 from datasets import load_dataset
-from unsloth import FastLanguageModel
-from huggingface_hub import login as hf_login
+from transformers import pipeline
 
 ## formating function
 def formatting_prompts_func(example):
-    input       = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
-    output      = ""
-    text = alpaca_prompt.format(instruction, input, output)
-    return { "text" : text}  
-
+    return { "text" : "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])}
+        
 ## evaluation function
-def evaluate(model, tokenizer, data):
+def evaluate(classifier, tokenizer_kwargs, data):
     outputs=[]
     for text in tqdm(data['text']):
-        inputs = tokenizer(text, return_tensors = "pt").to("cuda")
-        response = model.generate(**inputs, max_new_tokens = 10)
-        response = tokenizer.decode(response[0]).split('Response')[1]
-        outputs.append(response)
+        response=classifier(text, **tokenizer_kwargs)
+        outputs.append(int(response[0]['label'].split('_')[1]))
     return outputs
 
 #-----------------------
@@ -33,28 +27,28 @@ def evaluate(model, tokenizer, data):
 def main():
     
     #-------------------
-    # Parameters
-    #-------------------    
+    # parameters
+    #-------------------
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model_id', type=str, default='llama3')
+    parser.add_argument('--model_id', type=str, default='bert')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
-    parser.add_argument('--max_seq_length', type=int, default=2048)
+    parser.add_argument('--max_seq_length', type=int, default=512)
     parser.add_argument('--device', type=str, default='auto')
     parser.add_argument('--metric_name', type=str, default='degree')
-    args = parser.parse_args()
+    args = parser.parse_args(args=[])
     
+    args.model_repo = MODEL_REPOS[args.model_id]
     args.save_path=f'inference_results/{args.metric_name}/'
     if not path.exists(args.save_path):
-        makedirs(args.save_path)    
+        makedirs(args.save_path)
     if args.metric_name == 'degree':
-        args.metric_values = [1,2,5,10,20]
+            args.metric_values = [1,2,5,10,20]
     elif args.metric_name == 'distance':
         args.metric_values = [1,2,3,4,5]
-        
-    # ----------------------
-    # Load & Process Data
-    # ----------------------
-    print('Downloading and preparing data...')    
+
+    #-------------------
+    # load dataset
+    #-------------------
     data = load_dataset(args.dataset)
     test = data['test'].map(formatting_prompts_func)
     
@@ -67,19 +61,14 @@ def main():
         print('   -- Getting model and tokenizer...')
         args.model_path = MODEL_PATHS[f"{args.model_id}_{args.metric_name}_{metric_value}"]
         args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}"
-        model, tokenizer = FastLanguageModel.from_pretrained(
-            model_name = args.model_path,
-            max_seq_length = args.max_seq_length,
-            dtype = None,
-            load_in_4bit = True
-        )
-        FastLanguageModel.for_inference(model)
-        outputs=evaluate(model, tokenizer, test)
+        classifier = pipeline("text-classification", model=args.model_path, tokenizer=args.model_repo)
+        tokenizer_kwargs = {'padding':'max_length','truncation':True,'max_length':512}
+        outputs=evaluate(classifier, tokenizer_kwargs, test)
         np.save(args.save_path+args.save_name+".npy", outputs)
         
         ## clear memory for next metric value
-        model.cpu()
-        del model
+        classifier.model.cpu()
+        del classifier
         gc.collect()
         torch.cuda.empty_cache()
         

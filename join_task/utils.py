@@ -36,6 +36,11 @@ MODEL_PATHS = {
     '4o_mini_degree_5': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::At1CaAjK',
     '4o_mini_degree_10': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::ApoepRH8',
     '4o_mini_degree_20': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AuRjRqQg',
+    'bert_degree_1': 'beanham/spatial_join_bert_degree_1',
+    'bert_degree_2': 'beanham/spatial_join_bert_degree_2',
+    'bert_degree_5': 'beanham/spatial_join_bert_degree_5',
+    'bert_degree_10': 'beanham/spatial_join_bert_degree_10',
+    'bert_degree_20': 'beanham/spatial_join_bert_degree_20',
     'llama3_distance_1': 'beanham/spatial_join_llama3_distance_1',
     'llama3_distance_2': 'beanham/spatial_join_llama3_distance_2',
     'llama3_distance_3': 'beanham/spatial_join_llama3_distance_3',
@@ -50,7 +55,12 @@ MODEL_PATHS = {
     '4o_mini_distance_2': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AsIZS7PJ',
     '4o_mini_distance_3': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AsHyOjiz',
     '4o_mini_distance_4': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AsdH1Xrx',
-    '4o_mini_distance_5': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AsdOZb2b',    
+    '4o_mini_distance_5': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AsdOZb2b',
+    'bert_distance_1': 'beanham/spatial_join_bert_distance_1',
+    'bert_distance_2': 'beanham/spatial_join_bert_distance_2',
+    'bert_distance_5': 'beanham/spatial_join_bert_distance_5',
+    'bert_distance_10': 'beanham/spatial_join_bert_distance_10',
+    'bert_distance_20': 'beanham/spatial_join_bert_distance_20',
 }
 
 MODEL_STEPS_PATHS = {
