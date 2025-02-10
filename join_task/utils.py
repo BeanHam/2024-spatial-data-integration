@@ -56,9 +56,9 @@ MODEL_PATHS = {
     '4o_mini_distance_5': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AsdOZb2b',
     'bert_distance_1': 'beanham/spatial_join_bert_distance_1',
     'bert_distance_2': 'beanham/spatial_join_bert_distance_2',
+    'bert_distance_3': 'beanham/spatial_join_bert_distance_3',
+    'bert_distance_4': 'beanham/spatial_join_bert_distance_4',
     'bert_distance_5': 'beanham/spatial_join_bert_distance_5',
-    'bert_distance_10': 'beanham/spatial_join_bert_distance_10',
-    'bert_distance_20': 'beanham/spatial_join_bert_distance_20',
 }
 
 MODEL_STEPS_PATHS = {

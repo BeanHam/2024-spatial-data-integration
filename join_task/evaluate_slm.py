@@ -35,16 +35,17 @@ def main():
     parser.add_argument('--max_seq_length', type=int, default=512)
     parser.add_argument('--device', type=str, default='auto')
     parser.add_argument('--metric_name', type=str, default='degree')
-    args = parser.parse_args(args=[])
+    args = parser.parse_args()
     
     args.model_repo = MODEL_REPOS[args.model_id]
     args.save_path=f'inference_results/{args.metric_name}/'
     if not path.exists(args.save_path):
         makedirs(args.save_path)
     if args.metric_name == 'degree':
-            args.metric_values = [1,2,5,10,20]
+        args.metric_values = [1,2,5,10,20]
     elif args.metric_name == 'distance':
-        args.metric_values = [1,2,3,4,5]
+        #args.metric_values = [1,2,3,4,5]
+        args.metric_values=[3,4,5]
 
     #-------------------
     # load dataset
@@ -57,7 +58,7 @@ def main():
     #---------------------------
     for metric_value in args.metric_values:
         print('=====================================================')
-        print(f'{args.metric_name}: {metric_value}...')        
+        print(f'{args.metric_name}: {metric_value}...')
         print('   -- Getting model and tokenizer...')
         args.model_path = MODEL_PATHS[f"{args.model_id}_{args.metric_name}_{metric_value}"]
         args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}"
