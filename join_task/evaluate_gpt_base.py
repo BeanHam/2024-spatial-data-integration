@@ -57,8 +57,8 @@ def main():
     args.model_repo = MODEL_REPOS[args.model_id]
     client = OpenAI(api_key=args.key)
     data = load_dataset(args.dataset)
-    methods = ['few_shot']
-    modes = ['no_exp', 'with_exp']
+    methods = ['zero_shot'],#'few_shot' ]
+    modes = ['with_exp']
 
     #-----------------------------
     # loop through methods & modes
