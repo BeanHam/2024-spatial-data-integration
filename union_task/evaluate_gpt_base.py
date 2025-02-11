@@ -47,7 +47,7 @@ def main():
     #-------------------    
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_id', type=str, default='4o_mini')
-    parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
+    parser.add_argument('--dataset', type=str, default='beanham/spatial_union_dataset')
     parser.add_argument('--key', type=str, default='openaikey')
     args = parser.parse_args()
     args.save_path=f'inference_results/base/{args.model_id}/'
@@ -57,8 +57,8 @@ def main():
     args.model_repo = MODEL_REPOS[args.model_id]
     client = OpenAI(api_key=args.key)
     data = load_dataset(args.dataset)
-    methods = ['zero_shot']#,'few_shot' ]
-    modes = ['with_exp']
+    methods = ['zero_shot','few_shot' ]
+    modes = ['no_exp', 'with_exp']
 
     #-----------------------------
     # loop through methods & modes
@@ -79,7 +79,7 @@ def main():
                         input = "Sidewalk: "+str(example['sidewalk'])+\
                                 "\nRoad: "+str(example['road'])+\
                                 "\nmin_angle: "+str(example['min_angle'])+\
-                                "\nmin_distance: "+str(example['euc_dist'])
+                                "\nmax_area: "+str(example['max_area'])
                         text = base_alpaca_prompt.format(instruction_with_exp, input, output)
                 else:
                     if mode=='no_exp':
@@ -89,10 +89,9 @@ def main():
                         input = "Sidewalk: "+str(example['sidewalk'])+\
                                 "\nRoad: "+str(example['road'])+\
                                 "\nmin_angle: "+str(example['min_angle'])+\
-                                "\nmin_distance: "+str(example['euc_dist'])
+                                "\nmax_area: "+str(example['max_area'])
                         text = base_alpaca_prompt.format(instruction_with_exp+example_one_with_exp+example_two_with_exp, input, output)
-                return { "text" : text}
-            
+                return { "text" : text}               
             test = data['test'].map(formatting_prompts_func)
             if '4o' in args.model_repo:
                 outputs = evaluate_gpt_4o_series(test, client, args.model_repo)
