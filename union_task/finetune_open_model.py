@@ -34,7 +34,7 @@ if __name__ == '__main__':
     parser.add_argument('--max_seq_length', type=int, default=2048)
     parser.add_argument('--device', type=str, default='auto')
     parser.add_argument('--metric_name', type=str, default='degree')
-    parser.add_argument('--metric_value', type=float, default=1)
+    parser.add_argument('--metric_value', type=int, default=1)
     args = parser.parse_args()
     
     args.model_repo = MODEL_REPOS[args.model_id]
