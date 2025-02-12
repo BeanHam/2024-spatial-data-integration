@@ -47,7 +47,7 @@ if __name__ == '__main__':
         makedirs(args.formatted_data_dir)
     if args.metric_name == 'degree':
         args.metric_values = [1,2,3,4,5]
-    elif args.metric_name == 'distance':
+    elif args.metric_name == 'area':
         args.metric_values = [0.5,0.6,0.7,0.8,0.9]
     
     # ----------------------
