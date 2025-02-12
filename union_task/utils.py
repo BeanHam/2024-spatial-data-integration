@@ -19,7 +19,7 @@ MODEL_PATHS = {
     'mistral_degree_3': 'beanham/spatial_union_mistral_degree_3',
     'mistral_degree_4': 'beanham/spatial_union_mistral_degree_4',
     'mistral_degree_5': 'beanham/spatial_union_mistral_degree_5', 
-    '4o_mini_degree_1':' ft:gpt-4o-mini-2024-07-18:uw-howe-lab::B0CFV6qQ',
+    '4o_mini_degree_1': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::B0CFV6qQ',
     '4o_mini_degree_2': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::B0D25V3z',
     '4o_mini_degree_3': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::B0CvguXY',
     '4o_mini_degree_4': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::B0D2vh6l',
