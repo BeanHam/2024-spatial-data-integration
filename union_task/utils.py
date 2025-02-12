@@ -29,7 +29,7 @@ MODEL_PATHS = {
     'bert_degree_3': 'beanham/spatial_join_bert_degree_3',
     'bert_degree_4': 'beanham/spatial_join_bert_degree_4',
     'bert_degree_5': 'beanham/spatial_join_bert_degree_5',
-    'llama3_area_0.5': 'beanham/spatial_union_'llama3_area_0.5',
+    'llama3_area_0.5': 'beanham/spatial_union_llama3_area_0.5',
     'llama3_area_0.6': 'beanham/spatial_union_llama3_degree_0.6',
     'llama3_area_0.7': 'beanham/spatial_union_llama3_degree_0.7',
     'llama3_area_0.8': 'beanham/spatial_union_llama3_degree_0.8',
