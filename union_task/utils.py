@@ -9,39 +9,26 @@ MODEL_REPOS = {
 }
 
 MODEL_PATHS = {
-    'llama3_degree_50': 'beanham/spatial_union_llama3_degree_50',
-    'llama3_degree_60': 'beanham/spatial_union_llama3_degree_60',
-    'llama3_degree_70': 'beanham/spatial_union_llama3_degree_70',
-    'llama3_degree_80': 'beanham/spatial_union_llama3_degree_80',
-    'llama3_degree_90': 'beanham/spatial_union_llama3_degree_90',
+    'llama3_degree_1': 'beanham/spatial_union_llama3_degree_1',
+    'llama3_degree_2': 'beanham/spatial_union_llama3_degree_2',
+    'llama3_degree_3': 'beanham/spatial_union_llama3_degree_3',
+    'llama3_degree_4': 'beanham/spatial_union_llama3_degree_4',
+    'llama3_degree_5': 'beanham/spatial_union_llama3_degree_5',
     'mistral_degree_1': 'beanham/spatial_join_mistral_degree_1',
     'mistral_degree_2': 'beanham/spatial_join_mistral_degree_2',
-    'mistral_degree_5': 'beanham/spatial_join_mistral_degree_5',
-    'mistral_degree_10': 'beanham/spatial_join_mistral_degree_10',
-    'mistral_degree_20': 'beanham/spatial_join_mistral_degree_20', 
+    'mistral_degree_3': 'beanham/spatial_join_mistral_degree_3',
+    'mistral_degree_4': 'beanham/spatial_join_mistral_degree_4',
+    'mistral_degree_5': 'beanham/spatial_join_mistral_degree_5', 
     '4o_mini_degree_1':' ft:gpt-4o-mini-2024-07-18:uw-howe-lab::ApLQ6JBH',
     '4o_mini_degree_2': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::At1OE2Tj',
-    '4o_mini_degree_5': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::At1CaAjK',
-    '4o_mini_degree_10': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::ApoepRH8',
-    '4o_mini_degree_20': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AuRjRqQg',
+    '4o_mini_degree_3': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::At1CaAjK',
+    '4o_mini_degree_4': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::ApoepRH8',
+    '4o_mini_degree_5': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AuRjRqQg',
     'bert_degree_1': 'beanham/spatial_join_bert_degree_1',
     'bert_degree_2': 'beanham/spatial_join_bert_degree_2',
-    'bert_degree_5': 'beanham/spatial_join_bert_degree_5',
-    'bert_degree_10': 'beanham/spatial_join_bert_degree_10',
-    'bert_degree_20': 'beanham/spatial_join_bert_degree_20'
-}
-
-MODEL_STEPS_PATHS = {
-    'llama3_degree_step_1': 'outputs_llama3/degree/5/checkpoint-753',
-    'llama3_degree_step_2': 'outputs_llama3/degree/5/checkpoint-1506',
-    'llama3_degree_step_3': 'outputs_llama3/degree/5/checkpoint-2259',
-    'llama3_degree_step_4': 'outputs_llama3/degree/5/checkpoint-3012',
-    'llama3_degree_step_5': 'outputs_llama3/degree/5/checkpoint-3765',
-    'mistral_degree_step_1': 'outputs_mistral/degree/10/checkpoint-754',
-    'mistral_degree_step_2': 'outputs_mistral/degree/10/checkpoint-1508',
-    'mistral_degree_step_3': 'outputs_mistral/degree/10/checkpoint-2262',
-    'mistral_degree_step_4': 'outputs_mistral/degree/10/checkpoint-3016',
-    'mistral_degree_step_5': 'outputs_mistral/degree/10/checkpoint-3770',
+    'bert_degree_3': 'beanham/spatial_join_bert_degree_3',
+    'bert_degree_4': 'beanham/spatial_join_bert_degree_4',
+    'bert_degree_5': 'beanham/spatial_join_bert_degree_5'
 }
 
 ## ============================
