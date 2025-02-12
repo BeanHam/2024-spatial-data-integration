@@ -34,7 +34,7 @@ MODEL_PATHS = {
     'mistral_area_0.7': 'beanham/spatial_union_mistral_area_0.7',
     'mistral_area_0.8': 'beanham/spatial_union_mistral_area_0.8',
     'mistral_area_0.9': 'beanham/spatial_union_mistral_area_0.9', 
-    '4o_mini_area_0.5':' ft:gpt-4o-mini-2024-07-18:uw-howe-lab::B0ExSGxs',
+    '4o_mini_area_0.5': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::B0ExSGxs',
     '4o_mini_area_0.6': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::B0Eo52ak',
     '4o_mini_area_0.7': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::B0Ews1Tx',
     '4o_mini_area_0.8': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::B0Ew8Tso',
