@@ -47,10 +47,9 @@ def main():
     if not path.exists(args.save_path):
         makedirs(args.save_path)    
     if args.metric_name == 'degree':
-        #args.metric_values = [1,2,5,10,20]
-        args.metric_values = [1]
-    elif args.metric_name == 'distance':
         args.metric_values = [1,2,3,4,5]
+    elif args.metric_name == 'area':
+        args.metric_values = [0.5,0.6,0.7,0.8,0.9]
         
     # ----------------------
     # Load & Process Data
