@@ -43,7 +43,6 @@ if __name__ == '__main__':
     parser.add_argument('--formatted_data_dir', type=str, default='formatted_data')
     parser.add_argument('--metric_name', type=str, default='degree')
     args = parser.parse_args()
-    hf_login()    
     if not path.exists(args.formatted_data_dir):
         makedirs(args.formatted_data_dir)
     if args.metric_name == 'degree':
