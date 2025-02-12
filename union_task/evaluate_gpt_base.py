@@ -59,7 +59,9 @@ def main():
     data = load_dataset(args.dataset)
     methods = ['zero_shot','few_shot' ]
     modes = ['no_exp', 'with_exp']
-
+    methods = ['few_shot' ]
+    modes = ['with_exp']
+    
     #-----------------------------
     # loop through methods & modes
     #-----------------------------
