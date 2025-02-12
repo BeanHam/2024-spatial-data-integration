@@ -38,8 +38,7 @@ if __name__ == '__main__':
     parser.add_argument('--metric_name', type=str, default='degree')
     args = parser.parse_args()
     
-    args.model_repo = MODEL_REPOS[args.model_id]    
-    args.save_dir = args.output_dir+'/final_model/'    
+    args.model_repo = MODEL_REPOS[args.model_id]
     args.project_name = "spatial_union"
     if args.metric_name == 'degree':
         #args.metric_values = [1,2,3,4,5]
@@ -56,6 +55,7 @@ if __name__ == '__main__':
         print(f'{args.metric_name}: {metric_value}...')
         args.metric_value=metric_value
         args.output_dir = f"outputs_{args.model_id}/{args.metric_name}/{args.metric_value}/" 
+        args.save_dir = args.output_dir+'/final_model/'
         args.wandb_name = f"unsloth_{args.model_id}_{args.metric_name}_{args.metric_value}"
         args.hf_name = f"spatial_union_{args.model_id}_{args.metric_name}_{args.metric_value}"        
         if not path.exists(args.output_dir):
