@@ -16,9 +16,9 @@ def process_train_data(train, metric_name, metric_value):
         positive = train.filter(lambda x: ((x['label']==1) & (x['min_angle']<=metric_value)))
         negative = train.filter(lambda x: ((x['label']==0) & (x['min_angle']>metric_value)))
         new_train=concatenate_datasets([positive,negative]).shuffle()
-    elif metric_name == 'distance':
-        positive = train.filter(lambda x: ((x['label']==1) & (x['euc_dist']>=metric_value)) )
-        negative = train.filter(lambda x: ((x['label']==0) & (x['euc_dist']<metric_value)) )
+    elif metric_name == 'area':
+        positive = train.filter(lambda x: ((x['label']==1) & (x['max_area']>=metric_value)) )
+        negative = train.filter(lambda x: ((x['label']==0) & (x['max_area']<metric_value)) )
         new_train=concatenate_datasets([positive,negative]).shuffle()
         
     return new_train
@@ -30,7 +30,7 @@ if __name__ == '__main__':
     #-------------------
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_id', type=str, default='llama3')
-    parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
+    parser.add_argument('--dataset', type=str, default='beanham/spatial_union_dataset')
     parser.add_argument('--max_seq_length', type=int, default=2048)
     parser.add_argument('--device', type=str, default='auto')
     parser.add_argument('--metric_name', type=str, default='degree')
@@ -40,9 +40,9 @@ if __name__ == '__main__':
     args.model_repo = MODEL_REPOS[args.model_id]
     args.output_dir = f"outputs_{args.model_id}/{args.metric_name}/{args.metric_value}/" 
     args.save_dir = args.output_dir+'/final_model/'    
-    args.project_name = "spatial-join"
+    args.project_name = "spatial-union"
     args.wandb_name = f"unsloth_{args.model_id}_{args.metric_name}_{args.metric_value}"
-    args.hf_name = f"spatial_join_{args.model_id}_{args.metric_name}_{args.metric_value}"        
+    args.hf_name = f"spatial_union_{args.model_id}_{args.metric_name}_{args.metric_value}"        
     if not path.exists(args.output_dir):
         makedirs(args.output_dir)
     if not path.exists(args.save_dir):
@@ -83,7 +83,7 @@ if __name__ == '__main__':
     # ----------------------
     print('Downloading and preparing data...')    
     def formatting_prompts_func(example):
-        input       = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
+        input       = "Sidewalk 1: "+str(example['sidewalk'])+"\Sidewalk 2: "+str(example['road'])
         output      = "Label: "+str(example['label'])
         text = alpaca_prompt.format(instruction, input, output) + EOS_TOKEN
         return { "text" : text, }    

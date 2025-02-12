@@ -65,25 +65,25 @@ def main():
                 output = ""
                 if method=='zero_shot':                
                     if mode=='no_exp':
-                        input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
+                        input = "Sidewalk 1: "+str(example['sidewalk'])+"\nSidewalk 2: "+str(example['road'])
                         text = base_alpaca_prompt.format(instruction_no_exp, input, output)
                     else:
-                        input = "Sidewalk: "+str(example['sidewalk'])+\
-                                "\nRoad: "+str(example['road'])+\
+                        input = "Sidewalk 1: "+str(example['sidewalk'])+\
+                                "\nSidewalk 2: "+str(example['road'])+\
                                 "\nmin_angle: "+str(example['min_angle'])+\
                                 "\nmax_area: "+str(example['max_area'])
                         text = base_alpaca_prompt.format(instruction_with_exp, input, output)
                 else:
                     if mode=='no_exp':
-                        input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])                        
+                        input = "Sidewalk 1: "+str(example['sidewalk'])+"\nSidewalk 2: "+str(example['road'])                        
                         text = base_alpaca_prompt.format(instruction_no_exp+example_one_no_exp+example_two_no_exp, input, output)
                     else:
-                        input = "Sidewalk: "+str(example['sidewalk'])+\
-                                "\nRoad: "+str(example['road'])+\
+                        input = "Sidewalk 1: "+str(example['sidewalk'])+\
+                                "\nSidewalk 2: "+str(example['road'])+\
                                 "\nmin_angle: "+str(example['min_angle'])+\
                                 "\nmax_area: "+str(example['max_area'])
                         text = base_alpaca_prompt.format(instruction_with_exp+example_one_with_exp+example_two_with_exp, input, output)
-                return { "text" : text}                
+                return { "text" : text}
             test = data['test'].map(formatting_prompts_func)
             args.save_name = f"{args.model_id}_{method}_{mode}"
             outputs=evaluate(model, tokenizer, test)
