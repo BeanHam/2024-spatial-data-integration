@@ -12,10 +12,10 @@ from huggingface_hub import login as hf_login
 
 ## formating function
 def formatting_prompts_func(example):
-    input       = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
+    input       = "Sidewalk 1: "+str(example['sidewalk'])+"\nSidewalk 2: "+str(example['road'])
     output      = ""
     text = alpaca_prompt.format(instruction, input, output)
-    return { "text" : text}  
+    return { "text" : text}
 
 ## evaluation function
 def evaluate(model, tokenizer, data):
@@ -37,7 +37,7 @@ def main():
     #-------------------    
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_id', type=str, default='llama3')
-    parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
+    parser.add_argument('--dataset', type=str, default='beanham/spatial_union_dataset')
     parser.add_argument('--max_seq_length', type=int, default=2048)
     parser.add_argument('--device', type=str, default='auto')
     parser.add_argument('--metric_name', type=str, default='degree')
@@ -47,7 +47,8 @@ def main():
     if not path.exists(args.save_path):
         makedirs(args.save_path)    
     if args.metric_name == 'degree':
-        args.metric_values = [1,2,5,10,20]
+        #args.metric_values = [1,2,5,10,20]
+        args.metric_values = [1]
     elif args.metric_name == 'distance':
         args.metric_values = [1,2,3,4,5]
         

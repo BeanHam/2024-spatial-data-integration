@@ -83,7 +83,7 @@ if __name__ == '__main__':
     # ----------------------
     print('Downloading and preparing data...')    
     def formatting_prompts_func(example):
-        input       = "Sidewalk 1: "+str(example['sidewalk'])+"\Sidewalk 2: "+str(example['road'])
+        input       = "Sidewalk 1: "+str(example['sidewalk'])+"\nSidewalk 2: "+str(example['road'])
         output      = "Label: "+str(example['label'])
         text = alpaca_prompt.format(instruction, input, output) + EOS_TOKEN
         return { "text" : text, }    
