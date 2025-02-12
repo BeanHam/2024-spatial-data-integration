@@ -53,7 +53,7 @@ if __name__ == '__main__':
     # loop through metric values
     #---------------------------
     for metric_value in args.metric_values:
-        
+        print(f'{args.metric_name}: {metric_value}...')
         args.metric_value=metric_value
         args.output_dir = f"outputs_{args.model_id}/{args.metric_name}/{args.metric_value}/" 
         args.wandb_name = f"unsloth_{args.model_id}_{args.metric_name}_{args.metric_value}"
