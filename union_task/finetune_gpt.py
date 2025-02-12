@@ -11,7 +11,7 @@ if __name__ == '__main__':
     parser.add_argument('--formatted_data_dir', type=str, default='formatted_data')
     parser.add_argument('--n_epochs', type=int, default=5)
     parser.add_argument('--metric_name', type=str, default='degree')
-    parser.add_argument('--metric_value', type=int, default=1)    
+    parser.add_argument('--metric_value', type=float, default=1)    
     args = parser.parse_args()
     
     # ----------------------------------
