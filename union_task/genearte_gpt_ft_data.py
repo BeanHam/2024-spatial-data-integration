@@ -29,9 +29,9 @@ def process_train_data(train, metric_name, metric_value):
         positive = train.filter(lambda x: ((x['label']==1) & (x['min_angle']<=metric_value)) )
         negative = train.filter(lambda x: ((x['label']==0) & (x['min_angle']>metric_value)) )
         new_train=concatenate_datasets([positive,negative]).shuffle()
-    elif metric_name == 'distance':
-        positive = train.filter(lambda x: ((x['label']==1) & (x['euc_dist']>=metric_value)) )
-        negative = train.filter(lambda x: ((x['label']==0) & (x['euc_dist']<metric_value)) )
+    elif metric_name == 'area':
+        positive = train.filter(lambda x: ((x['label']==1) & (x['max_area']>=metric_value)) )
+        negative = train.filter(lambda x: ((x['label']==0) & (x['max_area']<metric_value)) )
         new_train=concatenate_datasets([positive,negative]).shuffle()
         
     return new_train
@@ -39,7 +39,7 @@ def process_train_data(train, metric_name, metric_value):
 if __name__ == '__main__':
     
     parser = argparse.ArgumentParser()
-    parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
+    parser.add_argument('--dataset', type=str, default='beanham/spatial_union_dataset')
     parser.add_argument('--formatted_data_dir', type=str, default='formatted_data')
     parser.add_argument('--metric_name', type=str, default='degree')
     args = parser.parse_args()
@@ -47,9 +47,9 @@ if __name__ == '__main__':
     if not path.exists(args.formatted_data_dir):
         makedirs(args.formatted_data_dir)
     if args.metric_name == 'degree':
-        args.metric_values = [1,2,5,10,20]
-    elif args.metric_name == 'distance':
         args.metric_values = [1,2,3,4,5]
+    elif args.metric_name == 'distance':
+        args.metric_values = [0.5,0.6,0.7,0.8,0.9]
     
     # ----------------------
     # Load Data
@@ -65,14 +65,14 @@ if __name__ == '__main__':
         train_formatted = '\n'.join(
             [format_for_finetuning(
                 gpt_instruction,
-                "Sidewalk: "+str(train['sidewalk'][i])+"\nRoad: "+str(train['road'][i]),
+                "Sidewalk 1: "+str(train['sidewalk'][i])+"\nSidewalk 2: "+str(train['road'][i]),
                 "Label: "+str(train['label'][i])
             ) for i in tqdm(range(len(train)))]
         )
         val_formatted = '\n'.join(
             [format_for_finetuning(
                 gpt_instruction,
-                "Sidewalk: "+str(val['sidewalk'][i])+"\nRoad: "+str(val['road'][i]),
+                "Sidewalk 1: "+str(val['sidewalk'][i])+"\nSidewalk 2: "+str(val['road'][i]),
                 "Label: "+str(val['label'][i])
             ) for i in tqdm(range(len(val)))]
         )
