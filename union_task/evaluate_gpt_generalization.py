@@ -62,7 +62,7 @@ def main():
     for metric_value in args.metric_values:
         print('=====================================================')
         print(f'{args.metric_name}: {metric_value}...')
-        args.model_path = MODEL_PATHS[f"{args.model_id}_{args.metric_name}_{metric_value}"]
+        args.model_path = MODEL_GENERALIZATION_PATHS[f"{args.model_id}_{args.metric_name}_{metric_value}"]
         args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}_generalization"
         outputs = evaluate_gpt(test, client, args.model_path)
         np.save(args.save_path+args.save_name+".npy", outputs)
