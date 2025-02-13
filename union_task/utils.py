@@ -41,7 +41,7 @@ MODEL_PATHS = {
     '4o_mini_area_0.9': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::B0FkYrfz',
 }
 
-MODEL_GENEREALIZATION_PATHS = {    
+MODEL_GENERALIZATION_PATHS = {    
     'llama3_degree_1': 'beanham/spatial_join_llama3_degree_1',
     'llama3_degree_2': 'beanham/spatial_join_llama3_degree_2',
     'llama3_degree_5': 'beanham/spatial_join_llama3_degree_5',
