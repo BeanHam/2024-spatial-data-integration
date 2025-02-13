@@ -52,7 +52,7 @@ MODEL_GENERALIZATION_PATHS = {
     'mistral_degree_5': 'beanham/spatial_join_mistral_degree_5',
     'mistral_degree_10': 'beanham/spatial_join_mistral_degree_10',
     'mistral_degree_20': 'beanham/spatial_join_mistral_degree_20', 
-    '4o_mini_degree_1':' ft:gpt-4o-mini-2024-07-18:uw-howe-lab::ApLQ6JBH',
+    '4o_mini_degree_1': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::ApLQ6JBH',
     '4o_mini_degree_2': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::At1OE2Tj',
     '4o_mini_degree_5': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::At1CaAjK',
     '4o_mini_degree_10': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::ApoepRH8',
