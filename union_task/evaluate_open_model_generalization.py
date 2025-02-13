@@ -65,7 +65,7 @@ def main():
         print('=====================================================')
         print(f'{args.metric_name}: {metric_value}...')        
         print('   -- Getting model and tokenizer...')
-        args.model_path = MODEL_GENEREALIZATION_PATHS[f"{args.model_id}_{args.metric_name}_{metric_value}"]
+        args.model_path = MODEL_GENERALIZATION_PATHS[f"{args.model_id}_{args.metric_name}_{metric_value}"]
         args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}_generalization"
         model, tokenizer = FastLanguageModel.from_pretrained(
             model_name = args.model_path,
