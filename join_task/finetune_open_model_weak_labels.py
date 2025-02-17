@@ -9,20 +9,6 @@ from huggingface_hub import login as hf_login
 from datasets import load_dataset,concatenate_datasets
 from unsloth import FastLanguageModel, is_bfloat16_supported
 
-
-def process_train_data(train, metric_name, metric_value):
-    
-    if metric_name == 'degree':
-        positive = train.filter(lambda x: ((x['label']==1) & (x['min_angle']<=metric_value)))
-        negative = train.filter(lambda x: ((x['label']==0) & (x['min_angle']>metric_value)))
-        new_train=concatenate_datasets([positive,negative]).shuffle()
-    elif metric_name == 'distance':
-        positive = train.filter(lambda x: ((x['label']==1) & (x['euc_dist']>=metric_value)) )
-        negative = train.filter(lambda x: ((x['label']==0) & (x['euc_dist']<metric_value)) )
-        new_train=concatenate_datasets([positive,negative]).shuffle()
-        
-    return new_train
-
 if __name__ == '__main__':
             
     #-------------------
@@ -38,11 +24,11 @@ if __name__ == '__main__':
     args = parser.parse_args()
     
     args.model_repo = MODEL_REPOS[args.model_id]
-    args.output_dir = f"outputs_{args.model_id}/{args.metric_name}/{args.metric_value}/" 
-    args.save_dir = args.output_dir+'/final_model/'    
+    args.output_dir = f"outputs_{args.model_id}/{args.metric_name}/{args.metric_value}_weak/" 
+    args.save_dir = args.output_dir+'/final_model/'
     args.project_name = "spatial_join"
-    args.wandb_name = f"unsloth_{args.model_id}_{args.metric_name}_{args.metric_value}"
-    args.hf_name = f"spatial_join_{args.model_id}_{args.metric_name}_{args.metric_value}"        
+    args.wandb_name = f"unsloth_{args.model_id}_{args.metric_name}_{args.metric_value}_weak"
+    args.hf_name = f"spatial_join_{args.model_id}_{args.metric_name}_{args.metric_value}_weak"       
     if not path.exists(args.output_dir):
         makedirs(args.output_dir)
     if not path.exists(args.save_dir):
@@ -81,20 +67,25 @@ if __name__ == '__main__':
     # ----------------------
     # Load & Prepare Data
     # ----------------------
-    print('Downloading and preparing data...')    
+    print('Downloading and preparing data...')
+    def generate_weak_labels(example):    
+        if args.metric_name == 'degree':
+            weak_label=int(example['min_angle']<=args.metric_value)
+        elif args.metric_name == 'distance':
+            weak_label=int(example['euc_dist']>=args.metric_value)        
+        return { "weak_label" : weak_label}
     def formatting_prompts_func(example):
         input       = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
-        output      = "Label: "+str(example['label'])
+        output      = "Label: "+str(example['weak_label'])
         text = alpaca_prompt.format(instruction, input, output) + EOS_TOKEN
         return { "text" : text, }    
     
     EOS_TOKEN = tokenizer.eos_token # Must add EOS_TOKEN
     data = load_dataset(args.dataset)
+    data = data.map(generate_weak_labels)
     data = data.map(formatting_prompts_func)
-    train = data['train']
-    train = process_train_data(train, args.metric_name, args.metric_value)
-    val = data['val']
-            
+    train, val = data['train'], data['val']
+    
     # -----------------------
     # Set Training Parameters
     # -----------------------
