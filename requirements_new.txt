@@ -14,4 +14,3 @@ transformers==4.48.3
 trl==0.15.1
 triton==3.1.0
 wandb==0.19.6
-xformers==1.0.1
