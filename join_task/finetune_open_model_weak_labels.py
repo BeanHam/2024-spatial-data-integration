@@ -7,7 +7,7 @@ from os import path, makedirs
 from transformers import TrainingArguments
 from huggingface_hub import login as hf_login
 from datasets import load_dataset,concatenate_datasets
-from unsloth import FastLanguageModel, is_bfloat16_supported
+from unsloth import FastLanguageModel, is_bfloat16_supported, unsloth_train
 
 if __name__ == '__main__':
             
@@ -129,8 +129,9 @@ if __name__ == '__main__':
     # Fine-tune model
     # -----------------------    
     print('Fine-tuning model...')
-    trainer_stats = trainer.train()
-
+    #trainer_stats = trainer.train()  ## old code, bug
+    trainer_stats = unsloth_train(trainer)
+    
     # -----------------------    
     # Save model to hub
     # -----------------------    
