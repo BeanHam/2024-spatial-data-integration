@@ -2,8 +2,8 @@ import wandb
 import argparse
 
 from utils import *
-from trl import SFTTrainer
 from os import path, makedirs
+from trl import SFTTrainer, SFTConfig
 from transformers import TrainingArguments
 from huggingface_hub import login as hf_login
 from datasets import load_dataset,concatenate_datasets
@@ -85,7 +85,9 @@ if __name__ == '__main__':
     data = data.map(generate_weak_labels)
     data = data.map(formatting_prompts_func)
     train, val = data['train'], data['val']
-    
+    train=train.select(range(50))
+    val=val.select(range(10))
+
     # -----------------------
     # Set Training Parameters
     # -----------------------
@@ -95,11 +97,10 @@ if __name__ == '__main__':
         tokenizer = tokenizer,
         train_dataset = train,
         eval_dataset = val,
-        dataset_text_field = "text",
-        max_seq_length = args.max_seq_length,
-        dataset_num_proc = 2,
-        packing = False, # Can make training 5x faster for short sequences.
-        args = TrainingArguments(
+        args = SFTConfig(            
+            max_seq_length = args.max_seq_length,
+            dataset_num_proc = 2,
+            packing = False, # Can make training 5x faster for short sequences.
             per_device_train_batch_size = 2,
             per_device_eval_batch_size = 2,
             gradient_accumulation_steps = 4,        
@@ -129,10 +130,9 @@ if __name__ == '__main__':
     # Fine-tune model
     # -----------------------    
     print('Fine-tuning model...')
-    #trainer_stats = trainer.train()  ## old code, bug
-    trainer_stats = unsloth_train(trainer)
+    trainer_stats = trainer.train()
     
-    # -----------------------    
+    # -----------------------
     # Save model to hub
     # -----------------------    
     print('Saving model and tokenizer...')
