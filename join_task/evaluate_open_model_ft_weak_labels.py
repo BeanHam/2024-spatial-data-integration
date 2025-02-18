@@ -21,7 +21,7 @@ def formatting_prompts_func(example):
 def evaluate(model, tokenizer, data):
     outputs=[]
     for text in tqdm(data['text']):
-        inputs = tokenizer(text, return_tensors = "pt").to("cuda")
+        inputs = tokenizer(text, return_tensors = "pt", max_length=2048).to("cuda")
         response = model.generate(**inputs, max_new_tokens = 10)
         response = tokenizer.decode(response[0]).split('Response')[1]
         outputs.append(response)
