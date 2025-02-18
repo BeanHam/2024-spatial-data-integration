@@ -1,8 +1,8 @@
 evaluate
 openai
 sentence_transformers==3.4.1
-torch==2.5.1+cu124
-torchvision==0.20.1+cu124
-torchaudio==2.5.1+cu124
+torch==2.5.1
+torchvision==0.20.1
+torchaudio==2.5.1
 transformers==4.48.3
 wandb==0.19.6
