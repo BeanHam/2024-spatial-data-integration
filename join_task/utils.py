@@ -61,6 +61,10 @@ MODEL_PATHS = {
     'bert_distance_5': 'beanham/spatial_join_bert_distance_5',
 }
 
+MODEL_PATHS_WEAK_LABELS = {
+    'llama3_degree_1_weak': 'beanham/spatial_join_llama3_degree_1_weak',
+    'llama3_distance_1_weak': 'beanham/spatial_join_llama3_distance_1_weak',
+}
 MODEL_STEPS_PATHS = {
     'llama3_degree_step_1': 'outputs_llama3/degree/5/checkpoint-753',
     'llama3_degree_step_2': 'outputs_llama3/degree/5/checkpoint-1506',
