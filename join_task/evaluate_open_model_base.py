@@ -1,7 +1,10 @@
 import argparse
 import numpy as np
+
 from utils import *
+from prompts import *
 from tqdm import tqdm
+from itertools import product
 from os import path, makedirs
 from datasets import load_dataset
 from unsloth import FastLanguageModel
@@ -12,7 +15,7 @@ def evaluate(model, tokenizer, data):
     for text in tqdm(data['text']):
         start_decode = len(tokenizer.encode(text, truncation=True, max_length=2048))        
         inputs = tokenizer(text, return_tensors = "pt", max_length=2048).to("cuda")
-        response = model.generate(**inputs, max_new_tokens = 10)
+        response = model.generate(**inputs, max_new_tokens = 10, temperature=0)
         response = tokenizer.decode(response[0][start_decode:])
         outputs.append(response)
     return outputs
@@ -34,9 +37,11 @@ def main():
     args.save_path=f'inference_results/base/{args.model_id}/'
     if not path.exists(args.save_path):
         makedirs(args.save_path)    
-    data = load_dataset(args.dataset)
-    methods = ['zero_shot', 'few_shot']
-    modes = ['no_exp', 'with_exp']
+    data = load_dataset(args.dataset)    
+    methods = ['zero_shot', 'few_shot']    
+    modes = ['no_heur', 'with_heur_hint', 'with_heur_value']
+    heuristics = ['angle', 'distance', 'comb']
+    configs=['_'.join(i) for i in list(product(methods, modes, heuristics))]
 
     #-----------------------------
     # load model
@@ -49,44 +54,33 @@ def main():
         load_in_4bit = True
     )
     FastLanguageModel.for_inference(model)
-
+    
     #-----------------------------
-    # loop through methods & modes
+    # loop through parameters
     #-----------------------------
-    for method in methods:
-        for mode in modes:
-            print('=================================')
-            print(f'Method: {method}...')
-            print(f'Mode: {mode}...')
-            
-            def formatting_prompts_func(example):
-                output = ""
-                if method=='zero_shot':                
-                    if mode=='no_exp':
-                        input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
-                        text = base_alpaca_prompt.format(instruction_no_exp, input, output)
-                    else:
-                        input = "Sidewalk: "+str(example['sidewalk'])+\
-                                "\nRoad: "+str(example['road'])+\
-                                "\nmin_angle: "+str(example['min_angle'])+\
-                                "\nmin_distance: "+str(example['euc_dist'])
-                        text = base_alpaca_prompt.format(instruction_with_exp, input, output)
-                else:
-                    if mode=='no_exp':
-                        input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])                        
-                        text = base_alpaca_prompt.format(instruction_no_exp+example_one_no_exp+example_two_no_exp, input, output)
-                    else:
-                        input = "Sidewalk: "+str(example['sidewalk'])+\
-                                "\nRoad: "+str(example['road'])+\
-                                "\nmin_angle: "+str(example['min_angle'])+\
-                                "\nmin_distance: "+str(example['euc_dist'])
-                        text = base_alpaca_prompt.format(instruction_with_exp+example_one_with_exp+example_two_with_exp, input, output)
-                return { "text" : text}
-                
-            test = data['test'].map(formatting_prompts_func)
-            args.save_name = f"{args.model_id}_{method}_{mode}"
-            outputs=evaluate(model, tokenizer, test)
-            np.save(args.save_path+args.save_name+".npy", outputs)
+    for config in configs:
+        print('=================================')
+        print(f'Config: {config}...')
+        def formatting_prompts_func(example):
+            output = ""
+            if 'value_angle' in config:
+                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
+                        "\nmin_angle: "+str(example['min_angle'])
+            elif 'value_distance' in config:
+                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
+                        "\nmin_distance: "+str(example['euc_dist'])    
+            elif 'value_comb' in config:
+                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
+                        "\nmin_angle: "+str(example['min_angle'])+"\nmin_distance: "+str(example['euc_dist'])        
+            else:
+                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
+            text = base_alpaca_prompt.format(base_instruction, input, output)
+            return { "text" : text}
+        base_instruction=INSTRUCTIONS[config]
+        test = data['test'].select(range(10)).map(formatting_prompts_func)
+        args.save_path = args.save_path+f"{args.model_id}_{config}.npy"
+        outputs=evaluate(model, tokenizer, test)
+        np.save(args.save_path, outputs)
         
 if __name__ == "__main__":
     main()
