@@ -9,21 +9,11 @@ MODEL_REPOS = {
 }
 
 MODEL_PATHS = {
-    'llama3_degree_0.05': 'beanham/spatial_join_llama3_degree_0.05',
-    'llama3_degree_0.1': 'beanham/spatial_join_llama3_degree_0.1',
     'llama3_degree_1': 'beanham/spatial_join_llama3_degree_1',
     'llama3_degree_2': 'beanham/spatial_join_llama3_degree_2',
     'llama3_degree_5': 'beanham/spatial_join_llama3_degree_5',
-    'llama3_degree_5_nonfixed_0.1': 'beanham/spatial_join_llama3_degree_5_nonfixed_0.1',
-    'llama3_degree_5_nonfixed_0.3': 'beanham/spatial_join_llama3_degree_5_nonfixed_0.3',
-    'llama3_degree_5_nonfixed_0.5': 'beanham/spatial_join_llama3_degree_5_nonfixed_0.5',
-    'llama3_degree_5_fixed_0.3': 'beanham/spatial_join_llama3_degree_5_fixed_0.3',
-    'llama3_degree_5_fixed_0.5': 'beanham/spatial_join_llama3_degree_5_fixed_0.5',
-    'llama3_degree_5_fixed_0.7': 'beanham/spatial_join_llama3_degree_5_fixed_0.7',
     'llama3_degree_10': 'beanham/spatial_join_llama3_degree_10',
     'llama3_degree_20': 'beanham/spatial_join_llama3_degree_20',
-    'mistral_degree_0.05': 'beanham/spatial_join_mistral_degree_0.05',
-    'mistral_degree_0.1': 'beanham/spatial_join_mistral_degree_0.1',
     'mistral_degree_1': 'beanham/spatial_join_mistral_degree_1',
     'mistral_degree_2': 'beanham/spatial_join_mistral_degree_2',
     'mistral_degree_5': 'beanham/spatial_join_mistral_degree_5',
