@@ -1,3 +1,4 @@
+import os
 import wandb
 import argparse
 
@@ -8,6 +9,8 @@ from transformers import TrainingArguments
 from huggingface_hub import login as hf_login
 from datasets import load_dataset,concatenate_datasets
 from unsloth import FastLanguageModel, is_bfloat16_supported, unsloth_train
+
+os.environ['UNSLOTH_RETURN_LOGITS'] = '1'
 
 if __name__ == '__main__':
             
