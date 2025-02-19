@@ -88,8 +88,6 @@ if __name__ == '__main__':
     data = data.map(generate_weak_labels)
     data = data.map(formatting_prompts_func)
     train, val = data['train'], data['val']
-    train=train.select(range(20))
-    val=val.select(range(10))
 
     # -----------------------
     # Set Training Parameters
