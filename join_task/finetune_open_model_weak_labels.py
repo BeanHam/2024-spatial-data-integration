@@ -3,6 +3,7 @@ import wandb
 import argparse
 
 from utils import *
+from prompts import *
 from os import path, makedirs
 from trl import SFTTrainer, SFTConfig
 from transformers import TrainingArguments
