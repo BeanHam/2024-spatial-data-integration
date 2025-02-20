@@ -86,9 +86,9 @@ def main():
             return { "text" : text}
         base_instruction=INSTRUCTIONS[config]
         test = data['test'].select(range(10)).map(formatting_prompts_func)
-        args.save_path = args.save_path+f"{args.model_id}_{config}.npy"
+        args.save_name = f"{args.model_id}_{config}.npy"
         outputs=evaluate(model, tokenizer, test)
-        np.save(args.save_path, outputs)
+        np.save(args.save_path+args.save_name, outputs)
         
 if __name__ == "__main__":
     main()
