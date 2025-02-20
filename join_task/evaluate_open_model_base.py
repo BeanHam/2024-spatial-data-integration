@@ -42,7 +42,15 @@ def main():
     modes = ['no_heur', 'with_heur_hint', 'with_heur_value']
     heuristics = ['angle', 'distance', 'comb']
     configs=['_'.join(i) for i in list(product(methods, modes, heuristics))]
-
+    configs.remove('zero_shot_no_heur_angle')
+    configs.remove('zero_shot_no_heur_distance')
+    configs.remove('zero_shot_no_heur_comb')
+    configs.remove('few_shot_no_heur_angle')
+    configs.remove('few_shot_no_heur_distance')
+    configs.remove('few_shot_no_heur_comb')
+    configs.append('zero_shot_no_heur')
+    configs.append('few_shot_no_heur')
+    
     #-----------------------------
     # load model
     #-----------------------------
