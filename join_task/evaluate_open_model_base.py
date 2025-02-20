@@ -85,7 +85,7 @@ def main():
             text = base_alpaca_prompt.format(base_instruction, input, output)
             return { "text" : text}
         base_instruction=INSTRUCTIONS[config]
-        test = data['test'].select(range(10)).map(formatting_prompts_func)
+        test = data['test'].map(formatting_prompts_func)
         args.save_name = f"{args.model_id}_{config}.npy"
         outputs=evaluate(model, tokenizer, test)
         np.save(args.save_path+args.save_name, outputs)
