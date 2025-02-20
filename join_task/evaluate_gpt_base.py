@@ -2,7 +2,9 @@ import argparse
 import numpy as np
 
 from utils import *
+from prompts import *
 from tqdm import tqdm
+from itertools import product
 from openai import OpenAI
 from os import path, makedirs
 from datasets import load_dataset
