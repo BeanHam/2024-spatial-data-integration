@@ -34,7 +34,7 @@ If the condition is satisfied, return 1. Otherwise, return 0. No explaination is
 ## distance
 instruction_heur_hint_distance="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format. Your task is to determine whether the sidewalk runs alongside the road by evaluating the following condition:
 
-- Adjacency: The sidewalk and road should be in close proximity, meaning they are near each other but do not overlap or intersect.
+- Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. 
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explaination is needed. """
 
@@ -42,7 +42,7 @@ If the condition is satisfied, return 1. Otherwise, return 0. No explaination is
 instruction_heur_hint_comb="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format. Your task is to determine whether the sidewalk runs alongside the road by evaluating the following conditions:
 
 - Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations.
-- Adjacency: The sidewalk and road should be in close proximity, meaning they are near each other but do not overlap or intersect.
+- Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. 
 
 If both conditions are satisfied, return 1. Otherwise, return 0. No explaination is needed. """
 
@@ -64,11 +64,11 @@ If the condition is satisfied, return 1. Otherwise, return 0. No explaination is
 ## distance
 instruction_heur_value_distance="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with a key statistics:
 
-- min_distance: The minimum distance between the sidewalk and the road.
+- min_distance: The minimum distance (in meters) between the sidewalk and the road.
 
 Your task is to determine whether the sidewalk runs alongside the road by evaluating the following condition:
 
-- Adjacency: The sidewalk and road should be in close proximity, meaning they are near each other but do not overlap or intersect. The min_distance value helps quantify this proximity.
+- Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. The min_distance value helps quantify this proximity.
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explaination is needed."""
 
@@ -76,12 +76,12 @@ If the condition is satisfied, return 1. Otherwise, return 0. No explaination is
 instruction_heur_value_comb="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with two key statistics:
 
 - min_angle: The minimum angle (in degrees) between the sidewalk and the road.
-- min_distance: The minimum distance between the sidewalk and the road.
+- min_distance: The minimum distance (in meters) between the sidewalk and the road.
 
 Your task is to determine whether the sidewalk runs alongside the road by evaluating the following conditions:
 
 - Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations. The min_angle value provides a measure of this alignment.
-- Adjacency: The sidewalk and road should be in close proximity, meaning they are near each other but do not overlap or intersect. The min_distance value helps quantify this proximity.
+- Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. The min_distance value helps quantify this proximity.
 
 If both conditions are satisfied, return 1. Otherwise, return 0. No explaination is needed."""
 

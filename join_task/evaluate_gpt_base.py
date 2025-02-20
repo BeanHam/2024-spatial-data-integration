@@ -7,8 +7,7 @@ from openai import OpenAI
 from os import path, makedirs
 from datasets import load_dataset
 
-def evaluate_gpt_4o_series(data, client, model):
-    
+def evaluate_gpt_4o_series(data, client, model):    
     model_outputs = []            
     for i in tqdm(range(len(data))):
         response = client.chat.completions.create(
@@ -22,20 +21,6 @@ def evaluate_gpt_4o_series(data, client, model):
         )
         model_outputs.append(response.choices[0].message.content)
     return model_outputs
-
-def evaluate_gpt_o1_o3(data, client, model):
-    
-    model_outputs = []            
-    for i in tqdm(range(len(data))):
-        response = client.chat.completions.create(
-            model=model,
-            messages=[
-                {"role": "user", "content": data['text'][i]},
-            ],
-            top_p=1
-        )
-        model_outputs.append(response.choices[0].message.content)
-    return model_outputs    
 
 #-----------------------
 # Main Function
@@ -57,49 +42,46 @@ def main():
     args.model_repo = MODEL_REPOS[args.model_id]
     client = OpenAI(api_key=args.key)
     data = load_dataset(args.dataset)
-    methods = ['zero_shot']#,'few_shot' ]
-    modes = ['with_exp']
+    methods = ['zero_shot', 'few_shot']    
+    modes = ['no_heur', 'with_heur_hint', 'with_heur_value']
+    heuristics = ['angle', 'distance', 'comb']
+    configs=['_'.join(i) for i in list(product(methods, modes, heuristics))]
+    configs.remove('zero_shot_no_heur_angle')
+    configs.remove('zero_shot_no_heur_distance')
+    configs.remove('zero_shot_no_heur_comb')
+    configs.remove('few_shot_no_heur_angle')
+    configs.remove('few_shot_no_heur_distance')
+    configs.remove('few_shot_no_heur_comb')
+    configs.append('zero_shot_no_heur')
+    configs.append('few_shot_no_heur')
 
     #-----------------------------
-    # loop through methods & modes
+    # loop through parameters
     #-----------------------------
-    for method in methods:
-        for mode in modes:
-            print('=================================')
-            print(f'Method: {method}...')
-            print(f'Mode: {mode}...')
-            
-            def formatting_prompts_func(example):
-                output = ""
-                if method=='zero_shot':                
-                    if mode=='no_exp':
-                        input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
-                        text = base_alpaca_prompt.format(instruction_no_exp, input, output)
-                    else:
-                        input = "Sidewalk: "+str(example['sidewalk'])+\
-                                "\nRoad: "+str(example['road'])+\
-                                "\nmin_angle: "+str(example['min_angle'])+\
-                                "\nmin_distance: "+str(example['euc_dist'])
-                        text = base_alpaca_prompt.format(instruction_with_exp, input, output)
-                else:
-                    if mode=='no_exp':
-                        input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])                        
-                        text = base_alpaca_prompt.format(instruction_no_exp+example_one_no_exp+example_two_no_exp, input, output)
-                    else:
-                        input = "Sidewalk: "+str(example['sidewalk'])+\
-                                "\nRoad: "+str(example['road'])+\
-                                "\nmin_angle: "+str(example['min_angle'])+\
-                                "\nmin_distance: "+str(example['euc_dist'])
-                        text = base_alpaca_prompt.format(instruction_with_exp+example_one_with_exp+example_two_with_exp, input, output)
-                return { "text" : text}
-            
-            test = data['test'].map(formatting_prompts_func)
-            if '4o' in args.model_repo:
-                outputs = evaluate_gpt_4o_series(test, client, args.model_repo)
+    for config in configs:
+        print('=================================')
+        print(f'Config: {config}...')
+        def formatting_prompts_func(example):
+            output = ""
+            if 'value_angle' in config:
+                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
+                        "\nmin_angle: "+str(example['min_angle'])
+            elif 'value_distance' in config:
+                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
+                        "\nmin_distance: "+str(example['euc_dist'])    
+            elif 'value_comb' in config:
+                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
+                        "\nmin_angle: "+str(example['min_angle'])+"\nmin_distance: "+str(example['euc_dist'])        
             else:
-                outputs = evaluate_gpt_o1_o3(test, client, args.model_repo)
-            args.save_name = f"{args.model_id}_{method}_{mode}"
-            np.save(args.save_path+args.save_name+".npy", outputs)
+                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
+            text = base_alpaca_prompt.format(base_instruction, input, output)
+            return { "text" : text}
 
+        base_instruction=INSTRUCTIONS[config]
+        test = data['test'].map(formatting_prompts_func)
+        args.save_name = f"{args.model_id}_{config}.npy"        
+        outputs = evaluate_gpt_4o_series(test, client, args.model_repo)        
+        np.save(args.save_path+args.save_name, outputs)
+        
 if __name__ == "__main__":
     main()

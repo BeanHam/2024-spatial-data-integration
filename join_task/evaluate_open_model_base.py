@@ -10,11 +10,11 @@ from datasets import load_dataset
 from unsloth import FastLanguageModel
 
 ## evaluation function
-def evaluate(model, tokenizer, data):
+def evaluate(model, tokenizer, data, max_sequence_length):
     outputs=[]
     for text in tqdm(data['text']):
-        start_decode = len(tokenizer.encode(text, truncation=True, max_length=2048))        
-        inputs = tokenizer(text, return_tensors = "pt", max_length=2048).to("cuda")
+        start_decode = len(tokenizer.encode(text, truncation=True, max_length=max_sequence_length))        
+        inputs = tokenizer(text, return_tensors = "pt", max_length=max_sequence_length).to("cuda")
         response = model.generate(**inputs, max_new_tokens = 10)
         response = tokenizer.decode(response[0][start_decode:])
         outputs.append(response)
@@ -31,7 +31,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_id', type=str, default='llama3')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
-    parser.add_argument('--max_seq_length', type=int, default=2048)
+    parser.add_argument('--max_seq_length', type=int, default=4096)
     parser.add_argument('--device', type=str, default='auto')
     args = parser.parse_args()
     args.save_path=f'inference_results/base/{args.model_id}/'
@@ -87,7 +87,7 @@ def main():
         base_instruction=INSTRUCTIONS[config]
         test = data['test'].map(formatting_prompts_func)
         args.save_name = f"{args.model_id}_{config}.npy"
-        outputs=evaluate(model, tokenizer, test)
+        outputs=evaluate(model, tokenizer, test, args.max_seq_length)
         np.save(args.save_path+args.save_name, outputs)
         
 if __name__ == "__main__":
