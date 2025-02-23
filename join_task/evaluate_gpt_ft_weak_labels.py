@@ -2,6 +2,7 @@ import argparse
 import numpy as np
 
 from utils import *
+from prompts import *
 from tqdm import tqdm
 from openai import OpenAI
 from os import path, makedirs
