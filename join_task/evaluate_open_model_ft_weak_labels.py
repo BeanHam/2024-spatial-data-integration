@@ -49,7 +49,7 @@ def main():
         makedirs(args.save_path)    
     if args.metric_name == 'degree':
         #args.metric_values = [1,2,5,10,20]
-        args.metric_values = [1]
+        args.metric_values = [10]
     elif args.metric_name == 'distance':
         #args.metric_values = [1,2,3,4,5]
         args.metric_values = [1]
@@ -69,7 +69,7 @@ def main():
         print(f'{args.metric_name}: {metric_value}...')        
         print('   -- Getting model and tokenizer...')
         args.model_path = MODEL_PATHS_WEAK_LABELS[f"{args.model_id}_{args.metric_name}_{metric_value}_weak"]
-        args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}_weak"
+        args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}_weak.npy"
         model, tokenizer = FastLanguageModel.from_pretrained(
             model_name = args.model_path,
             max_seq_length = args.max_seq_length,
@@ -78,7 +78,7 @@ def main():
         )
         FastLanguageModel.for_inference(model)
         outputs=evaluate(model, tokenizer, test)
-        np.save(args.save_path+args.save_name+".npy", outputs)
+        np.save(args.save_path+args.save_name, outputs)
         
         ## clear memory for next metric value
         model.cpu()

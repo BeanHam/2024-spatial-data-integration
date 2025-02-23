@@ -40,14 +40,13 @@ def main():
     parser.add_argument('--key', type=str, default='openaikey')
     parser.add_argument('--metric_name', type=str, default='degree')
     args = parser.parse_args()
-
     args.save_path=f'inference_results/{args.metric_name}/'
     if not path.exists(args.save_path):
         makedirs(args.save_path)
 
     if args.metric_name == 'degree':
         #args.metric_values = [1,2,5,10,20]
-        args.metric_values = [20]
+        args.metric_values = [1]
     elif args.metric_name == 'distance':
         args.metric_values = [1,2,3,4,5]
         
@@ -64,8 +63,8 @@ def main():
     for metric_value in args.metric_values:
         print('=====================================================')
         print(f'{args.metric_name}: {metric_value}...')
-        args.model_path = MODEL_PATHS[f"{args.model_id}_{args.metric_name}_{metric_value}"]
-        args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}.npy"
+        args.model_path = MODEL_PATHS_WEAK_LABELS[f"{args.model_id}_{args.metric_name}_{metric_value}_weak"]
+        args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}_weak.npy"
         outputs = evaluate_gpt(test, client, args.model_path)
         np.save(args.save_path+args.save_name, outputs)
 
