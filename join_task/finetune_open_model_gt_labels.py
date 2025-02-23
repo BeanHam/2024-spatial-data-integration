@@ -89,7 +89,7 @@ if __name__ == '__main__':
         tokenizer = tokenizer,
         train_dataset = train,
         eval_dataset = val,
-        args = TrainingArguments(
+        args = SFTConfig(
             max_seq_length = args.max_seq_length,
             dataset_num_proc = 2,
             packing = False, # Can make training 5x faster for short sequences.
