@@ -33,7 +33,7 @@ if __name__ == '__main__':
     if args.metric_name == 'degree':
         args.metric_values = [2,5,20]
     elif args.metric_name == 'distance':
-        args.metric_values = [1,2,3,4,5]
+        args.metric_values = [2,3,4,5]
     hf_login()
     wandb.login()
 
