@@ -3,12 +3,13 @@ import argparse
 
 from utils import *
 from prompts import *
-from trl import SFTTrainer
 from os import path, makedirs
+from trl import SFTTrainer, SFTConfig
 from transformers import TrainingArguments
 from huggingface_hub import login as hf_login
 from datasets import load_dataset,concatenate_datasets
 from unsloth import FastLanguageModel, is_bfloat16_supported
+os.environ['UNSLOTH_RETURN_LOGITS'] = '1'
 
 if __name__ == '__main__':
             
@@ -87,11 +88,10 @@ if __name__ == '__main__':
         tokenizer = tokenizer,
         train_dataset = train,
         eval_dataset = val,
-        dataset_text_field = "text",
-        max_seq_length = args.max_seq_length,
-        dataset_num_proc = 2,
-        packing = False, # Can make training 5x faster for short sequences.
         args = TrainingArguments(
+            max_seq_length = args.max_seq_length,
+            dataset_num_proc = 2,
+            packing = False, # Can make training 5x faster for short sequences.
             per_device_train_batch_size = 2,
             per_device_eval_batch_size = 2,
             gradient_accumulation_steps = 4,        
