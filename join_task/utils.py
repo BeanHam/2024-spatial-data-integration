@@ -57,6 +57,7 @@ MODEL_PATHS_WEAK_LABELS = {
     'llama3_degree_10_weak': 'beanham/spatial_join_llama3_degree_10_weak',
     'llama3_distance_1_weak': 'beanham/spatial_join_llama3_distance_1_weak',
     '4o_mini_degree_1_weak': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::B39ZnKI2',
+    '4o_mini_degree_10_weak': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::B4HsWhk9',
 }
 MODEL_STEPS_PATHS = {
     'llama3_degree_step_1': 'outputs_llama3/degree/5/checkpoint-753',
