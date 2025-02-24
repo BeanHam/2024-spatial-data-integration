@@ -56,7 +56,8 @@ def main():
     configs.remove('few_shot_no_heur_comb')
     configs.append('zero_shot_no_heur')
     configs.append('few_shot_no_heur')
-
+    configs=['few_shot_with_heur_value_angle']
+    
     #-----------------------------
     # loop through parameters
     #-----------------------------
