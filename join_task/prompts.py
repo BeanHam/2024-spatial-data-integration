@@ -7,7 +7,7 @@ base_alpaca_prompt = """### Instruction:
 ### Input:
 {}
 
-### Response:
+### Response: 
 {}"""
 
 ## ===============================
@@ -209,3 +209,36 @@ INSTRUCTIONS = {
     'few_shot_with_heur_value_distance': instruction_heur_value_distance+examples_heur_value_distance,
     'few_shot_with_heur_value_comb': instruction_heur_value_comb+examples_heur_value_comb,
 }
+
+## ============================
+## self correction prompts
+## ============================
+
+base_sc_review_alpaca_prompt = """### Instruction:
+{}
+
+### Input:
+{}
+
+### Response: {}
+
+### Review:
+Please review and identify if there are any problems with the above response."""
+
+base_sc_improve_alpaca_prompt = """### Instruction:
+{}
+
+### Input:
+{}
+
+### Response: {}
+
+### Review:
+Please review and identify if there are any problems with the above response.
+
+{}
+
+### Improve:
+Based on your review, please improve your response. 
+
+### Response: """
