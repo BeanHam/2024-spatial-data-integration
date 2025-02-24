@@ -9,6 +9,22 @@ from os import path, makedirs
 from datasets import load_dataset
 from unsloth import FastLanguageModel
 
+def post_processing(pred):
+    new_pred=[]
+    for i in pred:
+        i=i.lower()
+        if 'response' in i:
+            try: new_pred.append(i.split('response')[1].split()[1].replace('</s>', ''))
+            except: new_pred.append('unknown')
+        elif 'output' in i:
+            try: new_pred.append(i.split('output')[1].split()[1].replace('</s>', ''))
+            except: new_pred.append('unknown')
+        else:
+            try: new_pred.append(i.split()[0].replace('</s>', ''))
+            except:new_pred.append('unknown')
+    new_pred = np.array([int(float(i)) if i in ['0', '0.0', '1', '1.0'] else 'unknown' for i in new_pred])
+    return new_pred
+    
 ## evaluation function
 def review_generation(model, tokenizer, data, max_sequence_length):
     outputs=[]
@@ -73,7 +89,7 @@ def main():
         print(f'Config: {config}...')
         args.save_name = f"{args.model_id}_{config}_sc.npy"
         pred=np.load(f'inference_results/base/{args.model_id}/{args.model_id}_{config}.npy', allow_pickle=True)
-        pred=[int(i) for i in pred]
+        pred=post_processing(pred)
         base_instruction=INSTRUCTIONS[config]
         
         def review_formatting_func(example):
