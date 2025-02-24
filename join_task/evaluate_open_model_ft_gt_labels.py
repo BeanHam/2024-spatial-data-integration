@@ -43,7 +43,7 @@ def main():
     parser.add_argument('--max_seq_length', type=int, default=2048)
     parser.add_argument('--device', type=str, default='auto')
     args = parser.parse_args()    
-    args.save_path=f'inference_results/{args.metric_name}/'
+    args.save_path=f'inference_results/gt/'
     if not path.exists(args.save_path):
         makedirs(args.save_path)
         
