@@ -29,7 +29,6 @@ if __name__ == '__main__':
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
     parser.add_argument('--formatted_data_dir', type=str, default='formatted_data')
     args = parser.parse_args()
-    hf_login()    
     if not path.exists(args.formatted_data_dir):
         makedirs(args.formatted_data_dir)
     
