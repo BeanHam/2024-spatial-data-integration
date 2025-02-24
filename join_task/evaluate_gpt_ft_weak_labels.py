@@ -47,7 +47,7 @@ def main():
 
     if args.metric_name == 'degree':
         #args.metric_values = [1,2,5,10,20]
-        args.metric_values = [1]
+        args.metric_values = [10]
     elif args.metric_name == 'distance':
         args.metric_values = [1,2,3,4,5]
         
