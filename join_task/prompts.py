@@ -239,6 +239,6 @@ Please review and identify if there are any problems with the above response.
 {}
 
 ### Improve:
-Based on your review, please improve your response. 
+Based on your review, please give your final response, either 0 or 1. 
 
 ### Response: """

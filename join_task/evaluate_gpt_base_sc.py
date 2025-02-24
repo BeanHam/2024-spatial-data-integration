@@ -52,7 +52,8 @@ def main():
     if not path.exists(args.save_path):
         makedirs(args.save_path)
 
-    configs=['zero_shot_with_heur_value_angle', 'few_shot_with_heur_value_angle']    
+    configs=[#'zero_shot_with_heur_value_angle', 
+             'few_shot_with_heur_value_angle']    
     args.model_repo = MODEL_REPOS[args.model_id]
     client = OpenAI(api_key=args.key)    
     data = load_dataset(args.dataset)
