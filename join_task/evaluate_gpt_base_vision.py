@@ -83,7 +83,10 @@ def main():
     configs.remove('few_shot_no_heur_comb')
     configs.append('zero_shot_no_heur')
     configs.append('few_shot_no_heur')
-    #configs=['zero_shot_no_heur']
+    configs=['zero_shot_with_heur_value_angle',
+             'zero_shot_with_heur_value_comb',
+             'few_shot_with_heur_value_angle',
+             'few_shot_with_heur_value_comb']
     
     ## load test set index
     index=[]
@@ -114,7 +117,7 @@ def main():
             return { "text" : text}
 
         base_instruction=INSTRUCTIONS[config]
-        test = data['test'].select(range(10)).map(formatting_prompts_func)
+        test = data['test'].map(formatting_prompts_func)
         args.save_name = f"{args.model_id}_{config}.npy"        
         outputs = evaluate_gpt_4o_vision(test, args.model_repo, index, img_path, api_web, headers)
         np.save(args.save_path+args.save_name, outputs)
