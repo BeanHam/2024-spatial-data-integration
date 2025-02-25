@@ -63,7 +63,7 @@ def main():
         print('=================================')
         print(f'Metric Value: {metric_value}...')                    
         args.metric_value = metric_value
-        args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}_sc.npy"
+        args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}_{config}_sc.npy"
         data = load_dataset(args.dataset)
         
         def generate_weak_labels(example):    
