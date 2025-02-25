@@ -56,9 +56,7 @@ def main():
     configs.remove('few_shot_no_heur_comb')
     configs.append('zero_shot_no_heur')
     configs.append('few_shot_no_heur')
-    configs=['zero_shot_with_heur_value_angle', 
-             'zero_shot_with_heur_value_comb',
-             'few_shot_with_heur_value_angle',
+    configs=['zero_shot_with_heur_value_comb',             
              'few_shot_with_heur_value_comb']
     
     #-----------------------------
@@ -74,10 +72,10 @@ def main():
                         "\nmin_angle: "+str(example['min_angle'])
             elif 'value_distance' in config:
                 input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
-                        "\nmin_distance: "+str(example['euc_dist'])    
+                        "\nmin_distance: "+str(example['min_euc_dist'])    
             elif 'value_comb' in config:
                 input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
-                        "\nmin_angle: "+str(example['min_angle'])+"\nmin_distance: "+str(example['euc_dist'])        
+                        "\nmin_angle: "+str(example['min_angle'])+"\nmin_distance: "+str(example['min_euc_dist'])        
             else:
                 input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
             text = base_alpaca_prompt.format(base_instruction, input, output)
