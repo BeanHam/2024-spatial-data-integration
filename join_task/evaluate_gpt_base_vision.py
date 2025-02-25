@@ -66,7 +66,7 @@ def main():
         
     args.model_repo = MODEL_REPOS[args.model_id]
     data = load_dataset(args.dataset)
-    path='../../2024-spatial-data-integration-exp/join_imgs/small_imgs/'
+    img_path='../../2024-spatial-data-integration-exp/join_imgs/small_imgs/'
     api_web = "https://api.openai.com/v1/chat/completions"
     headers = {"Content-Type": "application/json","Authorization": f"Bearer {args.key}"}
 
@@ -116,7 +116,7 @@ def main():
         base_instruction=INSTRUCTIONS[config]
         test = data['test'].map(formatting_prompts_func)
         args.save_name = f"{args.model_id}_{config}.npy"        
-        outputs = evaluate_gpt_4o_vision(test, index, args.model_repo, path, api_web, headers)
+        outputs = evaluate_gpt_4o_vision(test, index, args.model_repo, img_path, api_web, headers)
         np.save(args.save_path+args.save_name, outputs)
         
 if __name__ == "__main__":
