@@ -116,7 +116,7 @@ def main():
         base_instruction=INSTRUCTIONS[config]
         test = data['test'].map(formatting_prompts_func)
         args.save_name = f"{args.model_id}_{config}.npy"        
-        outputs = evaluate_gpt_4o_vision(test, index, args.model_repo, img_path, api_web, headers)
+        outputs = evaluate_gpt_4o_vision(test, args.model_repo, index, img_path, api_web, headers)
         np.save(args.save_path+args.save_name, outputs)
         
 if __name__ == "__main__":
