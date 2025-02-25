@@ -54,7 +54,7 @@ def main():
         makedirs(args.save_path)
     if args.metric_name == 'degree':
         #args.metric_values = [1,2,5,10,20]
-        args.metric_values = [1,2,10]
+        args.metric_values = [1]
     config= 'few_shot_with_heur_value_angle'
     args.model_repo = MODEL_REPOS[args.model_id]
     client = OpenAI(api_key=args.key)      
