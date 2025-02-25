@@ -242,3 +242,32 @@ Please review and identify if there are any problems with the above response.
 Based on your review, please give your final response, either 0 or 1. 
 
 ### Response: """
+
+base_ec_review_alpaca_prompt = """### Instruction:
+{}
+
+### Input:
+{}
+
+### Response: {}
+
+### Review:
+The above response is generated using heuristics. Please carefully review and identify if there are any problems with the above response."""
+
+base_ec_improve_alpaca_prompt = """### Instruction:
+{}
+
+### Input:
+{}
+
+### Response: {}
+
+### Review:
+The above response is generated using heuristics. Please carefully review and identify if there are any problems with the above response.
+
+{}
+
+### Improve:
+Based on your review, please give your final response, either 0 or 1. 
+
+### Response: """
