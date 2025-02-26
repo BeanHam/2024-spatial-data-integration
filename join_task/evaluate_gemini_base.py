@@ -33,7 +33,7 @@ def main():
     # parameters
     #-------------------    
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model_id', type=str, default='4o_mini')
+    parser.add_argument('--model_id', type=str, default='gemini')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
     parser.add_argument('--key', type=str, default='openaikey')
     args = parser.parse_args()
