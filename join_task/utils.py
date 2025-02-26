@@ -4,8 +4,8 @@ MODEL_REPOS = {
     'mistral': 'mistralai/Mistral-7B-Instruct-v0.3',
     'llama3': 'meta-llama/Llama-3.1-8B-Instruct',
     '4o_mini': 'gpt-4o-mini-2024-07-18',
-    'o3_mini': 'o3-mini-2025-01-31',
     '4o': 'gpt-4o-2024-08-06',
+    'gemini': 'gemini-2.0-flash',
 }
 
 MODEL_PATHS = {
