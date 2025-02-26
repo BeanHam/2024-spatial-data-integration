@@ -6,6 +6,7 @@ MODEL_REPOS = {
     '4o_mini': 'gpt-4o-mini-2024-07-18',
     '4o': 'gpt-4o-2024-08-06',
     'gemini': 'gemini-2.0-flash',
+    'qwen': 'qwen-plus-2025-01-25'
 }
 
 MODEL_PATHS = {
