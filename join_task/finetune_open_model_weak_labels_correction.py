@@ -44,10 +44,10 @@ if __name__ == '__main__':
     for metric_value in args.metric_values:
         print(f'{args.metric_name}: {metric_value}...')
         args.metric_value=metric_value
-        args.output_dir = f"outputs_{args.model_id}/{args.metric_name}/{args.metric_value}_weak/" 
+        args.output_dir = f"outputs_{args.model_id}/{args.metric_name}/{args.metric_value}_weak_correction/" 
         args.save_dir = args.output_dir+'/final_model/'
-        args.wandb_name = f"unsloth_{args.model_id}_{args.metric_name}_{args.metric_value}_weak"
-        args.hf_name = f"spatial_join_{args.model_id}_{args.metric_name}_{args.metric_value}_weak"       
+        args.wandb_name = f"unsloth_{args.model_id}_{args.metric_name}_{args.metric_value}_weak_correction"
+        args.hf_name = f"spatial_join_{args.model_id}_{args.metric_name}_{args.metric_value}_weak_correction"
         wandb.init(project=args.project_name, name=args.wandb_name)
         if not path.exists(args.output_dir):
             makedirs(args.output_dir)
@@ -92,7 +92,7 @@ if __name__ == '__main__':
         def formatting_prompts_func(example):
             input       = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
             output      = "Label: "+str(example['weak_label'])
-            text = alpaca_prompt.format(instruction, input, output) + EOS_TOKEN
+            text = alpaca_prompt.format(correction_instruction, input, output) + EOS_TOKEN
             return { "text" : text, }        
         EOS_TOKEN = tokenizer.eos_token # Must add EOS_TOKEN
         data = load_dataset(args.dataset)
