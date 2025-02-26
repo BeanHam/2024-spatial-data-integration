@@ -63,7 +63,7 @@ def main():
     #-----------------------------
     # loop through parameters
     #-----------------------------
-    for config in configs:
+    for config in configs[2:]:
         print('=================================')
         print(f'Config: {config}...')
         def formatting_prompts_func(example):
