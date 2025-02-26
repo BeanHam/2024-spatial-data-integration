@@ -44,8 +44,7 @@ def main():
         makedirs(args.save_path)
         
     args.model_repo = MODEL_REPOS[args.model_id]
-    client = OpenAI(api_key=args.key,
-                    base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
+    client = OpenAI(api_key=args.key,base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
     data = load_dataset(args.dataset)
     methods = ['zero_shot', 'few_shot']    
     modes = ['no_heur', 'with_heur_hint', 'with_heur_value']
