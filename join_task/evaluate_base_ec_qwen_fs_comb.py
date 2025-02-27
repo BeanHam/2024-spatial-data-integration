@@ -23,7 +23,7 @@ def review_generation(data, client, model):
             top_p=1
         )
         model_outputs.append(response.choices[0].message.content)
-        time.sleep(0.1)
+        time.sleep(0.2)
     return model_outputs
 
 def improve_generation(data, client, model):    
@@ -39,7 +39,7 @@ def improve_generation(data, client, model):
             top_p=1
         )
         model_outputs.append(response.choices[0].message.content)
-        time.sleep(0.1)
+        time.sleep(0.2)
     return model_outputs
 
 #-----------------------
