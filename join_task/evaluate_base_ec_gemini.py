@@ -60,8 +60,8 @@ def main():
 
     data = load_dataset(args.dataset)
     configs=[#'zero_shot_with_heur_value_angle',
-             'zero_shot_with_heur_value_comb',
-             'few_shot_with_heur_value_angle',
+             #'zero_shot_with_heur_value_comb',
+             #'few_shot_with_heur_value_angle',
              'few_shot_with_heur_value_comb']    
     args.model_repo = MODEL_REPOS[args.model_id]
     client = genai.Client(api_key=args.key)
