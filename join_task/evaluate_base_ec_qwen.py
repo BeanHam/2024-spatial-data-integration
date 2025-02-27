@@ -1,43 +1,47 @@
+import time
 import argparse
 import numpy as np
 
 from utils import *
 from prompts import *
 from tqdm import tqdm
-from google import genai
 from itertools import product
+from openai import OpenAI
 from os import path, makedirs
-from google.genai import types
 from datasets import load_dataset
 
 def review_generation(data, client, model):    
     model_outputs = []            
     for i in tqdm(range(len(data))):
-        response = client.models.generate_content(
+        response = client.chat.completions.create(
             model=model,
-            contents=[data['text'][i]],
-            config=types.GenerateContentConfig(
-                max_output_tokens=200,
-                temperature=0,
-                top_p=1)
+            messages=[
+                {"role": "user", "content": data['text'][i]},
+            ],
+            temperature=0,
+            max_tokens=200,
+            top_p=1
         )
-        model_outputs.append(response.text)
+        model_outputs.append(response.choices[0].message.content)
+        time.sleep(1.5)
     return model_outputs
-    
+
 def improve_generation(data, client, model):    
     model_outputs = []            
     for i in tqdm(range(len(data))):
-        response = client.models.generate_content(
+        response = client.chat.completions.create(
             model=model,
-            contents=[data['text'][i]],
-            config=types.GenerateContentConfig(
-                max_output_tokens=10,
-                temperature=0,
-                top_p=1)
+            messages=[
+                {"role": "user", "content": data['text'][i]},
+            ],
+            temperature=0,
+            max_tokens=10,
+            top_p=1
         )
-        model_outputs.append(response.text)
+        model_outputs.append(response.choices[0].message.content)
+        time.sleep(1.5)
     return model_outputs
-    
+
 #-----------------------
 # Main Function
 #-----------------------
@@ -47,9 +51,9 @@ def main():
     # parameters
     #-------------------    
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model_id', type=str, default='gemini')
+    parser.add_argument('--model_id', type=str, default='qwen')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
-    parser.add_argument('--key', type=str, default='geminikey')
+    parser.add_argument('--key', type=str, default='qwenkey')
     parser.add_argument('--metric_name', type=str, default='degree')
     args = parser.parse_args()
     args.save_path=f'inference_results/base/{args.model_id}_ec/'
@@ -59,11 +63,16 @@ def main():
         args.metric_values = [1,2,5,10,20]
 
     data = load_dataset(args.dataset)
-    configs=[#'zero_shot_with_heur_value_comb',
-             'few_shot_with_heur_value_comb']
+    configs=['zero_shot_with_heur_value_comb',]
+             #'few_shot_with_heur_value_comb']
+    
     args.model_repo = MODEL_REPOS[args.model_id]
-    client = genai.Client(api_key=args.key)
-
+    client = OpenAI(api_key=args.key,base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")    
+    
+    ## evaluate on a subset
+    np.random.seed(100)
+    subset_index=np.random.randint(0, len(data['test']), 1000)
+    
     for config in configs:
         print('=================================')
         print(f'Config: {config}...')
@@ -117,7 +126,7 @@ def main():
                 return { "text" : text}
             
             base_instruction=INSTRUCTIONS[config]
-            test = data['test'].map(generate_weak_labels)
+            test = data['test'].select(subset_index).map(generate_weak_labels)
             test = test.map(review_formatting_func)
             
             ## review generation

@@ -56,11 +56,13 @@ def main():
     if not path.exists(args.save_path):
         makedirs(args.save_path)
     if args.metric_name == 'degree':
-        args.metric_values = [1,2,5,10,20]
+        args.metric_values = [5,10,20]
 
     data = load_dataset(args.dataset)
-    configs=[#'zero_shot_with_heur_value_comb',
-             'few_shot_with_heur_value_comb']
+    configs=[#'zero_shot_with_heur_value_angle',
+             #'zero_shot_with_heur_value_comb',
+             #'few_shot_with_heur_value_angle',
+             'few_shot_with_heur_value_comb']    
     args.model_repo = MODEL_REPOS[args.model_id]
     client = genai.Client(api_key=args.key)
 
