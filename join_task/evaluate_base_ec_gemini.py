@@ -64,6 +64,10 @@ def main():
     args.model_repo = MODEL_REPOS[args.model_id]
     client = genai.Client(api_key=args.key)
 
+    ## evaluate on a subset
+    np.random.seed(100)
+    subset_index=np.random.randint(0, len(data['test']), 1000)
+    
     for config in configs:
         print('=================================')
         print(f'Config: {config}...')
@@ -117,7 +121,7 @@ def main():
                 return { "text" : text}
             
             base_instruction=INSTRUCTIONS[config]
-            test = data['test'].map(generate_weak_labels)
+            test = data['test'].select(subset_index).map(generate_weak_labels)
             test = test.map(review_formatting_func)
             
             ## review generation
