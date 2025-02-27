@@ -59,7 +59,7 @@ def main():
         args.metric_values = [1,2,5,10,20]
 
     data = load_dataset(args.dataset)
-    configs=['zero_shot_with_heur_value_angle',
+    configs=[#'zero_shot_with_heur_value_angle',
              'zero_shot_with_heur_value_comb',
              'few_shot_with_heur_value_angle',
              'few_shot_with_heur_value_comb']    
