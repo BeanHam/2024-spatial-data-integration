@@ -60,7 +60,7 @@ def main():
         makedirs(args.save_path)
 
     data = load_dataset(args.dataset)
-    configs=['zero_shot_with_heur_value_comb',
+    configs=[#'zero_shot_with_heur_value_comb',
              'few_shot_with_heur_value_angle']
 
     args.model_repo = MODEL_REPOS[args.model_id]
