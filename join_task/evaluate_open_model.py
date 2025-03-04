@@ -36,7 +36,8 @@ def main():
     args = parser.parse_args()
     args.save_path=f'inference_results/base/{args.model_id}/'
     if not path.exists(args.save_path):
-        makedirs(args.save_path)    
+        makedirs(args.save_path)
+        
     data = load_dataset(args.dataset)    
     configs=list(INSTRUCTIONS.keys())
     configs=['zero_shot_with_heur_hint_area',
