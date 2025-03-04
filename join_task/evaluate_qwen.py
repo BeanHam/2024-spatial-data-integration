@@ -23,7 +23,7 @@ def evaluate_qwen(data, client, model):
             top_p=1
         )
         model_outputs.append(response.choices[0].message.content)
-        time.sleep(0.2)
+        time.sleep(1.5)
     return model_outputs
 
 #-----------------------
