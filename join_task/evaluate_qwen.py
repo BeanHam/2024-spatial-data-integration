@@ -23,7 +23,7 @@ def evaluate_qwen(data, client, model):
             top_p=1
         )
         model_outputs.append(response.choices[0].message.content)
-        time.sleep(1.5)
+        time.sleep(1)
     return model_outputs
 
 #-----------------------
@@ -47,9 +47,21 @@ def main():
     client = OpenAI(api_key=args.key,base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
     data = load_dataset(args.dataset)
     configs=list(INSTRUCTIONS.keys())
-    configs=['zero_shot_with_heur_hint_all',
-             'zero_shot_with_heur_value_all',
-             'few_shot_with_heur_hint_all',
+    configs=['zero_shot_with_heur_hint_area',
+             'zero_shot_with_heur_hint_angle_area',
+             'zero_shot_with_heur_hint_distance_area',
+             'zero_shot_with_heur_hint_all',             
+             'zero_shot_with_heur_value_area',
+             'zero_shot_with_heur_value_angle_area',
+             'zero_shot_with_heur_value_distance_area',             
+             'zero_shot_with_heur_value_all',             
+             'few_shot_with_heur_hint_area',
+             'few_shot_with_heur_hint_angle_area',
+             'few_shot_with_heur_hint_distance_area',
+             'few_shot_with_heur_hint_all',             
+             'few_shot_with_heur_value_area',
+             'few_shot_with_heur_value_angle_area',
+             'few_shot_with_heur_value_distance_area',             
              'few_shot_with_heur_value_all']
     
     #-----------------------------
@@ -61,19 +73,28 @@ def main():
         
         def formatting_prompts_func(example):
             output = ""
-            if 'value_angle' in config:
+            if config in ['zero_shot_with_heur_value_angle', 'few_shot_with_heur_value_angle']:
                 input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
                         "\nmin_angle: "+str(example['min_angle'])
-            elif 'value_distance' in config:
+            elif config in ['zero_shot_with_heur_value_distance', 'few_shot_with_heur_value_distance']:
                 input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
-                        "\nmin_distance: "+str(example['min_euc_dist'])    
-            elif 'value_comb' in config:
+                        "\nmin_distance: "+str(example['min_euc_dist'])
+            elif config in ['zero_shot_with_heur_value_area', 'few_shot_with_heur_value_area']:
                 input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
-                        "\nmin_angle: "+str(example['min_angle'])+"\nmin_distance: "+str(example['min_euc_dist'])        
-            elif 'value_all' in config:
+                        "\nmax_area: "+str(example['max_area'])
+            elif config in ['zero_shot_with_heur_value_angle_distance', 'few_shot_with_heur_value_angle_distance']:
+                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
+                        "\nmin_angle: "+str(example['min_angle'])+"\nmin_distance: "+str(example['min_euc_dist'])
+            elif config in ['zero_shot_with_heur_value_angle_area', 'few_shot_with_heur_value_angle_area']:
+                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
+                        "\nmin_angle: "+str(example['min_angle'])+"\nmax_area: "+str(example['max_area'])
+            elif config in ['zero_shot_with_heur_value_distance_area', 'few_shot_with_heur_value_distance_area']:
+                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
+                        "\nmin_distance: "+str(example['min_euc_dist'])+"\nmax_area: "+str(example['max_area'])    
+            elif config in ['zero_shot_with_heur_value_all', 'few_shot_with_heur_value_all']:
                 input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
                         "\nmin_angle: "+str(example['min_angle'])+"\nmin_distance: "+str(example['min_euc_dist'])+\
-                        "\nmin_area: "+str(example['min_area'])+"\nmax_area: "+str(example['max_area'])
+                        "\nmax_area: "+str(example['max_area'])
             else:
                 input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
             text = base_alpaca_prompt.format(base_instruction, input, output)
