@@ -47,7 +47,7 @@ def main():
     configs=list(INSTRUCTIONS.keys())
     configs=['zero_shot_with_heur_hint_all',
              'zero_shot_with_heur_value_all',
-             'few_shot_with_heur_hint_all,',
+             'few_shot_with_heur_hint_all',
              'few_shot_with_heur_value_all']
     
     #-----------------------------
