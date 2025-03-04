@@ -44,22 +44,11 @@ def main():
     args.model_repo = MODEL_REPOS[args.model_id]
     client = OpenAI(api_key=args.key)
     data = load_dataset(args.dataset)
-    methods = ['zero_shot', 'few_shot']    
-    modes = ['no_heur', 'with_heur_hint', 'with_heur_value']
-    heuristics = ['angle', 'distance', 'comb']
-    configs=['_'.join(i) for i in list(product(methods, modes, heuristics))]
-    configs.remove('zero_shot_no_heur_angle')
-    configs.remove('zero_shot_no_heur_distance')
-    configs.remove('zero_shot_no_heur_comb')
-    configs.remove('few_shot_no_heur_angle')
-    configs.remove('few_shot_no_heur_distance')
-    configs.remove('few_shot_no_heur_comb')
-    configs.append('zero_shot_no_heur')
-    configs.append('few_shot_no_heur')
-    configs=['zero_shot_with_heur_value_angle',
-             'zero_shot_with_heur_value_comb',
-             'few_shot_with_heur_value_angle,',
-             'few_shot_with_heur_value_comb']
+    configs=list(INSTRUCTIONS.keys())
+    configs=['zero_shot_with_heur_hint_all',
+             'zero_shot_with_heur_value_all',
+             'few_shot_with_heur_hint_all,',
+             'few_shot_with_heur_value_all']
     
     #-----------------------------
     # loop through parameters
@@ -67,6 +56,7 @@ def main():
     for config in configs:
         print('=================================')
         print(f'Config: {config}...')
+        
         def formatting_prompts_func(example):
             output = ""
             if 'value_angle' in config:
@@ -78,15 +68,19 @@ def main():
             elif 'value_comb' in config:
                 input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
                         "\nmin_angle: "+str(example['min_angle'])+"\nmin_distance: "+str(example['min_euc_dist'])        
+            elif 'value_all' in config:
+                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
+                        "\nmin_angle: "+str(example['min_angle'])+"\nmin_distance: "+str(example['min_euc_dist'])+\
+                        "\nmin_area: "+str(example['min_area'])+"\nmax_area: "+str(example['max_area'])
             else:
                 input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
             text = base_alpaca_prompt.format(base_instruction, input, output)
             return { "text" : text}
-
+            
         base_instruction=INSTRUCTIONS[config]
-        test = data['test'].map(formatting_prompts_func)
-        args.save_name = f"{args.model_id}_{config}.npy"        
-        outputs = evaluate_gpt_4o_series(test, client, args.model_repo)        
+        test = data['test'].map(formatting_prompts_func)        
+        outputs = evaluate_gpt_4o_series(test, client, args.model_repo)
+        args.save_name = f"{args.model_id}_{config}.npy"
         np.save(args.save_path+args.save_name, outputs)
         
 if __name__ == "__main__":

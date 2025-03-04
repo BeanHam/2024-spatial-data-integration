@@ -54,7 +54,6 @@ def main():
         makedirs(args.save_path)
     if args.metric_name == 'degree':
         args.metric_values = [1,2,5,10,20]
-        args.metric_values = [20]
 
     data = load_dataset(args.dataset)
     configs=[#'zero_shot_with_heur_value_angle',
