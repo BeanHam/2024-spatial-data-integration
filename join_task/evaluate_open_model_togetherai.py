@@ -10,9 +10,9 @@ from together import Together
 from datasets import load_dataset
 
 ## evaluation function
-def evaluate_togetherai(data, client, model):    
+def evaluate(data, client, model):
     model_outputs = []            
-    for i in tqdm(range(len(data))):        
+    for i in tqdm(range(len(data))):
         response = client.chat.completions.create(
             model=model,
             messages=[{"role": "user", "content": data['text'][i]}],
@@ -34,8 +34,6 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_id', type=str, default='llama3_70b')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
-    parser.add_argument('--max_seq_length', type=int, default=4096)
-    parser.add_argument('--device', type=str, default='auto')
     parser.add_argument('--key', type=str, default='togetheraikey')
     args = parser.parse_args()
     args.save_path=f'inference_results/base/{args.model_id}/'
@@ -46,10 +44,35 @@ def main():
     configs=list(INSTRUCTIONS.keys())
     client = Together(api_key=args.key)
     args.model_repo = MODEL_REPOS[args.model_id]
-    configs=['zero_shot_no_heur',
-             'zero_shot_with_heur_hint_angle',
-             'zero_shot_with_heur_hint_distance',
-             'zero_shot_with_heur_hint_area']
+    configs = [
+        'zero_shot_with_heur_hint_area',
+        'zero_shot_with_heur_hint_angle_distance',
+        'zero_shot_with_heur_hint_angle_area',
+        'zero_shot_with_heur_hint_distance_area',
+        'zero_shot_with_heur_hint_all',    
+        'zero_shot_with_heur_value_angle',
+        'zero_shot_with_heur_value_distance',
+        'zero_shot_with_heur_value_area',
+        'zero_shot_with_heur_value_angle_distance',
+        'zero_shot_with_heur_value_angle_area',
+        'zero_shot_with_heur_value_distance_area',
+        'zero_shot_with_heur_value_all',    
+        'few_shot_no_heur',    
+        'few_shot_with_heur_hint_angle',
+        'few_shot_with_heur_hint_distance',
+        'few_shot_with_heur_hint_area',
+        'few_shot_with_heur_hint_angle_distance',
+        'few_shot_with_heur_hint_angle_area',
+        'few_shot_with_heur_hint_distance_area',
+        'few_shot_with_heur_hint_all',    
+        'few_shot_with_heur_value_angle',
+        'few_shot_with_heur_value_distance',
+        'few_shot_with_heur_value_area',
+        'few_shot_with_heur_value_angle_distance',
+        'few_shot_with_heur_value_angle_area',
+        'few_shot_with_heur_value_distance_area',
+        'few_shot_with_heur_value_all',
+    ]
     
     #-----------------------------
     # loop through parameters
@@ -89,7 +112,7 @@ def main():
             
         base_instruction=INSTRUCTIONS[config]
         test = data['test'].map(formatting_prompts_func)
-        outputs = evaluate_togetherai(test, client, args.model_repo)
+        outputs = evaluate(test, client, args.model_repo)
         args.save_name = f"{args.model_id}_{config}.npy"
         np.save(args.save_path+args.save_name, outputs)
         
