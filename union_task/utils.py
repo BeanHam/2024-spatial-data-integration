@@ -4,8 +4,11 @@ MODEL_REPOS = {
     'mistral': 'mistralai/Mistral-7B-Instruct-v0.3',
     'llama3': 'meta-llama/Llama-3.1-8B-Instruct',
     '4o_mini': 'gpt-4o-mini-2024-07-18',
-    'o3_mini': 'o3-mini-2025-01-31',
     '4o': 'gpt-4o-2024-08-06',
+    'gemini': 'gemini-2.0-flash',
+    #'qwen': 'qwen-plus-2025-01-25',
+    'qwen': 'qwen-plus',
+    'deepseek': 'deepseek-chat'
 }
 
 MODEL_PATHS = {
@@ -73,94 +76,3 @@ MODEL_GENERALIZATION_PATHS = {
     '4o_mini_distance_4': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AsdH1Xrx',
     '4o_mini_distance_5': 'ft:gpt-4o-mini-2024-07-18:uw-howe-lab::AsdOZb2b',
 }
-
-## ============================
-## finetuning instructions
-## ============================
-instruction="You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) GeoJSON annotations. Your task is to determine whether these two annotations represent the same sidewalk, either fully or partially, To do this, assess whether they overlap fully or partially and check if they are approximately parallel. If they represent the same sidewalk, return 1; otherwise, return 0. "
-
-alpaca_prompt = """Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.
-
-### Instruction:
-{}
-
-### Input:
-{}
-
-### Response:
-{}"""
-
-gpt_instruction = """Below is an instruction that describes a task, paired with an input that provides further context. Write a response that appropriately completes the request.
-
-### Instruction:
-You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) GeoJSON annotations. Your task is to determine whether these two annotations represent the same sidewalk, either fully or partially, To do this, assess whether they overlap fully or partially and check if they are approximately parallel. If they represent the same sidewalk, return 1; otherwise, return 0."""
-
-
-## ============================
-## base evaluation -- zero shot
-## ============================
-base_alpaca_prompt = """### Instruction:
-{}
-
-### Input:
-{}
-
-### Response:
-{}"""
-
-## ===============================
-## base evaluation -- examples
-## ===============================
-example_one_no_exp="""
-
-### First Exmaple:
-Sidewalk 1: {'coordinates': [[-122.1731058, 47.5709015], [-122.1743964, 47.5709069]], 'type': 'LineString'}
-Sidewalk 2: {'coordinates': [[-122.1743856, 47.570905], [-122.1743848, 47.5710029]], 'type': 'LineString'}
-Response: {0}"""
-
-example_one_with_exp="""
-
-### First Exmaple:
-Sidewalk 1: {'coordinates': [[-122.1731058, 47.5709015], [-122.1743964, 47.5709069]], 'type': 'LineString'}
-Sidewalk 2: {'coordinates': [[-122.1743856, 47.570905], [-122.1743848, 47.5710029]], 'type': 'LineString'}
-min_angle: 89.77154191724516
-max_area: 0.5473559863066643
-Response: {0}"""
-
-example_two_no_exp="""
-
-### Second Exmaple:
-Sidewalk 1: {'coordinates': [[-122.17248400000001, 47.570692699999995], [-122.17136010000002, 47.5706601], [-122.1698608, 47.5706113]], 'type': 'LineString'}
-Sidewalk 2: {'coordinates': [[-122.1700114, 47.5706215], [-122.1703076, 47.5706256]], 'type': 'LineString'}
-Response: {1}"""
-
-example_two_with_exp="""
-
-### Second Exmaple:
-Sidewalk 1: {'coordinates': [[-122.17248400000001, 47.570692699999995], [-122.17136010000002, 47.5706601], [-122.1698608, 47.5706113]], 'type': 'LineString'}
-Sidewalk 2: {'coordinates': [[-122.1700114, 47.5706215], [-122.1703076, 47.5706256]], 'type': 'LineString'}
-min_angle: 0.8684260514779112
-max_area: 0.9832547250026938
-Response: {1}"""
-
-## ===============================
-## base evaluation -- instructions
-## ===============================
-instruction_no_exp="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) GeoJSON. Your task is to determine whether these two annotations represent the same sidewalk, either fully or partially, by evaluating the following conditions:
-
-1. Overlap: The two sidewalks must overlap or partially overlap. Simply connecting at the endpoints does not count as an intersection.
-2. Parallelism: The two sidewalks should be approximately parallel, with only a small angular difference in their orientations.
-
-If both conditions are satisfied, return 1. Otherwise, return 0. No explaination is needed. """
-
-instruction_with_exp="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) GeoJSON, along with two key statistics:
-
-1. min_angle: The minimum angle (in degrees) between the two sidewalks.
-2. max_area: The maximum percentage of overlapping area relative to both sidewalks, considering a 10-meter buffer.
-
-Your task is to determine whether these two annotations represent the same sidewalk, either fully or partially, by evaluating the following conditions:
-
-1. Overlap: The two sidewalks must overlap or partially overlap. Simply connecting at the endpoints does not count as an intersection. The max_area value helps quantify this overlap.
-2. Parallelism: The two sidewalks should be approximately parallel, with only a small angular difference in their orientations. The min_angle value provides a measure of this alignment.
-
-If both conditions are satisfied, return 1. Otherwise, return 0. No explaination is needed."""

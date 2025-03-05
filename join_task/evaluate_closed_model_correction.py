@@ -47,23 +47,21 @@ def main():
     parser.add_argument('--model_id', type=str, default='4o_mini')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
     parser.add_argument('--key', type=str, default='key')
-    parser.add_argument('--metric_name', type=str, default='degree')
     args = parser.parse_args()
     args.save_path=f'inference_results/base/{args.model_id}_correction/'
     
     if not path.exists(args.save_path):
-        makedirs(args.save_path)
-    if args.metric_name == 'degree':
-        args.metric_values = [1,2,5,10,20]
-    elif args.metric_name == 'multi':
-        args.metric_values = ['worst_comb', 'best_comb', 'worst_all', 'best_all']
-    
+        makedirs(args.save_path)    
+        
     data = load_dataset(args.dataset)
     args.model_repo = MODEL_REPOS[args.model_id]
     if args.model_id=='4o_mini':
         client = OpenAI(api_key=args.key)
     elif args.model_id=='qwen':
         client = OpenAI(api_key=args.key, base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
+    args.metric_values = ['worst_single', 'best_single', 
+                          'worst_comb', 'best_comb', 
+                          'worst_all', 'best_all']    
     configs=['zero_shot_with_heur_value_all',
              'few_shot_with_heur_value_all']
 
@@ -76,23 +74,24 @@ def main():
             print(f'   Metric Value: {metric_value}...')
             
             args.metric_value = metric_value
-            args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}_{config}_correction.npy"
-            args.review_name = f"{args.model_id}_{args.metric_name}_{metric_value}_{config}_correction_reviews.npy"
+            args.save_name = f"{args.model_id}_{metric_value}_{config}_correction.npy"
+            args.review_name = f"{args.model_id}_{metric_value}_{config}_correction_reviews.npy"
             
-            def generate_weak_labels(example):    
-                if args.metric_name == 'degree':
-                    pred=int(example['min_angle']<=args.metric_value)
-                elif args.metric_name == 'multi':
-                    if args.metric_value == 'worst_comb':
-                        pred=int((example['max_area']>=0.5)&(example['min_angle']<=1))
-                    elif args.metric_value == 'best_comb':
-                        pred=int((example['max_area']>=0.2)&(example['min_angle']<=10))
-                    elif args.metric_value == 'worst_all':
-                        pred=pred=int( (example['max_area']>=0.5) & (example['min_angle']<=1) & (example['min_euc_dist']>=5))
-                    elif args.metric_value == 'best_all':
-                        pred=pred=int( (example['max_area']>=0.3) & (example['min_angle']<=20) & (example['min_euc_dist']>=2))
+            def generate_weak_labels(example):
+                if args.metric_value == 'worst_single':
+                    pred=int(example['max_area']>=0.5)
+                elif args.metric_value == 'best_single':
+                    pred=int(example['min_angle']<=10)
+                elif args.metric_value == 'worst_comb':
+                    pred=int((example['max_area']>=0.5)&(example['min_angle']<=1))
+                elif args.metric_value == 'best_comb':
+                    pred=int((example['max_area']>=0.2)&(example['min_angle']<=10))
+                elif args.metric_value == 'worst_all':
+                    pred=pred=int( (example['max_area']>=0.5) & (example['min_angle']<=1) & (example['min_euc_dist']>=5))
+                elif args.metric_value == 'best_all':
+                    pred=pred=int( (example['max_area']>=0.3) & (example['min_angle']<=20) & (example['min_euc_dist']>=2))
                 return { "pred" : pred}
-                                    
+                
             def review_formatting_func(example):
                 output = example['pred']
                 if config in ['zero_shot_with_heur_value_all', 'few_shot_with_heur_value_all']:
