@@ -47,21 +47,6 @@ def main():
     data = load_dataset(args.dataset)
     configs=list(INSTRUCTIONS.keys())
     configs=[
-        'zero_shot_with_heur_hint_area',
-        'zero_shot_with_heur_hint_angle_area',
-        'zero_shot_with_heur_hint_distance_area',
-        'zero_shot_with_heur_hint_all',
-        'zero_shot_with_heur_value_area',
-        'zero_shot_with_heur_value_angle_area',
-        'zero_shot_with_heur_value_distance_area',
-        'zero_shot_with_heur_value_all',
-        'few_shot_with_heur_hint_area',
-        'few_shot_with_heur_hint_angle_area',
-        'few_shot_with_heur_hint_distance_area',
-        'few_shot_with_heur_hint_all',
-        'few_shot_with_heur_value_area',
-        'few_shot_with_heur_value_angle_area',
-        'few_shot_with_heur_value_distance_area',
         'few_shot_with_heur_value_all'
     ]
     
