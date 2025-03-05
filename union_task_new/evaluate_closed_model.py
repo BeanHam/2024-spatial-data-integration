@@ -4,19 +4,17 @@ import numpy as np
 from utils import *
 from prompts import *
 from tqdm import tqdm
-from itertools import product
 from openai import OpenAI
+from itertools import product
 from os import path, makedirs
 from datasets import load_dataset
 
-def evaluate_gpt_4o_series(data, client, model):    
+def evaluate(data, client, model):
     model_outputs = []            
     for i in tqdm(range(len(data))):
         response = client.chat.completions.create(
             model=model,
-            messages=[
-                {"role": "user", "content": data['text'][i]},
-            ],
+            messages=[{"role": "user", "content": data['text'][i]}],
             temperature=0,
             max_tokens=10,
             top_p=1
@@ -35,14 +33,17 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_id', type=str, default='4o_mini')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_union_dataset')
-    parser.add_argument('--key', type=str, default='openaikey')
+    parser.add_argument('--key', type=str, default='key')
     args = parser.parse_args()
     args.save_path=f'inference_results/base/{args.model_id}/'
     if not path.exists(args.save_path):
         makedirs(args.save_path)
         
     args.model_repo = MODEL_REPOS[args.model_id]
-    client = OpenAI(api_key=args.key)
+    if args.model_id=='4o_mini':
+        client = OpenAI(api_key=args.key)
+    elif args.model_id=='qwen':
+        client = OpenAI(api_key=args.key,base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
     data = load_dataset(args.dataset)
     configs=list(INSTRUCTIONS.keys())
     
@@ -71,7 +72,7 @@ def main():
             
         base_instruction=INSTRUCTIONS[config]
         test = data['test'].map(formatting_prompts_func)
-        outputs = evaluate_gpt_4o_series(test, client, args.model_repo)
+        outputs = evaluate(test, client, args.model_repo)
         args.save_name = f"{args.model_id}_{config}.npy"
         np.save(args.save_path+args.save_name, outputs)
 

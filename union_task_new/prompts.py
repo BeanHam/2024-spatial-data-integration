@@ -70,7 +70,7 @@ instruction_heur_value_area="""You are a helpful geospatial analysis assistant. 
 
 Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially, by evaluating the following condition:
 
-- Overlap: The two sidewalks must fully or partially overlap. Simply connecting at the endpoints does not count as an intersection.
+- Overlap: The two sidewalks must fully or partially overlap. Simply connecting at the endpoints does not count as an intersection. The max_area values help quantify this overlap. 
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explanation is needed."""
 
