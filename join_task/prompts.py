@@ -167,13 +167,13 @@ instruction_heur_value_all="""You are a helpful geospatial analysis assistant. I
 
 - min_angle: The minimum angle (in degrees) between the sidewalk and the road.
 - min_distance: The minimum distance (in meters) between the sidewalk and the road.
-- max_area: The maximum percentage of overlapping area relative to both sidewalks, considering a 10-meter buffer.
+- max_area: The maximum percentage of overlapping area relative to the sidewalk and road, considering a 10-meter buffer.
 
 Your task is to determine whether the sidewalk runs alongside the road by evaluating the following conditions:
 
 - Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations. The min_angle value provides a measure of this alignment.
 - Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. The min_distance value helps quantify this proximity.
-- Overlap: While the sidewalk and road must not overlap directly, a 10-meter buffer around each should have some minimal overlap. The max_area values help quantify this overlap. 
+- Overlap: While the sidewalk and road must not overlap directly, a 10-meter buffer around each should have some minimal overlap. The max_area values help quantify this overlap.
 
 If all conditions are satisfied, return 1. Otherwise, return 0. No explanation is needed."""
 
@@ -379,7 +379,7 @@ INSTRUCTIONS = {
 ## self correction prompts
 ## ============================
 
-base_ec_review_alpaca_prompt = """### Instruction:
+base_alpaca_prompt_review = """### Instruction:
 {}
 
 ### Input:
@@ -390,7 +390,7 @@ base_ec_review_alpaca_prompt = """### Instruction:
 ### Review:
 The above response is generated using heuristics. Please carefully review and identify if there are any problems with the above response."""
 
-base_ec_improve_alpaca_prompt = """### Instruction:
+base_alpaca_prompt_improve = """### Instruction:
 {}
 
 ### Input:

@@ -3,10 +3,10 @@ MODEL_REPOS = {
     't5': 'google-t5/t5-large',
     'mistral': 'mistralai/Mistral-7B-Instruct-v0.3',
     'llama3': 'meta-llama/Llama-3.1-8B-Instruct',
+    'llama3_70b': 'meta-llama/Llama-3.3-70B-Instruct-Turbo-Free',
     '4o_mini': 'gpt-4o-mini-2024-07-18',
     '4o': 'gpt-4o-2024-08-06',
     'gemini': 'gemini-2.0-flash',
-    #'qwen': 'qwen-plus-2025-01-25',
     'qwen': 'qwen-plus',
     'deepseek': 'deepseek-chat'
 }

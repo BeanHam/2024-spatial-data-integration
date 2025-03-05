@@ -1,4 +1,3 @@
-import time
 import argparse
 import numpy as np
 
@@ -15,15 +14,12 @@ def review_generation(data, client, model):
     for i in tqdm(range(len(data))):
         response = client.chat.completions.create(
             model=model,
-            messages=[
-                {"role": "user", "content": data['text'][i]},
-            ],
+            messages=[{"role": "user", "content": data['text'][i]}],
             temperature=0,
             max_tokens=200,
             top_p=1
         )
         model_outputs.append(response.choices[0].message.content)
-        time.sleep(1.5)
     return model_outputs
 
 def improve_generation(data, client, model):    
@@ -31,15 +27,12 @@ def improve_generation(data, client, model):
     for i in tqdm(range(len(data))):
         response = client.chat.completions.create(
             model=model,
-            messages=[
-                {"role": "user", "content": data['text'][i]},
-            ],
+            messages=[{"role": "user", "content": data['text'][i]}],
             temperature=0,
             max_tokens=10,
             top_p=1
         )
         model_outputs.append(response.choices[0].message.content)
-        time.sleep(1.5)
     return model_outputs
 
 #-----------------------
@@ -56,22 +49,21 @@ def main():
     parser.add_argument('--key', type=str, default='qwenkey')
     parser.add_argument('--metric_name', type=str, default='degree')
     args = parser.parse_args()
-    args.save_path=f'inference_results/base/{args.model_id}_ec/'
+    args.save_path=f'inference_results/base/{args.model_id}_correction/'
+    
     if not path.exists(args.save_path):
         makedirs(args.save_path)
     if args.metric_name == 'degree':
-        args.metric_values = [10,20]
+        args.metric_values = [1,2,5,10,20]
+    elif args.metric_name == 'multi':
+        args.metric_values = ['worst_comb', 'best_comb', 'worst_all', 'best_all']
 
     data = load_dataset(args.dataset)
-    configs=['zero_shot_with_heur_value_comb',]
-             #'few_shot_with_heur_value_comb']
+    configs=['zero_shot_with_heur_value_all',             
+             'few_shot_with_heur_value_all']  
     
     args.model_repo = MODEL_REPOS[args.model_id]
     client = OpenAI(api_key=args.key,base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")    
-    
-    ## evaluate on a subset
-    np.random.seed(100)
-    subset_index=np.random.randint(0, len(data['test']), 1000)
     
     for config in configs:
         print('=================================')
@@ -82,51 +74,48 @@ def main():
             print(f'   Metric Value: {metric_value}...')
             
             args.metric_value = metric_value
-            args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}_{config}_ec.npy"
-            args.review_name = f"{args.model_id}_{args.metric_name}_{metric_value}_{config}_ec_reviews.npy"
+            args.save_name = f"{args.model_id}_{args.metric_name}_{metric_value}_{config}_correction.npy"
+            args.review_name = f"{args.model_id}_{args.metric_name}_{metric_value}_{config}_correction_reviews.npy"
             
             def generate_weak_labels(example):    
                 if args.metric_name == 'degree':
                     pred=int(example['min_angle']<=args.metric_value)
-                elif args.metric_name == 'distance':
-                    pred=int(example['min_euc_dist']>=args.metric_value)        
+                elif args.metric_name == 'multi':
+                    if args.metric_value == 'worst_comb':
+                        pred=int((example['max_area']>=0.5)&(example['min_angle']<=1))
+                    elif args.metric_value == 'best_comb':
+                        pred=int((example['max_area']>=0.2)&(example['min_angle']<=10))
+                    elif args.metric_value == 'worst_all':
+                        pred=pred=int( (example['max_area']>=0.5) & (example['min_angle']<=1) & (example['min_euc_dist']>=5))
+                    elif args.metric_value == 'best_all':
+                        pred=pred=int( (example['max_area']>=0.3) & (example['min_angle']<=20) & (example['min_euc_dist']>=2))
                 return { "pred" : pred}
                                     
             def review_formatting_func(example):
                 output = example['pred']
-                if 'value_angle' in config:
+                if config in ['zero_shot_with_heur_value_all', 'few_shot_with_heur_value_all']:
                     input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
-                            "\nmin_angle: "+str(example['min_angle'])
-                elif 'value_distance' in config:
-                    input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
-                            "\nmin_distance: "+str(example['min_euc_dist'])    
-                elif 'value_comb' in config:
-                    input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
-                            "\nmin_angle: "+str(example['min_angle'])+"\nmin_distance: "+str(example['min_euc_dist'])        
+                            "\nmin_angle: "+str(example['min_angle'])+"\nmin_distance: "+str(example['min_euc_dist'])+\
+                            "\nmax_area: "+str(example['max_area'])
                 else:
-                    input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
-                text = base_ec_review_alpaca_prompt.format(base_instruction, input, output)
+                    input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])                
+                text = base_alpaca_prompt_review.format(base_instruction, input, output)
                 return { "text" : text}
                 
             def improve_formatting_func(example):
                 output = example['pred']
                 review = example['review']
-                if 'value_angle' in config:
+                if config in ['zero_shot_with_heur_value_all', 'few_shot_with_heur_value_all']:
                     input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
-                            "\nmin_angle: "+str(example['min_angle'])
-                elif 'value_distance' in config:
-                    input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
-                            "\nmin_distance: "+str(example['min_euc_dist'])    
-                elif 'value_comb' in config:
-                    input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
-                            "\nmin_angle: "+str(example['min_angle'])+"\nmin_distance: "+str(example['min_euc_dist'])        
+                            "\nmin_angle: "+str(example['min_angle'])+"\nmin_distance: "+str(example['min_euc_dist'])+\
+                            "\nmax_area: "+str(example['max_area'])
                 else:
-                    input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])
-                text = base_ec_improve_alpaca_prompt.format(base_instruction, input, output, review)
+                    input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])   
+                text = base_alpaca_prompt_improve.format(base_instruction, input, output, review)
                 return { "text" : text}
             
             base_instruction=INSTRUCTIONS[config]
-            test = data['test'].select(subset_index).map(generate_weak_labels)
+            test = data['test'].map(generate_weak_labels)
             test = test.map(review_formatting_func)
             
             ## review generation
