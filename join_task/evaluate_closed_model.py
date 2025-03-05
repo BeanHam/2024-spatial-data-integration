@@ -4,8 +4,8 @@ import numpy as np
 from utils import *
 from prompts import *
 from tqdm import tqdm
-from itertools import product
 from openai import OpenAI
+from itertools import product
 from os import path, makedirs
 from datasets import load_dataset
 
@@ -46,9 +46,6 @@ def main():
         client = OpenAI(api_key=args.key,base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
     data = load_dataset(args.dataset)
     configs=list(INSTRUCTIONS.keys())
-    configs=[
-        'few_shot_with_heur_value_all'
-    ]
     
     #-----------------------------
     # loop through parameters

@@ -4,8 +4,8 @@ import numpy as np
 from utils import *
 from prompts import *
 from tqdm import tqdm
-from itertools import product
 from openai import OpenAI
+from itertools import product
 from os import path, makedirs
 from datasets import load_dataset
 
@@ -16,7 +16,7 @@ def review_generation(data, client, model):
             model=model,
             messages=[{"role": "user", "content": data['text'][i]}],
             temperature=0,
-            max_tokens=200,
+            max_tokens=300,
             top_p=1
         )
         model_outputs.append(response.choices[0].message.content)
@@ -46,7 +46,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_id', type=str, default='4o_mini')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
-    parser.add_argument('--key', type=str, default='openaikey')
+    parser.add_argument('--key', type=str, default='key')
     parser.add_argument('--metric_name', type=str, default='degree')
     args = parser.parse_args()
     args.save_path=f'inference_results/base/{args.model_id}_correction/'
@@ -59,11 +59,13 @@ def main():
         args.metric_values = ['worst_comb', 'best_comb', 'worst_all', 'best_all']
     
     data = load_dataset(args.dataset)
-    configs=['zero_shot_with_heur_value_all',
-             'few_shot_with_heur_value_all']   
-    
     args.model_repo = MODEL_REPOS[args.model_id]
-    client = OpenAI(api_key=args.key)      
+    if args.model_id=='4o_mini':
+        client = OpenAI(api_key=args.key)
+    elif args.model_id=='qwen':
+        client = OpenAI(api_key=args.key, base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
+    configs=['zero_shot_with_heur_value_all',
+             'few_shot_with_heur_value_all']
 
     for config in configs:
         print('=================================')
