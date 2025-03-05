@@ -36,6 +36,7 @@ def main():
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
     parser.add_argument('--max_seq_length', type=int, default=4096)
     parser.add_argument('--device', type=str, default='auto')
+    parser.add_argument('--key', type=str, default='togetheraikey')
     args = parser.parse_args()
     args.save_path=f'inference_results/base/{args.model_id}/'
     if not path.exists(args.save_path):
