@@ -1,4 +1,3 @@
-import time
 import argparse
 import numpy as np
 
@@ -15,15 +14,12 @@ def evaluate_qwen(data, client, model):
     for i in tqdm(range(len(data))):
         response = client.chat.completions.create(
             model=model,
-            messages=[
-                {"role": "user", "content": data['text'][i]},
-            ],
+            messages=[{"role": "user", "content": data['text'][i]}],
             temperature=0,
             max_tokens=10,
             top_p=1
         )
         model_outputs.append(response.choices[0].message.content)
-        #time.sleep(1)
     return model_outputs
 
 #-----------------------
@@ -47,6 +43,24 @@ def main():
     client = OpenAI(api_key=args.key,base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
     data = load_dataset(args.dataset)
     configs=list(INSTRUCTIONS.keys())
+    configs=[
+        'zero_shot_with_heur_hint_area',
+        'zero_shot_with_heur_hint_angle_area',
+        'zero_shot_with_heur_hint_distance_area',
+        'zero_shot_with_heur_hint_all',
+        'zero_shot_with_heur_value_area',
+        'zero_shot_with_heur_value_angle_area',
+        'zero_shot_with_heur_value_distance_area',
+        'zero_shot_with_heur_value_all',
+        'few_shot_with_heur_hint_area',
+        'few_shot_with_heur_hint_angle_area',
+        'few_shot_with_heur_hint_distance_area',
+        'few_shot_with_heur_hint_all',
+        'few_shot_with_heur_value_area',
+        'few_shot_with_heur_value_angle_area',
+        'few_shot_with_heur_value_distance_area',
+        'few_shot_with_heur_value_all'
+    ]
     
     #-----------------------------
     # loop through parameters

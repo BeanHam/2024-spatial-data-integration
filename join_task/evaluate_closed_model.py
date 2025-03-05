@@ -9,7 +9,7 @@ from openai import OpenAI
 from os import path, makedirs
 from datasets import load_dataset
 
-def evaluate_gpt_4o_series(data, client, model):    
+def evaluate(data, client, model):
     model_outputs = []            
     for i in tqdm(range(len(data))):
         response = client.chat.completions.create(
@@ -33,16 +33,37 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--model_id', type=str, default='4o_mini')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
-    parser.add_argument('--key', type=str, default='openaikey')
+    parser.add_argument('--key', type=str, default='key')
     args = parser.parse_args()
     args.save_path=f'inference_results/base/{args.model_id}/'
     if not path.exists(args.save_path):
         makedirs(args.save_path)
         
     args.model_repo = MODEL_REPOS[args.model_id]
-    client = OpenAI(api_key=args.key)
+    if args.model=='4o_mini':
+        client = OpenAI(api_key=args.key)
+    elif args.model=='qwen':
+        client = OpenAI(api_key=args.key,base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
     data = load_dataset(args.dataset)
     configs=list(INSTRUCTIONS.keys())
+    configs=[
+        'zero_shot_with_heur_hint_area',
+        'zero_shot_with_heur_hint_angle_area',
+        'zero_shot_with_heur_hint_distance_area',
+        'zero_shot_with_heur_hint_all',
+        'zero_shot_with_heur_value_area',
+        'zero_shot_with_heur_value_angle_area',
+        'zero_shot_with_heur_value_distance_area',
+        'zero_shot_with_heur_value_all',
+        'few_shot_with_heur_hint_area',
+        'few_shot_with_heur_hint_angle_area',
+        'few_shot_with_heur_hint_distance_area',
+        'few_shot_with_heur_hint_all',
+        'few_shot_with_heur_value_area',
+        'few_shot_with_heur_value_angle_area',
+        'few_shot_with_heur_value_distance_area',
+        'few_shot_with_heur_value_all'
+    ]
     
     #-----------------------------
     # loop through parameters
@@ -82,7 +103,7 @@ def main():
             
         base_instruction=INSTRUCTIONS[config]
         test = data['test'].map(formatting_prompts_func)
-        outputs = evaluate_gpt_4o_series(test, client, args.model_repo)
+        outputs = evaluate(test, client, args.model_repo)
         args.save_name = f"{args.model_id}_{config}.npy"
         np.save(args.save_path+args.save_name, outputs)
         

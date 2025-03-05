@@ -43,7 +43,7 @@ If the condition is satisfied, return 1. Otherwise, return 0. No explanation is 
 ## area
 instruction_heur_hint_area="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format. Your task is to determine whether the sidewalk runs alongside the road by evaluating the following condition:
 
-- Overlap: While the sidewalk and road must not overlap directly, a 10-meter buffer around each should have some minimal overlap. 
+- Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap.
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explanation is needed. """
 
@@ -60,7 +60,7 @@ If both conditions are satisfied, return 1. Otherwise, return 0. No explanation 
 instruction_heur_hint_angle_area="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format. Your task is to determine whether the sidewalk runs alongside the road by evaluating the following conditions:
 
 - Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations.
-- Overlap: While the sidewalk and road must not overlap directly, a 10-meter buffer around each should have some minimal overlap.
+- Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap.
 
 If both conditions are satisfied, return 1. Otherwise, return 0. No explanation is needed. """
 
@@ -68,7 +68,7 @@ If both conditions are satisfied, return 1. Otherwise, return 0. No explanation 
 instruction_heur_hint_distance_area="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format. Your task is to determine whether the sidewalk runs alongside the road by evaluating the following conditions:
 
 - Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. 
-- Overlap: While the sidewalk and road must not overlap directly, a 10-meter buffer around each should have some minimal overlap.
+- Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap.
 
 If both conditions are satisfied, return 1. Otherwise, return 0. No explanation is needed. """
 
@@ -77,7 +77,7 @@ instruction_heur_hint_all="""You are a helpful geospatial analysis assistant. I 
 
 - Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations.
 - Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. 
-- Overlap: While the sidewalk and road must not overlap directly, a 10-meter buffer around each should have some minimal overlap.
+- Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap.
 
 If all conditions are satisfied, return 1. Otherwise, return 0. No explanation is needed. """
 
@@ -117,7 +117,7 @@ instruction_heur_value_area="""You are a helpful geospatial analysis assistant. 
 
 Your task is to determine whether the sidewalk runs alongside the road by evaluating the following condition:
 
-- Overlap: While the sidewalk and road must not overlap directly, a 10-meter buffer around each should have some minimal overlap. The max_area values help quantify this overlap. 
+- Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap. The max_area values help quantify this overlap. 
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explanation is needed."""
 
@@ -144,7 +144,7 @@ instruction_heur_value_angle_area="""You are a helpful geospatial analysis assis
 Your task is to determine whether the sidewalk runs alongside the road by evaluating the following conditions:
 
 - Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations. The min_angle value provides a measure of this alignment.
-- Overlap: While the sidewalk and road must not overlap directly, a 10-meter buffer around each should have some minimal overlap. The max_area values help quantify this overlap. 
+- Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap. The max_area values help quantify this overlap. 
 
 If both conditions are satisfied, return 1. Otherwise, return 0. No explanation is needed."""
 
@@ -157,7 +157,7 @@ instruction_heur_value_distance_area="""You are a helpful geospatial analysis as
 Your task is to determine whether the sidewalk runs alongside the road by evaluating the following conditions:
 
 - Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. The min_distance value helps quantify this proximity.
-- Overlap: While the sidewalk and road must not overlap directly, a 10-meter buffer around each should have some minimal overlap. The max_area values help quantify this overlap. 
+- Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap. The max_area values help quantify this overlap. 
 
 If both conditions are satisfied, return 1. Otherwise, return 0. No explanation is needed."""
 
@@ -173,7 +173,7 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 
 - Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations. The min_angle value provides a measure of this alignment.
 - Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. The min_distance value helps quantify this proximity.
-- Overlap: While the sidewalk and road must not overlap directly, a 10-meter buffer around each should have some minimal overlap. The max_area values help quantify this overlap.
+- Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap. The max_area values help quantify this overlap.
 
 If all conditions are satisfied, return 1. Otherwise, return 0. No explanation is needed."""
 
