@@ -55,18 +55,17 @@ def main():
         
     data = load_dataset(args.dataset)
     args.model_repo = MODEL_REPOS[args.model_id]
-    if args.model_id=='4o_mini':
+    if args.model_id in ['4o_mini', '4o']:
         client = OpenAI(api_key=args.key)
-    elif args.model_id=='qwen':
+    elif args.model_id in ['qwen_plus', 'qwen_max']:
         client = OpenAI(api_key=args.key, base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
     args.metric_values = ['worst_single', 
-			  'best_single', 
+                          'best_single', 
                           'worst_comb', 
                           'best_comb', 
                           'worst_all', 
- 			  'best_all']    
-    configs=[#'zero_shot_with_heur_value_all',
-             'few_shot_with_heur_value_all']
+                          'best_all']    
+    configs=['few_shot_with_heur_value_all']
 
     for config in configs:
         print('=================================')
