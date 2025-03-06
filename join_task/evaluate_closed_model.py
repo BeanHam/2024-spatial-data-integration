@@ -42,7 +42,7 @@ def main():
     args.model_repo = MODEL_REPOS[args.model_id]
     if args.model_id in ['4o_mini', '4o']:
         client = OpenAI(api_key=args.key)
-    elif args.model_id=='qwen':
+    elif args.model_id in ['qwen_plus', 'qwen_max']:
         client = OpenAI(api_key=args.key,base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
     data = load_dataset(args.dataset)
     configs=list(INSTRUCTIONS.keys())
