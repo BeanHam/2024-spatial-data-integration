@@ -40,7 +40,7 @@ def main():
         makedirs(args.save_path)
         
     args.model_repo = MODEL_REPOS[args.model_id]
-    if args.model_id=='4o_mini':
+    if args.model_id in ['4o_mini', '4o']:
         client = OpenAI(api_key=args.key)
     elif args.model_id=='qwen':
         client = OpenAI(api_key=args.key,base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
