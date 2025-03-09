@@ -202,7 +202,7 @@ INSTRUCTIONS = {
 ## self correction prompts
 ## ============================
 
-base_ec_review_alpaca_prompt = """### Instruction:
+base_alpaca_prompt_review = """### Instruction:
 {}
 
 ### Input:
@@ -213,7 +213,7 @@ base_ec_review_alpaca_prompt = """### Instruction:
 ### Review:
 The above response is generated using heuristics. Please carefully review and identify if there are any problems with the above response."""
 
-base_ec_improve_alpaca_prompt = """### Instruction:
+base_alpaca_prompt_improve = """### Instruction:
 {}
 
 ### Input:
