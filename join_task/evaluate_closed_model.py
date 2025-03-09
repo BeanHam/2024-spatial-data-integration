@@ -46,16 +46,6 @@ def main():
         client = OpenAI(api_key=args.key,base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
     data = load_dataset(args.dataset)
     configs=list(INSTRUCTIONS.keys())
-    configs = [
-        'zero_shot_with_heur_value_area',
-        'zero_shot_with_heur_value_angle_area',
-        'zero_shot_with_heur_value_distance_area',
-        'zero_shot_with_heur_value_all',
-        'few_shot_with_heur_value_area',
-        'few_shot_with_heur_value_angle_area',
-        'few_shot_with_heur_value_distance_area',
-        'few_shot_with_heur_value_all',
-    ]
     
     #-----------------------------
     # loop through parameters
