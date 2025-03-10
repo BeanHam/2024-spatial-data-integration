@@ -98,7 +98,7 @@ Your task is to determine whether these two geometries represent the same sidewa
 
 - Parallelism: The two sidewalks should be approximately parallel, with only a small angular difference in their orientations. The min_angle value provides a measure of this alignment.
 
-If the condition is satisfied, return 1. Otherwise, return 0. Please solve the task step by step."""
+If the condition is satisfied, return 1. Otherwise, return 0. Please solve the task step by step, evaluating the condition requirement with the statistic."""
 
 ## -----
 ## area
@@ -121,7 +121,7 @@ Your task is to determine whether these two geometries represent the same sidewa
 
 - Overlap: The two sidewalks must fully or partially overlap. Simply connecting at the endpoints does not count as an intersection. The max_area values help quantify this overlap. 
 
-If the condition is satisfied, return 1. Otherwise, return 0. Please solve the task step by step."""
+If the condition is satisfied, return 1. Otherwise, return 0. Please solve the task step by step, evaluating the condition requirement with the statistic."""
 
 
 ## -------------------------
@@ -150,7 +150,7 @@ Your task is to determine whether these two geometries represent the same sidewa
 - Parallelism: The two sidewalks should be approximately parallel, with only a small angular difference in their orientations. The min_angle value provides a measure of this alignment.
 - Overlap: The two sidewalks must fully or partially overlap. Simply connecting at the endpoints does not count as an intersection. The max_area values help quantify this overlap. 
 
-If both conditions are satisfied, return 1. Otherwise, return 0. Please solve the task step by step."""
+If both conditions are satisfied, return 1. Otherwise, return 0.Please solve the task step by step, evaluating the condition requirements with the statistics."""
 
 ## ===============================
 ## base evaluation -- examples
@@ -260,19 +260,10 @@ INSTRUCTIONS = {
     'few_shot_with_heur_value_angle_area': instruction_heur_value_angle_area + examples_heur_value_angle_area,
 }
 
-COT_INSTRUCTIONS = {
-    'zero_shot_no_heur_cot': instruction_no_heur_cot,    
-    'zero_shot_with_heur_hint_angle_cot': instruction_heur_hint_angle_cot,
-    'zero_shot_with_heur_hint_area_cot': instruction_heur_hint_area_cot,
-    'zero_shot_with_heur_hint_angle_area_cot': instruction_heur_hint_angle_area_cot,    
+COT_INSTRUCTIONS = { 
     'zero_shot_with_heur_value_angle_cot': instruction_heur_value_angle_cot,
     'zero_shot_with_heur_value_area_cot': instruction_heur_value_area_cot,    
     'zero_shot_with_heur_value_angle_area_cot': instruction_heur_value_angle_area_cot,
-    
-    'few_shot_no_heur_cot': instruction_no_heur_cot + examples_no_heur,    
-    'few_shot_with_heur_hint_angle_cot': instruction_heur_hint_angle_cot + examples_heur_hint,
-    'few_shot_with_heur_hint_area_cot': instruction_heur_hint_area_cot + examples_heur_hint,
-    'few_shot_with_heur_hint_angle_area_cot': instruction_heur_hint_angle_area_cot + examples_heur_hint,    
     'few_shot_with_heur_value_angle_cot': instruction_heur_value_angle_cot + examples_heur_value_angle,
     'few_shot_with_heur_value_area_cot': instruction_heur_value_area_cot + examples_heur_value_area,  
     'few_shot_with_heur_value_angle_area_cot': instruction_heur_value_angle_area_cot + examples_heur_value_angle_area,

@@ -36,8 +36,8 @@ def main():
     args = parser.parse_args()
     args.save_path=f'inference_results/base/{args.model_id}/'
     if not path.exists(args.save_path):
-        makedirs(args.save_path)        
-    data = load_dataset(args.dataset)    
+        makedirs(args.save_path)
+    data = load_dataset(args.dataset)
     configs=list(COT_INSTRUCTIONS.keys())
 
     #-----------------------------
@@ -61,13 +61,13 @@ def main():
         
         def formatting_prompts_func(example):
             output = ""
-            if config in ['zero_shot_with_heur_value_angle', 'few_shot_with_heur_value_angle']:
+            if config in ['zero_shot_with_heur_value_angle_cot', 'few_shot_with_heur_value_angle_cot']:
                 input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
                         "\nmin_angle: "+str(example['min_angle'])
-            elif config in ['zero_shot_with_heur_value_area', 'few_shot_with_heur_value_area']:
+            elif config in ['zero_shot_with_heur_value_area_cot', 'few_shot_with_heur_value_area_cot']:
                 input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
                         "\nmax_area: "+str(example['max_area'])
-            elif config in ['zero_shot_with_heur_value_angle_area', 'few_shot_with_heur_value_angle_area']:
+            elif config in ['zero_shot_with_heur_value_angle_area_cot', 'few_shot_with_heur_value_angle_area_cot']:
                 input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
                         "\nmin_angle: "+str(example['min_angle'])+"\nmax_area: "+str(example['max_area'])
             else:

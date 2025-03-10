@@ -1,40 +1,24 @@
-import time
 import argparse
-import anthropic
 import numpy as np
 
 from utils import *
 from prompts import *
 from tqdm import tqdm
-from openai import OpenAI
 from itertools import product
 from os import path, makedirs
 from datasets import load_dataset
+from unsloth import FastLanguageModel
 
-def evaluate(data, client, model):
-    model_outputs = []
-    if 'claude' in model:
-        for i in tqdm(range(len(data))):
-            response = client.messages.create(
-                model=model,
-                messages=[{"role": "user", "content": data['text'][i]}],
-                temperature=0,
-                max_tokens=300,
-                top_p=1
-            )
-            model_outputs.append(response.content[0].text)
-            time.sleep(0.5)
-    else:
-        for i in tqdm(range(len(data))):
-            response = client.chat.completions.create(
-                model=model,
-                messages=[{"role": "user", "content": data['text'][i]}],
-                temperature=0,
-                max_tokens=300,
-                top_p=1
-            )
-            model_outputs.append(response.choices[0].message.content)
-    return model_outputs
+## evaluation function
+def evaluate(model, tokenizer, data, max_sequence_length):
+    outputs=[]
+    for text in tqdm(data['text']):
+        start_decode = len(tokenizer.encode(text, truncation=True, max_length=max_sequence_length))        
+        inputs = tokenizer(text, return_tensors = "pt", max_length=max_sequence_length).to("cuda")
+        response = model.generate(**inputs, max_new_tokens = 300)
+        response = tokenizer.decode(response[0][start_decode:])
+        outputs.append(response)
+    return outputs
 
 #-----------------------
 # Main Function
@@ -42,26 +26,31 @@ def evaluate(data, client, model):
 def main():
     
     #-------------------
-    # parameters
+    # Parameters
     #-------------------    
     parser = argparse.ArgumentParser()
-    parser.add_argument('--model_id', type=str, default='4o_mini')
+    parser.add_argument('--model_id', type=str, default='llama3')
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
-    parser.add_argument('--key', type=str, default='key')
+    parser.add_argument('--max_seq_length', type=int, default=4096)
+    parser.add_argument('--device', type=str, default='auto')
     args = parser.parse_args()
     args.save_path=f'inference_results/base/{args.model_id}/'
     if not path.exists(args.save_path):
-        makedirs(args.save_path)
-        
-    args.model_repo = MODEL_REPOS[args.model_id]
-    if args.model_id in ['4o_mini', '4o']:
-        client = OpenAI(api_key=args.key)
-    elif args.model_id in ['qwen_plus', 'qwen_max']:
-        client = OpenAI(api_key=args.key,base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
-    elif args.model_id in ['claude']:        
-        client = anthropic.Anthropic(api_key=args.key)        
+        makedirs(args.save_path)        
     data = load_dataset(args.dataset)
     configs=list(COT_INSTRUCTIONS.keys())
+    
+    #-----------------------------
+    # load model
+    #-----------------------------
+    args.model_repo = MODEL_REPOS[args.model_id]
+    model, tokenizer = FastLanguageModel.from_pretrained(
+        model_name = args.model_repo,
+        max_seq_length = args.max_seq_length,
+        dtype = None,
+        load_in_4bit = True
+    )
+    FastLanguageModel.for_inference(model)
     
     #-----------------------------
     # loop through parameters
@@ -101,8 +90,8 @@ def main():
             
         base_instruction=COT_INSTRUCTIONS[config]
         test = data['test'].map(formatting_prompts_func)
-        outputs = evaluate(test, client, args.model_repo)
-        args.save_name = f"{args.model_id}_{config}.npy"
+        outputs=evaluate(model, tokenizer, test, args.max_seq_length)
+        args.save_name = f"{args.model_id}_{config}.npy"        
         np.save(args.save_path+args.save_name, outputs)
         
 if __name__ == "__main__":
