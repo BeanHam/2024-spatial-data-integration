@@ -20,6 +20,8 @@ base_alpaca_prompt = """### Instruction:
 ## -------------------
 instruction_no_heur="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format. Your task is to determine whether the sidewalk runs alongside the road. If it does, return 1. Otherwise, return 0. No explanation is needed."""
 
+instruction_no_heur_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format. Your task is to determine whether the sidewalk runs alongside the road. If it does, return 1. Otherwise, return 0. No explanation is needed."""
+
 
 ## ------------------------
 ## with heuristic hint
@@ -32,6 +34,11 @@ instruction_heur_hint_angle="""You are a helpful geospatial analysis assistant. 
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explanation is needed. """
 
+instruction_heur_hint_angle_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format. Your task is to determine whether the sidewalk runs alongside the road by evaluating the following condition:
+
+- Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations.
+
+If the condition is satisfied, return 1. Otherwise, return 0. Please solve the task step by step."""
 
 ## distance
 instruction_heur_hint_distance="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format. Your task is to determine whether the sidewalk runs alongside the road by evaluating the following condition:
