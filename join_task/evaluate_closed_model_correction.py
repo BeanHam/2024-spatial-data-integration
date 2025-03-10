@@ -1,4 +1,5 @@
 import argparse
+import anthropic
 import numpy as np
 
 from utils import *
@@ -10,29 +11,51 @@ from os import path, makedirs
 from datasets import load_dataset
 
 def review_generation(data, client, model):    
-    model_outputs = []            
-    for i in tqdm(range(len(data))):
-        response = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": data['text'][i]}],
-            temperature=0,
-            max_tokens=300,
-            top_p=1
-        )
-        model_outputs.append(response.choices[0].message.content)
+    model_outputs = []
+    if 'claude' in model:
+        for i in tqdm(range(len(data))):
+            response = client.messages.create(
+                model=model,
+                messages=[{"role": "user", "content": data['text'][i]}],
+                temperature=0,
+                max_tokens=300,
+                top_p=1
+            )
+            model_outputs.append(response.content[0].text)
+    else:
+        for i in tqdm(range(len(data))):
+            response = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": data['text'][i]}],
+                temperature=0,
+                max_tokens=300,
+                top_p=1
+            )
+            model_outputs.append(response.choices[0].message.content)        
     return model_outputs
 
 def improve_generation(data, client, model):    
-    model_outputs = []            
-    for i in tqdm(range(len(data))):
-        response = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": data['text'][i]}],
-            temperature=0,
-            max_tokens=10,
-            top_p=1
-        )
-        model_outputs.append(response.choices[0].message.content)
+    model_outputs = []
+    if 'claude' in model:
+        for i in tqdm(range(len(data))):
+            response = client.messages.create(
+                model=model,
+                messages=[{"role": "user", "content": data['text'][i]}],
+                temperature=0,
+                max_tokens=10,
+                top_p=1
+            )
+            model_outputs.append(response.content[0].text)
+    else:
+        for i in tqdm(range(len(data))):
+            response = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": data['text'][i]}],
+                temperature=0,
+                max_tokens=10,
+                top_p=1
+            )
+            model_outputs.append(response.choices[0].message.content)
     return model_outputs
 
 #-----------------------
@@ -58,6 +81,8 @@ def main():
         client = OpenAI(api_key=args.key)
     elif args.model_id in ['qwen_plus', 'qwen_max']:
         client = OpenAI(api_key=args.key, base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
+    elif args.model_id in ['claude']:        
+        client = anthropic.Anthropic(api_key=args.key)
     args.metric_values = [#'worst_single',] 
                           #'best_single', 
                           #'worst_comb', 

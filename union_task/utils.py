@@ -1,13 +1,12 @@
 MODEL_REPOS = {
-    'bert': 'google-bert/bert-base-uncased',
-    't5': 'google-t5/t5-large',
     'mistral': 'mistralai/Mistral-7B-Instruct-v0.3',
     'llama3': 'meta-llama/Llama-3.1-8B-Instruct',
     '4o_mini': 'gpt-4o-mini-2024-07-18',
     '4o': 'gpt-4o-2024-08-06',
     'gemini': 'gemini-2.0-flash',
-    #'qwen': 'qwen-plus-2025-01-25',
+    'claude': 'claude-3-5-haiku-20241022',
     'qwen_plus': 'qwen-plus',
+    'qwen_max': 'qwen-max',
     'deepseek': 'deepseek-chat'
 }
 

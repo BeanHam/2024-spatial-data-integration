@@ -12,7 +12,7 @@ from datasets import load_dataset
 
 def evaluate(data, client, model):
     model_outputs = []
-    if 'claude' in model:        
+    if 'claude' in model:
         for i in tqdm(range(len(data))):
             response = client.messages.create(
                 model=model,
