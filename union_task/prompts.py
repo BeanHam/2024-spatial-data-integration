@@ -20,26 +20,45 @@ base_alpaca_prompt = """### Instruction:
 ## -------------------
 instruction_no_heur="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format. Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially. If they do, return 1. Otherwise, return 0. No explanation is needed."""
 
+instruction_no_heur_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format. Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially. If they do, return 1. Otherwise, return 0. Please solve the task step by step."""
 
 ## ------------------------
 ## with heuristic hint
 ## ------------------------
 
+## -----
 ## angle
+## -----
 instruction_heur_hint_angle="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format. Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially, by evaluating the following condition:
 
 - Parallelism: The two sidewalks should be approximately parallel, with only a small angular difference in their orientations.
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explanation is needed. """
 
+instruction_heur_hint_angle_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format. Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially, by evaluating the following condition:
+
+- Parallelism: The two sidewalks should be approximately parallel, with only a small angular difference in their orientations.
+
+If the condition is satisfied, return 1. Otherwise, return 0. Please solve the task step by step."""
+
+## -----
 ## area
+## -----
 instruction_heur_hint_area="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format. Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially, by evaluating the following condition:
 
 - Overlap: The two sidewalks must fully or partially overlap. Simply connecting at the endpoints does not count as an intersection.
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explanation is needed. """
 
+instruction_heur_hint_area_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format. Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially, by evaluating the following condition:
+
+- Overlap: The two sidewalks must fully or partially overlap. Simply connecting at the endpoints does not count as an intersection.
+
+If the condition is satisfied, return 1. Otherwise, return 0. Please solve the task step by step."""
+
+## -------------------------
 ## combination (angle, area)
+## -------------------------
 instruction_heur_hint_angle_area="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format. Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially, by evaluating the following conditions:
 
 - Parallelism: The two sidewalks should be approximately parallel, with only a small angular difference in their orientations.
@@ -47,12 +66,20 @@ instruction_heur_hint_angle_area="""You are a helpful geospatial analysis assist
 
 If both conditions are satisfied, return 1. Otherwise, return 0. No explanation is needed. """
 
+instruction_heur_hint_angle_area_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format. Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially, by evaluating the following conditions:
+
+- Parallelism: The two sidewalks should be approximately parallel, with only a small angular difference in their orientations.
+- Overlap: The two sidewalks must fully or partially overlap. Simply connecting at the endpoints does not count as an intersection.
+
+If both conditions are satisfied, return 1. Otherwise, return 0. Please solve the task step by step."""
 
 ## ---------------------------
 ## with heuristic value
 ## ---------------------------
 
+## -----
 ## angle
+## -----
 instruction_heur_value_angle="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format, along with a key statistics:
 
 - min_angle: The minimum angle (in degrees) between the sidewalk and the road.
@@ -63,7 +90,19 @@ Your task is to determine whether these two geometries represent the same sidewa
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explanation is needed."""
 
+instruction_heur_value_angle_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format, along with a key statistics:
+
+- min_angle: The minimum angle (in degrees) between the sidewalk and the road.
+
+Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially, by evaluating the following condition:
+
+- Parallelism: The two sidewalks should be approximately parallel, with only a small angular difference in their orientations. The min_angle value provides a measure of this alignment.
+
+If the condition is satisfied, return 1. Otherwise, return 0. Please solve the task step by step."""
+
+## -----
 ## area
+## -----
 instruction_heur_value_area="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format, along with a key statistics:
 
 - max_area: The maximum percentage of overlapping area relative to both sidewalks, considering a 10-meter buffer.
@@ -74,8 +113,20 @@ Your task is to determine whether these two geometries represent the same sidewa
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explanation is needed."""
 
+instruction_heur_value_area_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format, along with a key statistics:
 
+- max_area: The maximum percentage of overlapping area relative to both sidewalks, considering a 10-meter buffer.
+
+Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially, by evaluating the following condition:
+
+- Overlap: The two sidewalks must fully or partially overlap. Simply connecting at the endpoints does not count as an intersection. The max_area values help quantify this overlap. 
+
+If the condition is satisfied, return 1. Otherwise, return 0. Please solve the task step by step."""
+
+
+## -------------------------
 ## combination (angle, area)
+## -------------------------
 instruction_heur_value_angle_area="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with two key statistics:
 
 - min_angle: The minimum angle (in degrees) between the sidewalk and the road.
@@ -87,6 +138,19 @@ Your task is to determine whether these two geometries represent the same sidewa
 - Overlap: The two sidewalks must fully or partially overlap. Simply connecting at the endpoints does not count as an intersection. The max_area values help quantify this overlap. 
 
 If both conditions are satisfied, return 1. Otherwise, return 0. No explanation is needed."""
+
+
+instruction_heur_value_angle_area_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with two key statistics:
+
+- min_angle: The minimum angle (in degrees) between the sidewalk and the road.
+- max_area: The maximum percentage of overlapping area relative to the sidewalk and road, considering a 10-meter buffer.
+
+Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially, by evaluating the following conditions:
+
+- Parallelism: The two sidewalks should be approximately parallel, with only a small angular difference in their orientations. The min_angle value provides a measure of this alignment.
+- Overlap: The two sidewalks must fully or partially overlap. Simply connecting at the endpoints does not count as an intersection. The max_area values help quantify this overlap. 
+
+If both conditions are satisfied, return 1. Otherwise, return 0. Please solve the task step by step."""
 
 ## ===============================
 ## base evaluation -- examples
@@ -183,7 +247,6 @@ INSTRUCTIONS = {
     'zero_shot_with_heur_hint_angle': instruction_heur_hint_angle,
     'zero_shot_with_heur_hint_area': instruction_heur_hint_area,
     'zero_shot_with_heur_hint_angle_area': instruction_heur_hint_angle_area,    
-    
     'zero_shot_with_heur_value_angle': instruction_heur_value_angle,
     'zero_shot_with_heur_value_area': instruction_heur_value_area,    
     'zero_shot_with_heur_value_angle_area': instruction_heur_value_angle_area,
@@ -191,11 +254,28 @@ INSTRUCTIONS = {
     'few_shot_no_heur': instruction_no_heur + examples_no_heur,    
     'few_shot_with_heur_hint_angle': instruction_heur_hint_angle + examples_heur_hint,
     'few_shot_with_heur_hint_area': instruction_heur_hint_area + examples_heur_hint,
-    'few_shot_with_heur_hint_angle_area': instruction_heur_hint_angle_area + examples_heur_hint,
-    
+    'few_shot_with_heur_hint_angle_area': instruction_heur_hint_angle_area + examples_heur_hint,    
     'few_shot_with_heur_value_angle': instruction_heur_value_angle + examples_heur_value_angle,
     'few_shot_with_heur_value_area': instruction_heur_value_area + examples_heur_value_area,  
     'few_shot_with_heur_value_angle_area': instruction_heur_value_angle_area + examples_heur_value_angle_area,
+}
+
+COT_INSTRUCTIONS = {
+    'zero_shot_no_heur_cot': instruction_no_heur_cot,    
+    'zero_shot_with_heur_hint_angle_cot': instruction_heur_hint_angle_cot,
+    'zero_shot_with_heur_hint_area_cot': instruction_heur_hint_area_cot,
+    'zero_shot_with_heur_hint_angle_area_cot': instruction_heur_hint_angle_area_cot,    
+    'zero_shot_with_heur_value_angle_cot': instruction_heur_value_angle_cot,
+    'zero_shot_with_heur_value_area_cot': instruction_heur_value_area_cot,    
+    'zero_shot_with_heur_value_angle_area_cot': instruction_heur_value_angle_area_cot,
+    
+    'few_shot_no_heur_cot': instruction_no_heur_cot + examples_no_heur,    
+    'few_shot_with_heur_hint_angle_cot': instruction_heur_hint_angle_cot + examples_heur_hint,
+    'few_shot_with_heur_hint_area_cot': instruction_heur_hint_area_cot + examples_heur_hint,
+    'few_shot_with_heur_hint_angle_area_cot': instruction_heur_hint_angle_area_cot + examples_heur_hint,    
+    'few_shot_with_heur_value_angle_cot': instruction_heur_value_angle_cot + examples_heur_value_angle,
+    'few_shot_with_heur_value_area_cot': instruction_heur_value_area_cot + examples_heur_value_area,  
+    'few_shot_with_heur_value_angle_area_cot': instruction_heur_value_angle_area_cot + examples_heur_value_angle_area,
 }
 
 ## ============================

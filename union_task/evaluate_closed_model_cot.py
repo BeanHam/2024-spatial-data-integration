@@ -19,7 +19,7 @@ def evaluate(data, client, model):
                 model=model,
                 messages=[{"role": "user", "content": data['text'][i]}],
                 temperature=0,
-                max_tokens=10,
+                max_tokens=300,
                 top_p=1
             )
             model_outputs.append(response.content[0].text)
@@ -30,7 +30,7 @@ def evaluate(data, client, model):
                 model=model,
                 messages=[{"role": "user", "content": data['text'][i]}],
                 temperature=0,
-                max_tokens=10,
+                max_tokens=300,
                 top_p=1
             )
             model_outputs.append(response.choices[0].message.content)
@@ -61,7 +61,7 @@ def main():
     elif args.model_id in ['claude']:        
         client = anthropic.Anthropic(api_key=args.key)        
     data = load_dataset(args.dataset)
-    configs=list(INSTRUCTIONS.keys())
+    configs=list(COT_INSTRUCTIONS.keys())
 
     #-----------------------------
     # loop through parameters
@@ -86,7 +86,7 @@ def main():
             text = base_alpaca_prompt.format(base_instruction, input, output)
             return { "text" : text}
             
-        base_instruction=INSTRUCTIONS[config]
+        base_instruction=COT_INSTRUCTIONS[config]
         test = data['test'].map(formatting_prompts_func)
         outputs = evaluate(test, client, args.model_repo)
         args.save_name = f"{args.model_id}_{config}.npy"
