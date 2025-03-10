@@ -4,6 +4,7 @@ MODEL_REPOS = {
     '4o_mini': 'gpt-4o-mini-2024-07-18',
     '4o': 'gpt-4o-2024-08-06',
     'gemini': 'gemini-2.0-flash',
+    'claude': 'claude-3-5-haiku-20241022',
     'qwen_plus': 'qwen-plus',
     'qwen_max': 'qwen-max',
     'deepseek': 'deepseek-chat'

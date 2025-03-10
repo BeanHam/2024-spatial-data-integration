@@ -48,7 +48,7 @@ def main():
     parser.add_argument('--dataset', type=str, default='beanham/spatial_union_dataset')
     parser.add_argument('--key', type=str, default='key')
     args = parser.parse_args()
-    args.save_path=f'inference_results/base/{args.model_id}/'
+    args.save_path=f'inference_results/base/{args.model_id}_correction/'
     if not path.exists(args.save_path):
         makedirs(args.save_path)
         
