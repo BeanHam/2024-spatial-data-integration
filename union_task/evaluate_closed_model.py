@@ -1,3 +1,4 @@
+import time
 import argparse
 import anthropic
 import numpy as np
@@ -22,6 +23,7 @@ def evaluate(data, client, model):
                 top_p=1
             )
             model_outputs.append(response.content[0].text)
+            time.sleep(0.5)
     else:
         for i in tqdm(range(len(data))):
             response = client.chat.completions.create(
@@ -60,7 +62,8 @@ def main():
         client = anthropic.Anthropic(api_key=args.key)        
     data = load_dataset(args.dataset)
     configs=list(INSTRUCTIONS.keys())
-    configs=[configs[0]]
+    configs=configs[1:]
+
     #-----------------------------
     # loop through parameters
     #-----------------------------
