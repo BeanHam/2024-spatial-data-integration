@@ -1,4 +1,5 @@
 import argparse
+import anthropic
 import numpy as np
 
 from utils import *
@@ -44,6 +45,8 @@ def main():
         client = OpenAI(api_key=args.key)
     elif args.model_id in ['qwen_plus', 'qwen_max']:
         client = OpenAI(api_key=args.key,base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
+    elif args.model_id in ['claude']:        
+        client = anthropic.Anthropic(api_key=args.key)
     data = load_dataset(args.dataset)
     configs=list(INSTRUCTIONS.keys())
     
