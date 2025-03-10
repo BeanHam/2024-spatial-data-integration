@@ -11,16 +11,27 @@ from os import path, makedirs
 from datasets import load_dataset
 
 def evaluate(data, client, model):
-    model_outputs = []            
-    for i in tqdm(range(len(data))):
-        response = client.chat.completions.create(
-            model=model,
-            messages=[{"role": "user", "content": data['text'][i]}],
-            temperature=0,
-            max_tokens=10,
-            top_p=1
-        )
-        model_outputs.append(response.choices[0].message.content)
+    model_outputs = []
+    if 'claude' in model:        
+        for i in tqdm(range(len(data))):
+            response = client.messages.create(
+                model=model,
+                messages=[{"role": "user", "content": data['text'][i]}],
+                temperature=0,
+                max_tokens=10,
+                top_p=1
+            )
+            model_outputs.append(response.content[0].text)
+    else:
+        for i in tqdm(range(len(data))):
+            response = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": data['text'][i]}],
+                temperature=0,
+                max_tokens=10,
+                top_p=1
+            )
+            model_outputs.append(response.choices[0].message.content)
     return model_outputs
 
 #-----------------------
