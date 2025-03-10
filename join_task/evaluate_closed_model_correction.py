@@ -59,10 +59,10 @@ def main():
     elif args.model_id in ['qwen_plus', 'qwen_max']:
         client = OpenAI(api_key=args.key, base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
     args.metric_values = [#'worst_single',] 
-                          'best_single', 
-                          'worst_comb', 
-                          'best_comb', 
-                          'worst_all', 
+                          #'best_single', 
+                          #'worst_comb', 
+                          #'best_comb', 
+                          #'worst_all', 
                           'best_all']    
     configs=['few_shot_with_heur_value_all']
 
