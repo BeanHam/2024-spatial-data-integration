@@ -90,6 +90,7 @@ Your task is to determine whether these two geometries represent the same sidewa
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explanation is needed."""
 
+
 instruction_heur_value_angle_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format, along with a key statistics:
 
 - min_angle: The minimum angle (in degrees) between the sidewalk and the road.
@@ -112,6 +113,7 @@ Your task is to determine whether these two geometries represent the same sidewa
 - Overlap: The two sidewalks must fully or partially overlap. Simply connecting at the endpoints does not count as an intersection. The max_area values help quantify this overlap. 
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explanation is needed."""
+
 
 instruction_heur_value_area_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format, along with a key statistics:
 
