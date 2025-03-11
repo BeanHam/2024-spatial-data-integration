@@ -108,7 +108,9 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 
 - Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations. The min_angle value provides a measure of this alignment.
 
-If the condition is satisfied, return 1. Otherwise, return 0. Please solve the task step by step, evaluating the condition requirement with the statistic."""
+If the condition is satisfied, return 1. Otherwise, return 0. 
+
+Please solve the task by analyzing the statistic for the condition requirement."""
 
 
 ## distance
@@ -131,7 +133,9 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 
 - Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. The min_distance value helps quantify this proximity.
 
-If the condition is satisfied, return 1. Otherwise, return 0. Please solve the task step by step, evaluating the condition requirement with the statistic."""
+If the condition is satisfied, return 1. Otherwise, return 0. 
+
+Please solve the task by analyzing the statistic for the condition requirement."""
 
 
 ## area
@@ -154,7 +158,9 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 
 - Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap. The max_area values help quantify this overlap and should not be near zero or too small.
 
-If the condition is satisfied, return 1. Otherwise, return 0. Please solve the task step by step, evaluating the condition requirement with the statistic."""
+If the condition is satisfied, return 1. Otherwise, return 0. 
+
+Please solve the task by analyzing the statistic for the condition requirement."""
 
 
 ## combination (angle, distance)
@@ -170,6 +176,7 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 
 If both conditions are satisfied, return 1. Otherwise, return 0. No explanation is needed."""
 
+
 ## combination (angle, distance)
 instruction_heur_value_angle_distance_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with two key statistics:
 
@@ -181,7 +188,10 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 - Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations. The min_angle value provides a measure of this alignment.
 - Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. The min_distance value helps quantify this proximity.
 
-If both conditions are satisfied, return 1. Otherwise, return 0. Please solve the task step by step, evaluating the condition requirements with the statistics."""
+If both conditions are satisfied, return 1. Otherwise, return 0. 
+
+Please solve the task by analyzing the statistics for the condition requirements."""
+
 
 ## combination (angle, area)
 instruction_heur_value_angle_area="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with two key statistics:
@@ -196,6 +206,7 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 
 If both conditions are satisfied, return 1. Otherwise, return 0. No explanation is needed."""
 
+
 ## combination (angle, area)
 instruction_heur_value_angle_area_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with two key statistics:
 
@@ -207,7 +218,10 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 - Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations. The min_angle value provides a measure of this alignment.
 - Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap. The max_area values help quantify this overlap and should not be near zero or too small.
 
-If both conditions are satisfied, return 1. Otherwise, return 0. Please solve the task step by step, evaluating the condition requirements with the statistics."""
+If both conditions are satisfied, return 1. Otherwise, return 0. 
+
+Please solve the task by analyzing the statistics for the condition requirements."""
+
 
 ## combination (distance, area)
 instruction_heur_value_distance_area="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with two key statistics:
@@ -234,7 +248,9 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 - Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. The min_distance value helps quantify this proximity.
 - Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap. The max_area values help quantify this overlap and should not be near zero or too small.
 
-If both conditions are satisfied, return 1. Otherwise, return 0. Please solve the task step by step, evaluating the condition requirements with the statistics."""
+If both conditions are satisfied, return 1. Otherwise, return 0. 
+
+Please solve the task by analyzing the statistics for the condition requirements."""
 
 
 ## all
@@ -264,7 +280,9 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 - Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. The min_distance value helps quantify this proximity.
 - Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap. The max_area values help quantify this overlap and should not be near zero or too small.
 
-If all conditions are satisfied, return 1. Otherwise, return 0. Please solve the task step by step, evaluating the condition requirements with the statistics."""
+If all conditions are satisfied, return 1. Otherwise, return 0. 
+
+Please solve the task by analyzing the statistics for the condition requirements."""
 
 ## ===============================
 ## base evaluation -- examples
