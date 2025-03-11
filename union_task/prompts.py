@@ -20,8 +20,6 @@ base_alpaca_prompt = """### Instruction:
 ## -------------------
 instruction_no_heur="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format. Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially. If they do, return 1. Otherwise, return 0. No explanation is needed."""
 
-instruction_no_heur_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format. Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially. If they do, return 1. Otherwise, return 0. Please solve the task step by step."""
-
 ## ------------------------
 ## with heuristic hint
 ## ------------------------
@@ -35,12 +33,6 @@ instruction_heur_hint_angle="""You are a helpful geospatial analysis assistant. 
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explanation is needed. """
 
-instruction_heur_hint_angle_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format. Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially, by evaluating the following condition:
-
-- Parallelism: The two sidewalks should be approximately parallel, with only a small angular difference in their orientations.
-
-If the condition is satisfied, return 1. Otherwise, return 0. Please solve the task step by step."""
-
 ## -----
 ## area
 ## -----
@@ -49,12 +41,6 @@ instruction_heur_hint_area="""You are a helpful geospatial analysis assistant. I
 - Overlap: The two sidewalks must fully or partially overlap. Simply connecting at the endpoints does not count as an intersection.
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explanation is needed. """
-
-instruction_heur_hint_area_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format. Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially, by evaluating the following condition:
-
-- Overlap: The two sidewalks must fully or partially overlap. Simply connecting at the endpoints does not count as an intersection.
-
-If the condition is satisfied, return 1. Otherwise, return 0. Please solve the task step by step."""
 
 ## -------------------------
 ## combination (angle, area)
@@ -66,13 +52,6 @@ instruction_heur_hint_angle_area="""You are a helpful geospatial analysis assist
 
 If both conditions are satisfied, return 1. Otherwise, return 0. No explanation is needed. """
 
-instruction_heur_hint_angle_area_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format. Your task is to determine whether these two geometries represent the same sidewalk, either fully or partially, by evaluating the following conditions:
-
-- Parallelism: The two sidewalks should be approximately parallel, with only a small angular difference in their orientations.
-- Overlap: The two sidewalks must fully or partially overlap. Simply connecting at the endpoints does not count as an intersection.
-
-If both conditions are satisfied, return 1. Otherwise, return 0. Please solve the task step by step."""
-
 ## ---------------------------
 ## with heuristic value
 ## ---------------------------
@@ -80,6 +59,9 @@ If both conditions are satisfied, return 1. Otherwise, return 0. Please solve th
 ## -----
 ## angle
 ## -----
+
+old_cot="""Please solve the task step by step, evaluating the condition requirement with the statistic."""
+
 instruction_heur_value_angle="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk 1, sidewalk 2) geometries in GeoJSON format, along with a key statistics:
 
 - min_angle: The minimum angle (in degrees) between the sidewalk and the road.
@@ -99,7 +81,10 @@ Your task is to determine whether these two geometries represent the same sidewa
 
 - Parallelism: The two sidewalks should be approximately parallel, with only a small angular difference in their orientations. The min_angle value provides a measure of this alignment.
 
-If the condition is satisfied, return 1. Otherwise, return 0. Please solve the task step by step, evaluating the condition requirement with the statistic."""
+If the condition is satisfied, return 1. Otherwise, return 0. 
+
+Please solve the task by analyzing the statistic for the condition requirement."""
+
 
 ## -----
 ## area
@@ -123,7 +108,9 @@ Your task is to determine whether these two geometries represent the same sidewa
 
 - Overlap: The two sidewalks must fully or partially overlap. Simply connecting at the endpoints does not count as an intersection. The max_area values help quantify this overlap. 
 
-If the condition is satisfied, return 1. Otherwise, return 0. Please solve the task step by step, evaluating the condition requirement with the statistic."""
+If the condition is satisfied, return 1. Otherwise, return 0. 
+
+Please solve the task by analyzing the statistic for the condition requirement."""
 
 
 ## -------------------------
@@ -152,7 +139,9 @@ Your task is to determine whether these two geometries represent the same sidewa
 - Parallelism: The two sidewalks should be approximately parallel, with only a small angular difference in their orientations. The min_angle value provides a measure of this alignment.
 - Overlap: The two sidewalks must fully or partially overlap. Simply connecting at the endpoints does not count as an intersection. The max_area values help quantify this overlap. 
 
-If both conditions are satisfied, return 1. Otherwise, return 0.Please solve the task step by step, evaluating the condition requirements with the statistics."""
+If both conditions are satisfied, return 1. Otherwise, return 0. 
+
+Please solve the task by analyzing the statistics for the condition requirements."""
 
 ## ===============================
 ## base evaluation -- examples

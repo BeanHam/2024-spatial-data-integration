@@ -15,7 +15,7 @@ def evaluate(model, tokenizer, data, max_sequence_length):
     for text in tqdm(data['text']):
         start_decode = len(tokenizer.encode(text, truncation=True, max_length=max_sequence_length))        
         inputs = tokenizer(text, return_tensors = "pt", max_length=max_sequence_length).to("cuda")
-        response = model.generate(**inputs, max_new_tokens = 300)
+        response = model.generate(**inputs, max_new_tokens = 500)
         response = tokenizer.decode(response[0][start_decode:])
         outputs.append(response)
     return outputs
