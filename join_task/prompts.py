@@ -494,7 +494,7 @@ COT_INSTRUCTIONS = {
     'few_shot_with_heur_value_area_cot': instruction_heur_value_area_cot + examples_heur_value_area,    
     'few_shot_with_heur_value_angle_distance_cot': instruction_heur_value_angle_distance_cot + examples_heur_value_angle_distance,
     'few_shot_with_heur_value_angle_area_cot': instruction_heur_value_angle_area_cot + examples_heur_value_angle_area,
-    'few_shot_with_heur_value_distance_area'_cot: instruction_heur_value_distance_area_cot + examples_heur_value_distance_area,    
+    'few_shot_with_heur_value_distance_area_cot': instruction_heur_value_distance_area_cot + examples_heur_value_distance_area,    
     'few_shot_with_heur_value_all_cot': instruction_heur_value_all_cot + examples_heur_value_all,
 }
 
