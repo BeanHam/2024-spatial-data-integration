@@ -84,7 +84,13 @@ instruction_heur_hint_all="""You are a helpful geospatial analysis assistant. I 
 
 If all conditions are satisfied, return 1. Otherwise, return 0. No explanation is needed. """
 
+instruction_heur_hint_all_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format. Your task is to determine whether the sidewalk runs alongside the road by evaluating the following conditions:
 
+- Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations.
+- Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. 
+- Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap.
+
+If all conditions are satisfied, return 1. Otherwise, return 0.  Please solve the task step by step."""
 
 ## ---------------------------
 ## with heuristic value
@@ -101,19 +107,6 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explanation is needed."""
 
-## angle
-instruction_heur_value_angle_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with a key statistics:
-
-- min_angle: The minimum angle (in degrees) between the sidewalk and the road.
-
-Your task is to determine whether the sidewalk runs alongside the road by evaluating the following condition:
-
-- Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations. The min_angle value provides a measure of this alignment.
-
-If the condition is satisfied, return 1. Otherwise, return 0. 
-
-Please solve the task by analyzing the statistic for the condition requirement."""
-
 
 ## distance
 instruction_heur_value_distance="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with a key statistics:
@@ -126,20 +119,6 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explanation is needed."""
 
-## distance
-instruction_heur_value_distance_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with a key statistics:
-
-- min_distance: The minimum distance (in meters) between the sidewalk and the road.
-
-Your task is to determine whether the sidewalk runs alongside the road by evaluating the following condition:
-
-- Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. The min_distance value helps quantify this proximity.
-
-If the condition is satisfied, return 1. Otherwise, return 0. 
-
-Please solve the task by analyzing the statistic for the condition requirement."""
-
-
 ## area
 instruction_heur_value_area="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with a key statistics:
 
@@ -150,19 +129,6 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 - Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap. The max_area values help quantify this overlap and should not be near zero or too small.
 
 If the condition is satisfied, return 1. Otherwise, return 0. No explanation is needed."""
-
-## area
-instruction_heur_value_area_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with a key statistics:
-
-- max_area: The maximum percentage of overlapping area relative to the sidewalk and road, considering a 10-meter buffer.
-
-Your task is to determine whether the sidewalk runs alongside the road by evaluating the following condition:
-
-- Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap. The max_area values help quantify this overlap and should not be near zero or too small.
-
-If the condition is satisfied, return 1. Otherwise, return 0. 
-
-Please solve the task by analyzing the statistic for the condition requirement."""
 
 
 ## combination (angle, distance)
@@ -179,22 +145,6 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 If both conditions are satisfied, return 1. Otherwise, return 0. No explanation is needed."""
 
 
-## combination (angle, distance)
-instruction_heur_value_angle_distance_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with two key statistics:
-
-- min_angle: The minimum angle (in degrees) between the sidewalk and the road.
-- min_distance: The minimum distance (in meters) between the sidewalk and the road.
-
-Your task is to determine whether the sidewalk runs alongside the road by evaluating the following conditions:
-
-- Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations. The min_angle value provides a measure of this alignment.
-- Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. The min_distance value helps quantify this proximity.
-
-If both conditions are satisfied, return 1. Otherwise, return 0. 
-
-Please solve the task by analyzing the statistics for the condition requirements."""
-
-
 ## combination (angle, area)
 instruction_heur_value_angle_area="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with two key statistics:
 
@@ -209,22 +159,6 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 If both conditions are satisfied, return 1. Otherwise, return 0. No explanation is needed."""
 
 
-## combination (angle, area)
-instruction_heur_value_angle_area_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with two key statistics:
-
-- min_angle: The minimum angle (in degrees) between the sidewalk and the road.
-- max_area: The maximum percentage of overlapping area relative to the sidewalk and road, considering a 10-meter buffer.
-
-Your task is to determine whether the sidewalk runs alongside the road by evaluating the following conditions:
-
-- Parallelism: The sidewalk should be approximately parallel to the road, with only a small angle difference between their orientations. The min_angle value provides a measure of this alignment.
-- Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap. The max_area values help quantify this overlap and should not be near zero or too small.
-
-If both conditions are satisfied, return 1. Otherwise, return 0. 
-
-Please solve the task by analyzing the statistics for the condition requirements."""
-
-
 ## combination (distance, area)
 instruction_heur_value_distance_area="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with two key statistics:
 
@@ -237,23 +171,6 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 - Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap. The max_area values help quantify this overlap and should not be near zero or too small.
 
 If both conditions are satisfied, return 1. Otherwise, return 0. No explanation is needed."""
-
-
-## combination (distance, area)
-instruction_heur_value_distance_area_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with two key statistics:
-
-- min_distance: The minimum distance (in meters) between the sidewalk and the road.
-- max_area: The maximum percentage of overlapping area relative to the sidewalk and road, considering a 10-meter buffer.
-
-Your task is to determine whether the sidewalk runs alongside the road by evaluating the following conditions:
-
-- Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. The min_distance value helps quantify this proximity.
-- Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap. The max_area values help quantify this overlap and should not be near zero or too small.
-
-If both conditions are satisfied, return 1. Otherwise, return 0. 
-
-Please solve the task by analyzing the statistics for the condition requirements."""
-
 
 ## all
 instruction_heur_value_all="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format, along with three key statistics:
@@ -282,9 +199,7 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 - Clearance: The sidewalk and road must not overlap or intersect, and they must maintain a certain distance apart. The min_distance value helps quantify this proximity.
 - Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap. The max_area values help quantify this overlap and should not be near zero or too small.
 
-If all conditions are satisfied, return 1. Otherwise, return 0. 
-
-Please solve the task by analyzing the statistics for the condition requirements."""
+If all conditions are satisfied, return 1. Otherwise, return 0. Please solve the task step by step."""
 
 ## ===============================
 ## base evaluation -- examples
@@ -446,16 +361,14 @@ Response: 1"""
 
 
 INSTRUCTIONS = {
-    'zero_shot_no_heur': instruction_no_heur,
-    
+    'zero_shot_no_heur': instruction_no_heur,    
     'zero_shot_with_heur_hint_angle': instruction_heur_hint_angle,
     'zero_shot_with_heur_hint_distance': instruction_heur_hint_distance,
     'zero_shot_with_heur_hint_area': instruction_heur_hint_area,
     'zero_shot_with_heur_hint_angle_distance': instruction_heur_hint_angle_distance,
     'zero_shot_with_heur_hint_angle_area': instruction_heur_hint_angle_area,
     'zero_shot_with_heur_hint_distance_area': instruction_heur_hint_distance_area,    
-    'zero_shot_with_heur_hint_all': instruction_heur_hint_all,
-    
+    'zero_shot_with_heur_hint_all': instruction_heur_hint_all,    
     'zero_shot_with_heur_value_angle': instruction_heur_value_angle,
     'zero_shot_with_heur_value_distance': instruction_heur_value_distance,
     'zero_shot_with_heur_value_area': instruction_heur_value_area,    
@@ -464,16 +377,14 @@ INSTRUCTIONS = {
     'zero_shot_with_heur_value_distance_area': instruction_heur_value_distance_area,     
     'zero_shot_with_heur_value_all': instruction_heur_value_all,
     
-    'few_shot_no_heur': instruction_no_heur + examples_no_heur,
-    
+    'few_shot_no_heur': instruction_no_heur + examples_no_heur,    
     'few_shot_with_heur_hint_angle': instruction_heur_hint_angle + examples_heur_hint,
     'few_shot_with_heur_hint_distance': instruction_heur_hint_distance + examples_heur_hint,
     'few_shot_with_heur_hint_area': instruction_heur_hint_area + examples_heur_hint,
     'few_shot_with_heur_hint_angle_distance': instruction_heur_hint_angle_distance + examples_heur_hint,
     'few_shot_with_heur_hint_angle_area': instruction_heur_hint_angle_area + examples_heur_hint,
     'few_shot_with_heur_hint_distance_area': instruction_heur_hint_distance_area + examples_heur_hint,
-    'few_shot_with_heur_hint_all': instruction_heur_hint_all + examples_heur_hint,
-    
+    'few_shot_with_heur_hint_all': instruction_heur_hint_all + examples_heur_hint,    
     'few_shot_with_heur_value_angle': instruction_heur_value_angle + examples_heur_value_angle,
     'few_shot_with_heur_value_distance': instruction_heur_value_distance + examples_heur_value_distance,
     'few_shot_with_heur_value_area': instruction_heur_value_area + examples_heur_value_area,    
@@ -484,19 +395,8 @@ INSTRUCTIONS = {
 }
 
 COT_INSTRUCTIONS = {
-    'zero_shot_with_heur_value_angle_cot': instruction_heur_value_angle_cot,
-    'zero_shot_with_heur_value_distance_cot': instruction_heur_value_distance_cot,
-    'zero_shot_with_heur_value_area_cot': instruction_heur_value_area_cot,    
-    'zero_shot_with_heur_value_angle_distance_cot': instruction_heur_value_angle_distance_cot,
-    'zero_shot_with_heur_value_angle_area_cot': instruction_heur_value_angle_area_cot,
-    'zero_shot_with_heur_value_distance_area_cot': instruction_heur_value_distance_area_cot,     
-    'zero_shot_with_heur_value_all_cot': instruction_heur_value_all_cot,
-    'few_shot_with_heur_value_angle_cot': instruction_heur_value_angle_cot + examples_heur_value_angle,
-    'few_shot_with_heur_value_distance_cot': instruction_heur_value_distance_cot + examples_heur_value_distance,
-    'few_shot_with_heur_value_area_cot': instruction_heur_value_area_cot + examples_heur_value_area,    
-    'few_shot_with_heur_value_angle_distance_cot': instruction_heur_value_angle_distance_cot + examples_heur_value_angle_distance,
-    'few_shot_with_heur_value_angle_area_cot': instruction_heur_value_angle_area_cot + examples_heur_value_angle_area,
-    'few_shot_with_heur_value_distance_area_cot': instruction_heur_value_distance_area_cot + examples_heur_value_distance_area,    
+    'few_shot_no_heur_cot': instruction_no_heur_cot + examples_no_heur,
+    'few_shot_with_heur_hint_all_cot': instruction_heur_hint_all_cot + examples_heur_hint,
     'few_shot_with_heur_value_all_cot': instruction_heur_value_all_cot + examples_heur_value_all,
 }
 

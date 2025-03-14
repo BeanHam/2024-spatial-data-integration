@@ -19,7 +19,7 @@ def evaluate(data, client, model):
                 model=model,
                 messages=[{"role": "user", "content": data['text'][i]}],
                 temperature=0,
-                max_tokens=500,
+                max_tokens=1000,
                 top_p=1
             )
             model_outputs.append(response.content[0].text)
@@ -30,7 +30,7 @@ def evaluate(data, client, model):
                 model=model,
                 messages=[{"role": "user", "content": data['text'][i]}],
                 temperature=0,
-                max_tokens=500,
+                max_tokens=1000,
                 top_p=1
             )
             model_outputs.append(response.choices[0].message.content)
@@ -49,7 +49,7 @@ def main():
     parser.add_argument('--dataset', type=str, default='beanham/spatial_join_dataset')
     parser.add_argument('--key', type=str, default='key')
     args = parser.parse_args()
-    args.save_path=f'inference_results/base/{args.model_id}/'
+    args.save_path=f'inference_results/base/{args.model_id}_cot/'
     if not path.exists(args.save_path):
         makedirs(args.save_path)
         
@@ -72,25 +72,7 @@ def main():
         
         def formatting_prompts_func(example):
             output = ""
-            if config in ['zero_shot_with_heur_value_angle_cot', 'few_shot_with_heur_value_angle_cot']:
-                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
-                        "\nmin_angle: "+str(example['min_angle'])
-            elif config in ['zero_shot_with_heur_value_distance_cot', 'few_shot_with_heur_value_distance_cot']:
-                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
-                        "\nmin_distance: "+str(example['min_euc_dist'])
-            elif config in ['zero_shot_with_heur_value_area_cot', 'few_shot_with_heur_value_area_cot']:
-                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
-                        "\nmax_area: "+str(example['max_area'])
-            elif config in ['zero_shot_with_heur_value_angle_distance_cot', 'few_shot_with_heur_value_angle_distance_cot']:
-                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
-                        "\nmin_angle: "+str(example['min_angle'])+"\nmin_distance: "+str(example['min_euc_dist'])
-            elif config in ['zero_shot_with_heur_value_angle_area_cot', 'few_shot_with_heur_value_angle_area_cot']:
-                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
-                        "\nmin_angle: "+str(example['min_angle'])+"\nmax_area: "+str(example['max_area'])
-            elif config in ['zero_shot_with_heur_value_distance_area_cot', 'few_shot_with_heur_value_distance_area_cot']:
-                input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
-                        "\nmin_distance: "+str(example['min_euc_dist'])+"\nmax_area: "+str(example['max_area'])    
-            elif config in ['zero_shot_with_heur_value_all_cot', 'few_shot_with_heur_value_all_cot']:
+            if config in ['zero_shot_with_heur_value_all_cot', 'few_shot_with_heur_value_all_cot']:
                 input = "Sidewalk: "+str(example['sidewalk'])+"\nRoad: "+str(example['road'])+\
                         "\nmin_angle: "+str(example['min_angle'])+"\nmin_distance: "+str(example['min_euc_dist'])+\
                         "\nmax_area: "+str(example['max_area'])

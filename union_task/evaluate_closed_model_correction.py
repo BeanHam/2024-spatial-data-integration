@@ -18,7 +18,7 @@ def review_generation(data, client, model):
                 model=model,
                 messages=[{"role": "user", "content": data['text'][i]}],
                 temperature=0,
-                max_tokens=300,
+                max_tokens=500,
                 top_p=1
             )
             model_outputs.append(response.content[0].text)
@@ -28,7 +28,7 @@ def review_generation(data, client, model):
                 model=model,
                 messages=[{"role": "user", "content": data['text'][i]}],
                 temperature=0,
-                max_tokens=300,
+                max_tokens=500,
                 top_p=1
             )
             model_outputs.append(response.choices[0].message.content)        
@@ -83,11 +83,16 @@ def main():
         client = OpenAI(api_key=args.key, base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
     elif args.model_id in ['claude']:        
         client = anthropic.Anthropic(api_key=args.key)        
-    args.metric_values = ['worst_single', 
-                          'best_single', 
-                          'worst_comb', 
-                          'best_comb']    
-    configs=['few_shot_with_heur_value_angle_area']
+    args.metric_values = [
+        'random',
+        'worst_single','best_single', 
+        'worst_comb', 'best_comb', 
+        'worst_all', 'best_all'
+    ]
+    configs=[
+        'few_shot_with_heur_hint_angle_area',
+        #'few_shot_with_heur_value_angle_area'
+    ]    
     
     for config in configs:
         print('=================================')
@@ -110,6 +115,8 @@ def main():
                     pred=int((example['max_area']>=0.9)&(example['min_angle']<=1))
                 elif args.metric_value == 'best_comb':
                     pred=int((example['max_area']>=0.5)&(example['min_angle']<=3))
+                else:
+                    pred=np.random.randint(0,2)    
                 return { "pred" : pred}
                 
             def review_formatting_func(example):
@@ -134,7 +141,11 @@ def main():
                 return { "text" : text}
                 
             base_instruction=INSTRUCTIONS[config]
-            test = data['test'].map(generate_weak_labels)
+            if args.metric_value=='random':
+                np.random.seed(100)
+                test = data['test'].add_column('pred', np.random.randint(0,2,len(data['test'])))
+            else:
+                test = data['test'].map(generate_weak_labels)
             test = test.map(review_formatting_func)
 
             ## review generation
