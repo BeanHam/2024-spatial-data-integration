@@ -19,7 +19,7 @@ def evaluate(data, client, model):
                 model=model,
                 messages=[{"role": "user", "content": data['text'][i]}],
                 temperature=0,
-                max_tokens=1000,
+                max_tokens=2000,
                 top_p=1
             )
             model_outputs.append(response.content[0].text)
@@ -30,7 +30,7 @@ def evaluate(data, client, model):
                 model=model,
                 messages=[{"role": "user", "content": data['text'][i]}],
                 temperature=0,
-                max_tokens=1000,
+                max_tokens=2000,
                 top_p=1
             )
             model_outputs.append(response.choices[0].message.content)

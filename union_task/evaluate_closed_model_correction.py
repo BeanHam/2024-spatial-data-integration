@@ -85,13 +85,16 @@ def main():
         client = anthropic.Anthropic(api_key=args.key)        
     args.metric_values = [
         'random',
-        'worst_single','best_single', 
-        'worst_comb', 'best_comb', 
-        'worst_all', 'best_all'
+        #'worst_single',
+        #'best_single', 
+        #'worst_comb',
+        #'best_comb', 
+        #'worst_all', 
+        #'best_all'
     ]
     configs=[
-        'few_shot_with_heur_hint_angle_area',
-        #'few_shot_with_heur_value_angle_area'
+        #'few_shot_with_heur_hint_angle_area',
+        'few_shot_with_heur_value_angle_area'
     ]    
     
     for config in configs:
