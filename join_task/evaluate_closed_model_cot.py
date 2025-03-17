@@ -24,6 +24,14 @@ def evaluate(data, client, model):
             )
             model_outputs.append(response.content[0].text)
             time.sleep(0.5)
+    elif 'o3_mini' in model:
+        for i in tqdm(range(len(data))):
+            response = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": data['text'][i]}],
+                top_p=1
+            )
+            model_outputs.append(response.choices[0].message.content)        
     else:
         for i in tqdm(range(len(data))):
             response = client.chat.completions.create(
@@ -54,7 +62,7 @@ def main():
         makedirs(args.save_path)
         
     args.model_repo = MODEL_REPOS[args.model_id]
-    if args.model_id in ['4o_mini', '4o']:
+    if args.model_id in ['4o_mini', '4o', 'o3_mini']:
         client = OpenAI(api_key=args.key)
     elif args.model_id in ['qwen_plus', 'qwen_max']:
         client = OpenAI(api_key=args.key,base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")

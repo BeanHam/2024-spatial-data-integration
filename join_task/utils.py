@@ -3,6 +3,7 @@ MODEL_REPOS = {
     'llama3': 'meta-llama/Llama-3.1-8B-Instruct',
     '4o_mini': 'gpt-4o-mini-2024-07-18',
     '4o': 'gpt-4o-2024-08-06',
+    'o3_mini': 'o3-mini-2025-01-31',
     'gemini': 'gemini-2.0-flash',
     'claude': 'claude-3-5-haiku-20241022',
     'qwen_plus': 'qwen-plus',
