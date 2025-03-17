@@ -8,7 +8,7 @@ MODEL_REPOS = {
     'claude': 'claude-3-5-haiku-20241022',
     'qwen_plus': 'qwen-plus',
     'qwen_max': 'qwen-max',
-    'deepseek': 'deepseek-chat'
+    'deepseek': 'deepseek-reasoner'
 }
 
 MODEL_PATHS = {

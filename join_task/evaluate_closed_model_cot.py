@@ -31,7 +31,18 @@ def evaluate(data, client, model):
                 messages=[{"role": "user", "content": data['text'][i]}],
                 top_p=1
             )
-            model_outputs.append(response.choices[0].message.content)        
+            model_outputs.append(response.choices[0].message.content)
+    elif 'deepseek' in model:
+        for i in tqdm(range(len(data))):
+            response = client.chat.completions.create(
+                model=model,
+                messages=[{"role": "user", "content": data['text'][i]}],
+                top_p=1,
+                temperature=0,
+                stream=False
+            )
+            model_outputs.append([response.choices[0].message.content, 
+                                  response.choices[0].message.reasoning_content])
     else:
         for i in tqdm(range(len(data))):
             response = client.chat.completions.create(
@@ -66,8 +77,10 @@ def main():
         client = OpenAI(api_key=args.key)
     elif args.model_id in ['qwen_plus', 'qwen_max']:
         client = OpenAI(api_key=args.key,base_url="https://dashscope-intl.aliyuncs.com/compatible-mode/v1")
-    elif args.model_id in ['claude']:        
-        client = anthropic.Anthropic(api_key=args.key)        
+    elif args.model_id in ['claude']:
+        client = anthropic.Anthropic(api_key=args.key)
+    elif args.model_id in ['deepseek']:
+        client = OpenAI(api_key=args.key,base_url="https://api.deepseek.com")
     data = load_dataset(args.dataset)
     configs=list(COT_INSTRUCTIONS.keys())
     
@@ -90,7 +103,7 @@ def main():
             return { "text" : text}
             
         base_instruction=COT_INSTRUCTIONS[config]
-        test = data['test'].map(formatting_prompts_func)
+        test = data['test'].select(range(20)).map(formatting_prompts_func)
         outputs = evaluate(test, client, args.model_repo)
         args.save_name = f"{args.model_id}_{config}.npy"
         np.save(args.save_path+args.save_name, outputs)
