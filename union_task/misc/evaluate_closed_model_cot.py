@@ -24,7 +24,7 @@ def evaluate(data, client, model):
             )
             model_outputs.append(response.content[0].text)
             time.sleep(0.5)
-    elif 'o3_mini' in model:
+    elif 'o3-mini' in model:
         for i in tqdm(range(len(data))):
             response = client.chat.completions.create(
                 model=model,
