@@ -26,7 +26,7 @@ instruction_no_heur_traveler="""You are a helpful geospatial analysis assistant 
 
 "As a vision-impaired traveler, I want my app to inform me about the road I am walking alongside when I am on a sidewalk. For example, if I'm on a sidewalk next to '55th Ave', the app should notify me of this. To achieve this functionality, we need to determine whether a specific sidewalk is considered 'alongside' a given road."
 
-I will provide you with a pair of (sidewalk, road) geometrie. Please determine whether the sidewalk should be considered as running alongside the road, from the perspective of a pedestrian traveling on that sidewalk. Please solve the task step by step."""
+For our task, I will provide you with a pair of (sidewalk, road) geometrie. Please determine whether the sidewalk should be considered as running alongside the road, from the perspective of a pedestrian traveling on that sidewalk. If it does, return 1. Otherwise, return 0. Please solve the task step by step."""
 
 
 ## ------------------------
@@ -212,13 +212,13 @@ instruction_heur_value_all_traveler="""You are a helpful geospatial analysis ass
 
 "As a vision-impaired traveler, I want my app to inform me about the road I am walking alongside when I am on a sidewalk. For example, if I'm on a sidewalk next to '55th Ave', the app should notify me of this. To achieve this functionality, we need to determine whether a specific sidewalk is considered 'alongside' a given road."
 
-I will provide you with a pair of (sidewalk, road) geometries, along with three key statistics:
+For our task, I will provide you with a pair of (sidewalk, road) geometries, along with three key statistics:
 
 - min_angle: The minimum angle (in degrees) between the sidewalk and the road.
 - min_distance: The minimum distance (in meters) between the sidewalk and the road.
 - max_area: The maximum percentage of overlapping area relative to the sidewalk and road, considering a 10-meter buffer.
 
-Please determine whether the sidewalk should be considered as running alongside the road, from the perspective of a pedestrian traveling on that sidewalk. Please solve the task step by step."""
+Please determine whether the sidewalk should be considered as running alongside the road, from the perspective of a pedestrian traveling on that sidewalk. If it does, return 1. Otherwise, return 0. Please solve the task step by step."""
 
 
 ## ===============================
