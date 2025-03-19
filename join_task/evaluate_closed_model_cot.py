@@ -103,7 +103,7 @@ def main():
             return { "text" : text}
             
         base_instruction=COT_INSTRUCTIONS[config]
-        test = data['test'].select(range(20)).map(formatting_prompts_func)
+        test = data['test'].map(formatting_prompts_func)
         outputs = evaluate(test, client, args.model_repo)
         args.save_name = f"{args.model_id}_{config}.npy"
         np.save(args.save_path+args.save_name, outputs)
