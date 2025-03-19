@@ -22,6 +22,13 @@ instruction_no_heur="""You are a helpful geospatial analysis assistant. I will p
 
 instruction_no_heur_cot="""You are a helpful geospatial analysis assistant. I will provide you with a pair of (sidewalk, road) geometries in GeoJSON format. Your task is to determine whether the sidewalk runs alongside the road. If it does, return 1. Otherwise, return 0. Please solve the task step by step."""
 
+instruction_no_heur_traveler="""You are a helpful geospatial analysis assistant designed for traveler-centric applications, specifically aimed at assisting vision-impaired pedestrians. Consider the following user scenario:
+
+"As a vision-impaired traveler, I want my app to inform me about the road I am walking alongside when I am on a sidewalk. For example, if I'm on a sidewalk next to '55th Ave', the app should notify me of this. To achieve this functionality, we need to determine whether a specific sidewalk is considered 'alongside' a given road."
+
+I will provide you with a pair of (sidewalk, road) geometrie. Please determine whether the sidewalk should be considered as running alongside the road, from the perspective of a pedestrian traveling on that sidewalk. Please solve the task step by step."""
+
+
 ## ------------------------
 ## with heuristic hint
 ## ------------------------
@@ -200,6 +207,19 @@ Your task is to determine whether the sidewalk runs alongside the road by evalua
 - Overlap: The sidewalk and road must not directly overlap, but a 10-meter buffer around each should have a certain amount of overlap. The max_area values help quantify this overlap and should not be near zero or too small.
 
 If all conditions are satisfied, return 1. Otherwise, return 0. Please solve the task step by step."""
+
+instruction_heur_value_all_traveler="""You are a helpful geospatial analysis assistant designed for traveler-centric applications, specifically aimed at assisting vision-impaired pedestrians. Consider the following user scenario:
+
+"As a vision-impaired traveler, I want my app to inform me about the road I am walking alongside when I am on a sidewalk. For example, if I'm on a sidewalk next to '55th Ave', the app should notify me of this. To achieve this functionality, we need to determine whether a specific sidewalk is considered 'alongside' a given road."
+
+I will provide you with a pair of (sidewalk, road) geometries, along with three key statistics:
+
+- min_angle: The minimum angle (in degrees) between the sidewalk and the road.
+- min_distance: The minimum distance (in meters) between the sidewalk and the road.
+- max_area: The maximum percentage of overlapping area relative to the sidewalk and road, considering a 10-meter buffer.
+
+Please determine whether the sidewalk should be considered as running alongside the road, from the perspective of a pedestrian traveling on that sidewalk. Please solve the task step by step."""
+
 
 ## ===============================
 ## base evaluation -- examples
@@ -396,8 +416,14 @@ INSTRUCTIONS = {
 
 COT_INSTRUCTIONS = {
     'few_shot_no_heur_cot': instruction_no_heur_cot + examples_no_heur,
-    'few_shot_with_heur_hint_all_cot': instruction_heur_hint_all_cot + examples_heur_hint,
     'few_shot_with_heur_value_all_cot': instruction_heur_value_all_cot + examples_heur_value_all,
+}
+
+TRAVELER_INSTRUCTIONS = {
+    'zero_shot_no_heur_traveler': instruction_no_heur_traveler,
+    'zero_shot_with_heur_value_all_traveler': instruction_heur_value_all_traveler,
+    'few_shot_no_heur_traveler': instruction_no_heur_traveler + examples_no_heur,
+    'few_shot_with_heur_value_all_traveler': instruction_heur_value_all_traveler + examples_heur_value_all,
 }
 
 ## ============================
