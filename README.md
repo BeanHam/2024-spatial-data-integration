@@ -1,7 +1,4 @@
-# 2024-spatial-data-integration
-
-
-### Can Large Language Models Integrate Spatial Data? Empirical Insights into Reasoning Strengths and Computational Weaknesses
+# Can Large Language Models Integrate Spatial Data? Empirical Insights into Reasoning Strengths and Computational Weaknesses
 
 
 ##### Abstract
